@@ -1,0 +1,208 @@
+# NOT USED ANYMORE
+# @gf3’s Sexy Bash Prompt, inspired by “Extravagant Zsh Prompt”
+# Shamelessly copied from https://github.com/gf3/dotfiles
+
+
+if [[ $COLORTERM = gnome-* && $TERM = xterm ]] && infocmp gnome-256color >/dev/null 2>&1; then
+        export TERM=gnome-256color
+elif infocmp xterm-256color >/dev/null 2>&1; then
+        export TERM=xterm-256color
+fi
+
+# SET THE WINDOW TITLE TO THE CURRENT DIRECTORY
+# ==============================================
+PROMPT_COMMAND='echo -ne "\033]0;${PWD}\007"'
+
+
+if tput setaf 1 &> /dev/null; then
+        tput sgr0
+        if [[ $(tput colors) -ge 256 ]] 2>/dev/null; then
+            # GREEN=$(tput setaf 190)
+            # PURPLE=$(tput setaf 141)
+            # WHITE=$(tput setaf 256)
+            MAGENTA=$(tput setaf 197)
+            ORANGE=$(tput setaf 172)
+            GREEN=$(tput setaf 190)
+            PURPLE=$(tput setaf 141)
+            YELLOW=$(tput setaf 3)
+            DARKGREY=$(tput setaf 256)
+            LIGHTBLUE=$(tput setaf 32)
+            BLUE=$(tput setaf 75)
+            PURPLE=$(tput setaf 135)
+        else
+            MAGENTA=$(tput setaf 5)
+            ORANGE=$(tput setaf 4)
+            GREEN=$(tput setaf 2)
+            PURPLE=$(tput setaf 1)
+            WHITE=$(tput setaf 7)
+        fi
+        BOLD=$(tput bold)
+        RESET=$(tput sgr0)
+else
+        MAGENTA="\033[1;31m"
+        ORANGE="\033[1;33m"
+        GREEN="\033[1;32m"
+        PURPLE="\033[1;35m"
+        WHITE="\033[1;37m"
+        BOLD=""
+        RESET="\033[m"
+fi
+
+
+function git_info() {
+        # check if we're in a git repo
+        git rev-parse --is-inside-work-tree &>/dev/null || return
+
+        # quickest check for what branch we're on
+        branch=$(git symbolic-ref -q HEAD | sed -e 's|^refs/heads/||')
+
+        # check if it's dirty (via github.com/sindresorhus/pure)
+        dirty=$(git diff --quiet --ignore-submodules HEAD &>/dev/null; [ $? -eq 1 ]&& echo -e "*")
+
+        echo ${BOLD}${YELLOW}\($branch$dirty\) ${DARKGREY}
+
+'$(echo -n "${PWD/#$HOME/~}" | awk "$SHORT_W_AWK")'
+
+}
+
+
+
+
+# Working Directory (\w) PATH  SHORTENER (for PS1)
+# =================================================
+# http://stackoverflow.com/a/15234931/1191416
+
+SHORT_W_AWK=$(cat << 'EOF'
+BEGIN { FS = OFS = "/" }
+{
+   if (length($0) > 16 && NF > 4)
+      print $1,$2,"..[" NF-4 "]..",$(NF-1),$NF
+   else
+      print $0
+}
+EOF
+)
+
+# My replacement for \w prompt expansion
+export SHORT_W='$(echo -n "${PWD/#$HOME/~}" | awk "$SHORT_W_AWK")'
+
+
+# iTerm Tab and Title Customization and prompt customization
+# http://sage.ucsc.edu/xtal/iterm_tab_customization.html
+
+# Put the string " [bash]   hostname::/full/directory/path"
+# in the title bar using the command sequence
+# \[\e]2;[bash]   \h::\]$PWD\[\a\]
+
+# Put the penultimate and current directory
+# in the iterm tab
+# \[\e]1;\]$(basename $(dirname $PWD))/\W\[\a\]
+
+# PS1="\[\e]2;$PWD\[\a\]\[\e]1;\]$(basename "$(dirname "$PWD")")/\W\[\a\]${BOLD}\$(usernamehost)\[$GREEN\]\w\$(git_info)\[$WHITE\]\n\$ \[$RESET\]"
+
+# If ROOT
+if [ "`id -u`" -eq 0 ]; then
+    USER_COLOR=$MAGENTA
+
+else
+    USER_COLOR=$(tput setaf 35)
+fi
+
+
+PS1="\$(git_info)\[${BOLD}\]\[${USER_COLOR}\]\u\[${DARKGREY}\] at \[${ORANGE}\]\h\[${RESET}\]\[${DARKGREY}\]: \[${BOLD}\]\[${BLUE}\]${SHORT_W}\[${DARKGREY}\] \$\[${RESET}\] "
+
+# GIT PROJECTS - VIRTUALENV ACTIVATION
+# =================================================
+# Automatically activate Git projects' virtual environments based on the
+# directory name of the project. Virtual environment name can be overridden
+# by placing a .venv file in the project root with a virtualenv name in it
+# http://hmarr.com/2010/jan/19/making-virtualenv-play-nice-with-git/
+
+function workon_cwd {
+    # Check that this is a Git repo
+    GIT_DIR=`git rev-parse --git-dir 2> /dev/null`
+    if [ $? == 0 ]; then
+        # Find the repo root and check for virtualenv name override
+        GIT_DIR=`\cd $GIT_DIR; pwd`
+        PROJECT_ROOT=`dirname "$GIT_DIR"`
+        ENV_NAME=`basename "$PROJECT_ROOT"`
+        if [ -f "$PROJECT_ROOT/.venv" ]; then
+            ENV_NAME=`cat "$PROJECT_ROOT/.venv"`
+        fi
+        # Activate the environment only if it is not already active
+        if [ "$VIRTUAL_ENV" != "$WORKON_HOME/$ENV_NAME" ]; then
+            if [ -e "$WORKON_HOME/$ENV_NAME/bin/activate" ]; then
+                workon "$ENV_NAME" && export CD_VIRTUAL_ENV="$ENV_NAME"
+                # I set the PS1 in .virtualenvs/postactivate (following line)
+                # PS1="${BOLD}\[${PURPLE}\][`basename \"$VIRTUAL_ENV\"`]$_OLD_VIRTUAL_PS1"
+                #
+                # TODO: the virtualenv deactivation doesn't work if I go from one git repo to another
+            fi
+        fi
+
+        # =========================================================
+        # DJANGO STUFF
+        #
+        # Check if a settings_env.sh file exists. If yes executes it.
+        # It will export the DJANGO_SETTINGS_MODULE env. variable.
+        # This variable is necessary to tell runserver and manage.py (in case of interactive shell)
+        # where the settings files are located
+        # ==========================================================
+        if [ -f ./settings_env.txt ];
+            then
+                value=$(<settings_env.txt)
+                export DJANGO_SETTINGS_MODULE=$value
+            # else echo "file settings_env.sh not defined"
+        fi
+
+        if [ -f ./extra_pythonpath.txt ];
+            then
+                value=$(<extra_pythonpath.txt)
+                export PYTHONPATH=$PYTHONPATH:$value
+        fi
+
+    elif [ $CD_VIRTUAL_ENV ]; then
+        # We've just left the repo, deactivate the environment
+        # Note: this only happens if the virtualenv was activated automatically
+        deactivate && unset CD_VIRTUAL_ENV
+        # set the DJANGO_SETTINGS_MODULE to empty
+        unset DJANGO_SETTINGS_MODULE
+        # See the .path_tools.bash script to manipulate path env. variables
+        # See http://stackoverflow.com/questions/273909/how-do-i-manipulate-path-elements-in-shell-scripts
+        replace_path PYTHONPATH $value
+    fi
+}
+
+
+# New cd function that does the virtualenv magic
+function venv_cd {
+    cd "$@" && workon_cwd
+}
+
+# New Bashmarks with WORKON integration
+function venv_g {
+    g "$@" && workon_cwd
+}
+
+alias cd="venv_cd"
+alias g="venv_g"
+
+
+
+
+# AUTOCOMPLETION FOR SUDO
+# ==============================================
+if [ "$PS1" ]; then
+    complete -cf sudo
+fi
+
+
+
+# =============================================
+# Export PS1
+# =============================================
+# I've set PS1 in many different places of this file
+# Now I'm exporting it but BEWARE: export PS1 (NOT: export $PS1)
+
+export PS1
+export SUDO_PS1

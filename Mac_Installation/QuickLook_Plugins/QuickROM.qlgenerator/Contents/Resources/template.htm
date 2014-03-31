@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"  "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<style type="text/css">
+/*<![CDATA[*/
+html{ background-color: rgb(28, 28, 28); }
+body{ margin: 0px; padding: 0px; font: 10px/16px "Lucida Grande", "ヒラギノ角ゴ Pro W3", sans-serif; color: rgb(170, 170, 170); }
+a, h1{ font: 22px "Lucida Grande", "ヒラギノ角ゴ Pro W3", sans-serif; font-weight: bold; margin-bottom: 5px; color: rgb(255, 255, 255); text-decoration: none; }
+a{ font: 11px "Lucida Grande", "ヒラギノ角ゴ Pro W3", sans-serif; }
+h1{ font: 22px "Lucida Grande", "ヒラギノ角ゴ Pro W3", sans-serif; text-shadow: rgb(170, 170, 170) 0px 2px 3px; }
+h2{ font: 10px "Monaco", monospace; }
+p{ font: 10px/14px "Lucida Grande", "ヒラギノ角ゴ Pro W3", sans-serif; }
+#basicinfo{ position: relative; top: 35px; width: 530px; margin: 0 auto; }
+ul#gameinfo{ list-style: none; width: 200px; float: left; }
+ul#gameinfo{ margin: 0 0 0 -40px; }
+ul#gameinfo li{ clear: both; }
+ul#gameinfo li strong{ float: left; font-size: 10px; }
+ul#gameinfob{ list-style: none; width: 300px; float: right; margin-left: 10px; }
+ul#gameinfob{ margin: 0 0 0 -40px; }
+ul#gameinfob li{ clear: both; }
+ul#gameinfob li strong{ float: left; font-size: 10px; }
+h2.inforight{ color: rgb(175, 175, 175); margin-top: 2px; float: right; }
+/*]]>*/
+</style>
+</head>
+<body>
+	<div id="basicinfo">
+		<div>
+			<h1><strong>Information:</strong></h1>
+		</div>
+		<div>
+			<safeLink/>
+		</div>
+		<br/>
+		<ul id="gameinfo">
+			<li class="clearfix"><strong>Internal Title:</strong><h2 class="inforight"><internalTitle/></h2></li>
+			<li class="clearfix"><strong>Header:</strong><h2 class="inforight"><headerCheck/></h2></li>
+			<li class="clearfix"><strong>Manufacture:</strong><h2 class="inforight"><manufacture/></h2></li>
+			<li class="clearfix"><strong>License:</strong><h2 class="inforight"><license/></h2></li>
+			<li class="clearfix"><strong>Game Code:</strong><h2 class="inforight"><gameCode/></h2></li>
+			<li class="clearfix"><strong>Country:</strong><h2 class="inforight"><country/></h2></li>
+			<li class="clearfix"><strong>Video System:</strong><h2 class="inforight"><tvOutput/></h2></li>
+			<li class="clearfix"><strong>Version:</strong><h2 class="inforight"><version/></h2></li>
+			<li class="clearfix"><strong>Cart Type:</strong><h2 class="inforight"><cartType/></h2></li>
+		</ul>
+		<ul id="gameinfob">
+			<li class="clearfix"><strong>File CRC32:</strong><h2 class="inforight"><fileCRC32/></h2></li>
+			<li class="clearfix"><strong>File MD5:</strong><h2 class="inforight"><fileMD5/></h2></li>
+			<li class="clearfix"><strong>File SHA1:</strong><h2 class="inforight"><fileSHA1/></h2></li>
+			<li class="clearfix"><strong>Determined Checksum:</strong><h2 class="inforight"><determinedChecksum/></h2></li>
+			<li class="clearfix"><strong>Header Checksum:</strong><h2 class="inforight"><headerChecksum/></h2></li>
+			<li class="clearfix"><strong>Header Check:</strong><h2 class="inforight"><headerCheck/></h2></li>
+			<li class="clearfix"><strong>ROM Size:</strong><h2 class="inforight"><romSize/></h2></li>
+			<li class="clearfix"><strong>Determined Size:</strong><h2 class="inforight"><determinedSize/></h2></li>
+			<li class="clearfix"><strong>Save Size:</strong><h2 class="inforight"><saveSize/></h2></li>
+		</ul>
+	</div>
+</body>
+</html>
