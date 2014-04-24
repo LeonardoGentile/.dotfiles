@@ -6,6 +6,8 @@
 # sh ./Install.sh
 # This script creates symlinks from the home directory to any desired dotfiles in ~/.dotfiles
 
+# git clone --recursive git@github.com:LeonardoGentile/.dotfiles.git
+
 # VARIABLES
 # =============================================
 
@@ -15,7 +17,7 @@ bindir=~/bin                # bin directory
 oldbindir=~/bin_old         # old bin backup directory
 
 # list of files/folders to symlink in homedir
-files=".bash_profile .bashrc .gitattributes .gitconfig .gitignore_global .inputrc .osx .gvimrc .hushlogin .vimrc .wgetrc bin/"
+files=".bash_profile .bashrc .gitattributes .gitconfig .gitconfig_name .gitignore_global .inputrc .osx .gvimrc .hushlogin .vimrc .wgetrc bin/"
 
 
 # =============================================#

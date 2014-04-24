@@ -6,7 +6,10 @@
 # the .virtualenv/postactivate file to customize the
 # shell prompt after the virtualenv activation
 export WORKON_HOME="$HOME/.virtualenvs"
-source /Library/Frameworks/Python.framework/Versions/2.7/bin/virtualenvwrapper.sh
+if [[ -f /Library/Frameworks/Python.framework/Versions/2.7/bin/virtualenvwrapper.sh ]]; then
+    source /Library/Frameworks/Python.framework/Versions/2.7/bin/virtualenvwrapper.sh
+fi
+
 
 
 # BASH_ALIASES
@@ -84,10 +87,19 @@ export PYTHONSTARTUP=~/.dotfiles/scripts/pystartup.py
 
 
 
+if [  -d /usr/local/opt/coreutils/libexec/gnubin  ]; then
+    PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
+fi
+
+if [ -d /usr/local/opt/coreutils/libexec/gnuman ]; then
+    MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
+fi
+
+
 # Uses gls instead of ls
-alias ls='gls --color=always'
+alias ls='ls --color=always'
 # load my color scheme
-eval `gdircolors  ~/.dotfiles/data/dircolors`
+eval `dircolors  ~/.dotfiles/data/dircolors`
 
 
 # BASH COMPLETION
@@ -119,7 +131,10 @@ complete -o default -F _pip_completion pip
 
 # GRUNT COMPLETION (!!! Not working, Experimental)
 # ===========================
-eval "$(grunt --completion=bash)"
+if [[ $grunt ]]; then
+    eval "$(grunt --completion=bash)"    
+fi
+
 
 
 # DJANGO COMPLETION
