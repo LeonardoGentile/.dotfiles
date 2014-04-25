@@ -17,7 +17,7 @@ bindir=~/bin                # bin directory
 oldbindir=~/bin_old         # old bin backup directory
 
 # list of files/folders to symlink in homedir
-files=".bash_profile .bashrc .gitattributes .gitconfig .gitconfig_name .gitignore_global .inputrc .osx .gvimrc .hushlogin .vimrc .wgetrc bin/"
+files=".bash_profile .bashrc .gitattributes .gitconfig .gitconfig_name .gitignore_global .inputrc .osx .gvimrc .hushlogin .vimrc .wgetrc"
 
 
 # =============================================#
@@ -42,7 +42,16 @@ for file in $files; do
 done
 
 # Moving .bash_extra file
+# Not in the repository, to prevent people from accidentally committing under my name
 echo "Moving .bash_extra from ~ to $olddir"
 mv ~/.bash_extra $olddir
 echo "Creating empty .bash_extra file in home directory."
+# Don't forget to configure the bash_extra
 cp $dir/.bash_extra ~/.bash_extra
+
+
+# Copying bin dir
+echo "Moving $bin to $olbin"
+mv $bindir $oldbindir
+echo "Installing bin dir."
+cp -r ~/.dotfiles/bin ~/

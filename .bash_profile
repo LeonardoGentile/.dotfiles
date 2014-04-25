@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+
+# Compialtion stuff
+# Set architecture flags
+export ARCHFLAGS="-arch x86_64"
+
 # VIRTUALENVWRAPPER (should go before bash_functions)
 # =============================================
 # Check the workon_cwd function in bash_prompt or
@@ -8,9 +13,9 @@
 export WORKON_HOME="$HOME/.virtualenvs"
 if [[ -f /Library/Frameworks/Python.framework/Versions/2.7/bin/virtualenvwrapper.sh ]]; then
     source /Library/Frameworks/Python.framework/Versions/2.7/bin/virtualenvwrapper.sh
+elif [ -f $(brew --prefix)/bin/virtualenvwrapper.sh ]; then
+    source $(brew --prefix)/bin/virtualenvwrapper.sh
 fi
-
-
 
 # BASH_ALIASES
 # =============================================
@@ -20,17 +25,12 @@ source ~/.dotfiles/bash/bash_aliases
 # =============================================
 source ~/.dotfiles/bash/bash_functions
 
-# BASH PROMPT CUSTOMIZATION
-# =============================================
-# source ~/.dotfiles/bash/bash_prompt
-
 # I now use powerline shell
-
 function _update_ps1() {
-       export PS1="$(~/.dotfiles/powerline-shell/powerline-shell.py $? --cwd-max-depth 4 --colorize-hostname  2> /dev/null)"
-    }
+   export PS1="$(~/.dotfiles/powerline-shell/powerline-shell.py $? --cwd-max-depth 4 --colorize-hostname  2> /dev/null)"
+}
+export PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
 
-    export PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
 
 # EXTRA
 # =============================================
@@ -40,7 +40,7 @@ bash_extra=~/.bash_extra
 
 # BASH ENV VARIABLES EXPORT
 # =============================================
-source ~/.dotfiles/bash/bash_export
+# source ~/.dotfiles/bash/bash_export
 
 # BASHMARKS
 # =============================================
@@ -119,22 +119,37 @@ fi
 
 # PIP COMPLETION
 # ===========================
-_pip_completion(){
-    COMPREPLY=(
-        $(  COMP_WORDS="${COMP_WORDS[*]}" \
-            COMP_CWORD=$COMP_CWORD \
-            PIP_AUTO_COMPLETE=1 $1 )
-    )
+_pip_completion() {
+    cur="${COMP_WORDS[COMP_CWORD]}"
+    prev="${COMP_WORDS[COMP_CWORD-1]}"
+
+    commands=$(pip --help | awk '/Commands\:/,/General Options\:/' | \
+               \grep -E -o "^\s{2}\w*" | tr -d ' ')
+    opts=$(pip --help | \grep -E -o "((-\w{1}|--(\w|-)*=?)){1,2}")
+
+
+    if [ $COMP_CWORD == 1 ] ; then
+        COMPREPLY=( $(compgen -W "${commands}" -- ${cur}) )
+        return 0
+    fi
+
+    if [[ ${cur} == -* ]] ; then
+        local command_opts=$(pip $prev --help | \
+                             \grep -E -o "((-\w{1}|--(\w|-)*=?)){1,2}")
+        COMPREPLY=( $(compgen -W "${command_opts}" -- ${cur}) )
+        return 0
+    fi
 }
 complete -o default -F _pip_completion pip
 
 
-# GRUNT COMPLETION (!!! Not working, Experimental)
+
+# GRUNT COMPLETION 
 # ===========================
 if [[ $grunt ]]; then
     eval "$(grunt --completion=bash)"    
-fi
 
+fi
 
 
 # DJANGO COMPLETION
@@ -164,29 +179,18 @@ fi
 # Local bin in my home (scripts various stuff)
 PATH="$PATH:~/bin"
 
-# Redis (manually installed)
-PATH="$PATH:~/bin/redis"
-
-# gcc and other dev stuff
-PATH="${PATH}:/Developer/usr/bin"
-
 # Heroku Toolbelt
-PATH="$PATH:/usr/local/heroku/bin"
+if [[ -d /usr/local/heroku/bin ]]; then
+    PATH="$PATH:/usr/local/heroku/bin"
+fi
 
-# PATH for Python 2.7
-PATH="${PATH}:/Library/Frameworks/Python.framework/Versions/2.7/bin"
-
-# MySql
-PATH="${PATH}:/usr/local/mysql/bin"
+# MySql bin 
+PATH="${PATH}:/usr/local/opt/mysql/bin/"
 
 # SenchaSDKTools
-PATH="${PATH}:/Applications/Coding/SenchaSDKTools-2.0.0-beta3"
-export SENCHA_SDK_TOOLS_2_0_0_BETA3="/Applications/Coding/SenchaSDKTools-2.0.0-beta3"
-
+PATH="${PATH}:/Applications/SenchaSDKTools"
+export SENCHA_SDK_TOOLS_2_0_0_BETA3="/Applications/SenchaSDKTools"
 export PATH
-
-# Old content of .MacOSX/environment.plist (I don't use it)
-# PATH="${PATH}:/usr/X11/bin::~/bin"
 
 
 
@@ -221,5 +225,59 @@ complete -W "NSGlobalDomain" defaults
 complete -o "nospace" -W "Contacts Calendar Dock Finder Mail Safari iTunes SystemUIServer Terminal Twitter" killall
 
 
+
+# =============================================
+# LOCALE
+# =============================================
+# https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man3/setlocale.3.html
+
+export LANG="en_US"
+export LC_ALL="en_US.UTF-8"
+
+
+# MAN COLORS (Less Colors for Man Pages)
+# ==============================================
+export LESS_TERMCAP_mb=$(tput bold; tput setaf 2) # green
+export LESS_TERMCAP_md=$(tput bold; tput setaf 6) # cyan
+export LESS_TERMCAP_me=$(tput sgr0)
+export LESS_TERMCAP_so=$(tput bold; tput setaf 3; tput setab 4) # yellow on blue
+export LESS_TERMCAP_se=$(tput rmso; tput sgr0)
+export LESS_TERMCAP_us=$(tput smul; tput bold; tput setaf 7) # white
+export LESS_TERMCAP_ue=$(tput rmul; tput sgr0)
+export LESS_TERMCAP_mr=$(tput rev)
+export LESS_TERMCAP_mh=$(tput dim)
+export LESS_TERMCAP_ZN=$(tput ssubm)
+export LESS_TERMCAP_ZV=$(tput rsubm)
+export LESS_TERMCAP_ZO=$(tput ssupm)
+export LESS_TERMCAP_ZW=$(tput rsupm)
+
+
+# =============================================
+# DEV
+# =============================================
+export DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:/usr/local/opt/mysql/lib
+
+# Redis (manually installed)
+# PATH="$PATH:~/bin/redis"
+
+# gcc and other dev stuff
+# PATH="${PATH}:/Developer/usr/bin"
+# PATH="${PATH}:/Developer/usr/bin"
+
+# PATH for Python 2.7
+# PATH="${PATH}:/Library/Frameworks/Python.framework/Versions/2.7/bin"
+# 
+# PATH="${PATH}:/usr/local/share/python"
+# No needed with python installed from brew
+
+
+
+
+
+
 # Dotfiles inspired by many people
-# Inspired by https://github.com/javierjulio/dotfiles
+# https://github.com/javierjulio/dotfiles
+# https://github.com/kevinrenskers/dotfiles
+# https://github.com/paulirish/dotfiles
+# https://github.com/mathiasbynens/dotfiles/
+
