@@ -53,27 +53,29 @@ installcask vlc
 installcask spotify
 installcask path-finder
 
+# https://github.com/sindresorhus/quick-look-plugins
+brew cask install qlcolorcode qlstephen qlmarkdown quicklook-json qlprettypatch quicklook-csv betterzipql webp-quicklook suspicious-package
 
-# caskroom/fonts 
-brew tap caskroom/fonts 
+# caskroom/fonts
+brew tap caskroom/fonts
 # USAGE: brew cask install font-inconsolata
 # Search: ls /usr/local//Library/Taps/caskroom-fonts/Casks/ | grep <pattern>
 
 
 # Others
-# 
+#
 # installcask imagealpha
 # installcask imageoptim
 # installcask macvim
 # installcask miro-video-converter
 # installcask tor-browser
-# 
+#
 # Web Debugging Proxy Application for Windows, Mac OS and Linux
-# installcask charles 
-# 
+# installcask charles
+#
 # Mou The missing Markdown editor for web developers
 # installcask mou
- 
+
 
 
 
