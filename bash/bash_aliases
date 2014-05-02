@@ -52,6 +52,10 @@ alias rs="redis-server ~/.redis/redis.conf"
 alias mysql_start="sudo /Library/StartupItems/MySQLCOM/MySQLCOM start"
 alias mysql_stop="sudo /Library/StartupItems/MySQLCOM/MySQLCOM stop"
 
+# Apache, Servers & php
+alias lh=localhost # it launchs the localhost function that I've defined
+
+
 # Net ip
 alias localip="ipconfig getifaddr en1"
 alias remoteip="curl -s http://checkip.dyndns.com/ | sed 's/[^0-9\.]//g'"
@@ -64,6 +68,7 @@ if [ $(uname) = "Linux" ]
 then
   alias ls="ls --color=auto"
 fi
+
 
 
 
