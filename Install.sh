@@ -55,3 +55,6 @@ echo "Moving $bin to $olbin"
 mv $bindir $oldbindir
 echo "Installing bin dir."
 cp -r ~/.dotfiles/bin ~/
+
+# http://blog.smalleycreative.com/tutorials/using-git-and-github-to-manage-your-dotfiles/
+# http://lostincode.net/posts/homebrew
