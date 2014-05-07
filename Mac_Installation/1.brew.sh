@@ -13,7 +13,7 @@ brew upgrade
 
 # Git
 brew install git
-# If bash completions don't work then try with 
+# If bash completions don't work then try with
 # brew install git --without-completions
 
 # Install GNU core utilities (those that come with OS X are outdated)
@@ -43,14 +43,6 @@ brew install optipng jpeg-turbo phantomjs
 brew install bash-completion
 # Add this to the bash_profile
 # If possible, add tab completion for many more commands
-# 
-# if [ -f /etc/bash_completion ]; then
-#     source /etc/bash_completion
-# # Installed with Brew
-# elif [ -f $(brew --prefix)/etc/bash_completion ]; then
-#     source $(brew --prefix)/etc/bash_completion
-# fi
-# 
 
 # Node.js
 brew install node
@@ -69,9 +61,10 @@ brew install lynx
 brew install nmap
 brew install p7zip
 brew install redis
+brew install testdisk
 
 
-# 
+#
 # brew install pigz
 # brew install pv
 # brew install foremost

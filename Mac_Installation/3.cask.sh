@@ -45,7 +45,8 @@ installcask --appdir="/Applications/Tools" 	the-unarchiver
 installcask --appdir="/Applications/Tools" 	xquartz
 installcask --appdir="/Applications/Tools" 	slate
 installcask --appdir="/Applications/Tools" 	launchrocket
-installcask --appdir="/Applications/Tools" 	colorpicker-skalacolor
+installcask --appdir="/Applications/Tools"  colorpicker-skalacolor
+installcask --appdir="/Applications/Tools" 	cakebrew
 
 
 installcask ukelele
@@ -75,8 +76,6 @@ brew tap caskroom/fonts
 #
 # Mou The missing Markdown editor for web developers
 # installcask mou
-
-
 
 
 # DELETING THE INSTALLERS:
