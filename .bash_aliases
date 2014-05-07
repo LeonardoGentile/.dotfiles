@@ -63,6 +63,8 @@ alias remoteip="curl -s http://checkip.dyndns.com/ | sed 's/[^0-9\.]//g'"
 # pretty print all paths
 alias path='echo -e ${PATH//:/\\n}'
 
+# Alias for bashmarks
+# alias k='g'
 
 if [ $(uname) = "Linux" ]
 then
@@ -95,7 +97,8 @@ alias emptyalltrash="sudo rm -rfv /Volumes/*/.Trashes; sudo rm -rfv ~/.Trash; su
 # Git
 # ========================================
 
-# alias g='git'
+# alias gi='git'
+# __git_complete gi __git_main
 alias gb='git branch'
 alias gci='git commit'
 alias gco='git checkout'
