@@ -52,9 +52,11 @@ cp $dir/.bash_extra ~/.bash_extra
 
 # Copying bin dir
 echo "Moving $bin to $olbin"
-mv $bindir $oldbindir
+cp -r $bindir $oldbindir
+# rm $bindir
 echo "Installing bin dir."
-cp -r ~/.dotfiles/bin ~/
+ln -s ~/.dotfiles/bin ~/
+# cp -r
 
 # http://blog.smalleycreative.com/tutorials/using-git-and-github-to-manage-your-dotfiles/
 # http://lostincode.net/posts/homebrew

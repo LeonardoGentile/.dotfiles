@@ -8,7 +8,7 @@
 
 ## Change DIFFMERGE_PATH to point to where you installed DiffMerge
 
-DIFFMERGE_PATH=/Applications/Coding/Repository/DiffMerge.app
+DIFFMERGE_PATH=/Applications/Coding/DiffMerge.app
 
 ## The actual executable is hidden inside the .app bundle.
 

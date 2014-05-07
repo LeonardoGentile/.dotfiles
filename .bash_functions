@@ -33,7 +33,7 @@ function trash() {
 # MARKDOWN
 # =================================================
 function mdown () {
-  markdown.pl --html4tags $1;
+  markdown --html4tags $1;
 }
 
 
