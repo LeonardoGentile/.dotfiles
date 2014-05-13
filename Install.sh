@@ -13,8 +13,8 @@
 
 dir=~/.dotfiles             # dotfiles directory
 olddir=~/.dotfiles_old      # old dotfiles backup directory
-bindir=~/bin                # bin directory
-oldbindir=~/bin_old         # old bin backup directory
+bin=~/bin                # bin directory
+oldbin=~/bin_old         # old bin backup directory
 
 # list of files/folders to symlink in homedir
 files=".bash_profile .bashrc .gitattributes .gitconfig .gitignore_global .inputrc .osx .gvimrc .hushlogin .vimrc .wgetrc"
@@ -23,10 +23,19 @@ files=".bash_profile .bashrc .gitattributes .gitconfig .gitignore_global .inputr
 # =============================================#
 
 
+
 # create dotfiles_old in homedir
 echo "Creating $olddir for backup of any existing dotfiles in ~"
 mkdir -p $olddir
 echo "...done"
+
+# Moving .bash_extra file
+# Not in the repository, to prevent people from accidentally committing under my name
+echo "Moving .bash_extra from ~ to $olddir"
+mv ~/.bash_extra $olddir
+echo "Creating empty .bash_extra file in home directory."
+# Don't forget to configure the bash_extra
+cp $dir/.bash_extra ~/.bash_extra
 
 # change to the dotfiles directory
 echo "Changing to the $dir directory"
@@ -41,21 +50,13 @@ for file in $files; do
     ln -s $dir/$file ~/$file
 done
 
-# Moving .bash_extra file
-# Not in the repository, to prevent people from accidentally committing under my name
-echo "Moving .bash_extra from ~ to $olddir"
-mv ~/.bash_extra $olddir
-echo "Creating empty .bash_extra file in home directory."
-# Don't forget to configure the bash_extra
-cp $dir/.bash_extra ~/.bash_extra
-
-
 # Copying bin dir
-echo "Moving $bin to $olbin"
-cp -r $bindir $oldbindir
-# rm $bindir
+echo "Moving $bin to $oldbin"
+mkdir -p $oldbin;
+cp -r ~/bin $oldbin
+rm -r $bin
 echo "Installing bin dir."
-ln -s ~/.dotfiles/bin ~/
+ln -s $dir/bin ~/
 # cp -r
 
 # http://blog.smalleycreative.com/tutorials/using-git-and-github-to-manage-your-dotfiles/

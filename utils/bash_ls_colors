@@ -1,0 +1,56 @@
+
+# =================
+# LS COLORS
+# =================
+
+# I'm not currently using "ls" but "gls", that is the "GNU ls"
+# as defined in .bash_profile.
+# So I'm not using this file.
+
+# The values in LSCOLORS are codes corresponding to different colors for different types of files.
+# The letter you use indicates which color to use, and the position in the string indicates
+# what type of file should be that color. Each color comes in pairs – a foreground color and a
+# background color. Here is a list of color values:
+
+# a = black
+# b = red
+# c = green
+# d = brown
+# e = blue
+# f = magenta
+# g = cyan
+# h = grey
+# A = dark grey
+# B = bold red
+# C = bold green
+# D = yellow
+# E = bold blue
+# F = magenta
+# G = cyan
+# H = white
+# x = default
+
+# And here is a list of the positions in LSCOLORS:
+
+# directory
+# symbolic link
+# socket
+# pipe
+# executable
+# block device
+# character device
+# executable with setuid set
+# executable with setguid set
+# directory writable by others, with sticky bit
+# directory writable by others, without sticky bit
+
+
+# tells ls to use colors
+export CLICOLOR=1
+# color scheme for ls
+export LSCOLORS=ExFxCxDxBxegedabagacad
+
+
+
+# ============================================
+

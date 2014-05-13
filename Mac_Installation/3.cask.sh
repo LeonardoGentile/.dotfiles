@@ -28,14 +28,22 @@ installcask --appdir="/Applications/Web" 	google-chrome
 installcask --appdir="/Applications/Web" 	google-chrome-canary
 installcask --appdir="/Applications/Web" 	cyberduck
 installcask --appdir="/Applications/Web" 	skype
-installcask --appdir="/Applications/Web" 	transmission
+installcask --appdir="/Applications/Web"    transmission
+installcask --appdir="/Applications/Web"    transmit
+installcask --appdir="/Applications/Web" 	transmit
 
 installcask --appdir="/Applications/Coding" iterm2
 installcask --appdir="/Applications/Coding" sublime-text
+installcask --appdir="/Applications/Coding" atom
 installcask --appdir="/Applications/Coding" virtualbox
 installcask --appdir="/Applications/Coding" pycharm
 installcask --appdir="/Applications/Coding" dash
 installcask --appdir="/Applications/Coding" sequel-pro
+installcask --appdir="/Applications/Coding" imageoptim
+installcask --appdir="/Applications/Coding" imagealpha
+installcask --appdir="/Applications/Coding" diffmerge
+installcask --appdir="/Applications/Coding" tower
+installcask --appdir="/Applications/Coding" shuttle
 
 installcask --appdir="/Applications/Office" evernote
 installcask --appdir="/Applications/Office" skitch
