@@ -36,7 +36,7 @@ mv ~/.bash_extra $olddir
 echo "Creating empty .bash_extra file in home directory."
 # Don't forget to configure the bash_extra
 cp $dir/.bash_extra ~/.bash_extra
-cp $dir/.bash_extra ~/.git_extra
+cp $dir/.git_extra ~/.git_extra
 
 # change to the dotfiles directory
 echo "Changing to the $dir directory"
