@@ -20,7 +20,7 @@
 # Tab completion for g o p and d
 # setup file to store bookmarks
 if [ ! -n "$SDIRS" ]; then
-	   SDIRS=~/.dotfiles/bashmarks/bashmarks_dirs
+	   SDIRS=~/.bashmarks_dirs
 fi
 touch $SDIRS
 
@@ -179,7 +179,9 @@ function _bookmarks_no_colour {
 # list bookmarks without dirname
 function _l {
 	source $SDIRS
-	env | grep "^DIR_" | cut -c5- | sort | grep "^.*=" | cut -f1 -d "="
+	# env | grep "^DIR_" | cut -c5- | sort | grep "^.*=" | cut -f1 -d "="
+    # This fixes the auto-complete for people how have --color=always in their GREP_OPTIONS env var.
+    env | grep --color=never "^DIR_" | cut -c5- | sort | grep --color=never "^.*=" | cut -f1 -d "="
 	__unset_dirs
 }
 
