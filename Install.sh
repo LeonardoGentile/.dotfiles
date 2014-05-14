@@ -29,13 +29,29 @@ echo "Creating $olddir for backup of any existing dotfiles in ~"
 mkdir -p $olddir
 echo "...done"
 
+# Moving .bashmarks_dirs file
+# Not in the repository, I overwrite this using my private  .dotfiles
+echo "Moving ~/.bashmarks_dirs from ~ to $olddir"
+mv ~/.bashmarks_dirs $olddir
+echo "Creating default .bashmarks_dirs file in home directory."
+# Don't forget to configure the bash_extra
+cp $dir/bashmarks/.bashmarks_dirs ~/.bashmarks_dirs
+
+
 # Moving .bash_extra file
-# Not in the repository, to prevent people from accidentally committing under my name
+# Not in the repository
 echo "Moving .bash_extra from ~ to $olddir"
 mv ~/.bash_extra $olddir
 echo "Creating empty .bash_extra file in home directory."
 # Don't forget to configure the bash_extra
 cp $dir/.bash_extra ~/.bash_extra
+
+# Moving .git_extra file
+# Not in the repository, to prevent people from accidentally committing under my name
+echo "Moving DEFAULT .git_extra from ~ to $olddir (EDIT IT!!)"
+mv ~/.git_extra $olddir
+echo "Creating empty .bash_extra file in home directory."
+# Don't forget to configure the bash_extra
 cp $dir/.git_extra ~/.git_extra
 
 # change to the dotfiles directory
