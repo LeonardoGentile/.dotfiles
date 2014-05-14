@@ -109,10 +109,11 @@ alias grc='git rebase --continue'
 alias gs='git status'
 alias guci='git reset --soft HEAD^' # undo last commit
 alias gs='git status'
-alias gl='git log'
 alias gd='git diff'
 alias ga='git add'
-
+alias gl="git log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --"
+alias log="git log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --"
+alias gis="git status -s"
 
 # ========================================
 # Heroku
@@ -191,8 +192,7 @@ if [ -s /usr/bin/firefox ] ; then
   unalias firefox
 fi
 alias chrome="open -a google\ chrome"
-alias dashcode="open -a dashcode"
-alias filemerge="open -a '/Developer/Applications/Utilities/FileMerge.app'"
+alias filemerge="open -a '/Applications/Xcode.app/Contents/Applications/FileMerge.app'"
 
 # Pianobar can be found here: http://github.com/PromyLOPh/pianobar/
 alias piano='pianobar'
