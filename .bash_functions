@@ -63,7 +63,7 @@ myip ()
 
 
 # Start an HTTP server from a directory, optionally specifying the port
-function pythonserver() {
+function server() {
     local port="${1:-9001}"
     open "http://localhost:${port}/"
     # Set the default Content-Type to `text/plain` instead of `application/octet-stream`
@@ -287,7 +287,7 @@ function mkd() {
 
 # Install Grunt plugins and add them as `devDependencies` to `package.json`
 # Usage: `gi contrib-watch contrib-uglify zopfli`
-function gi() {
+function gruntinstall() {
         local IFS=,
         eval npm install --save-dev grunt-{"$*"}
 }
