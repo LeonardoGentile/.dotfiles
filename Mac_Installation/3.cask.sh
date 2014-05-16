@@ -54,7 +54,8 @@ installcask --appdir="/Applications/Tools" 	xquartz
 installcask --appdir="/Applications/Tools" 	slate
 installcask --appdir="/Applications/Tools" 	launchrocket
 installcask --appdir="/Applications/Tools"  colorpicker-skalacolor
-installcask --appdir="/Applications/Tools" 	cakebrew
+installcask --appdir="/Applications/Tools"  cakebrew
+installcask --appdir="/Applications/Tools" 	appcleaner
 
 
 installcask ukelele
