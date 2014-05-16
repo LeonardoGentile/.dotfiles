@@ -62,6 +62,7 @@ brew install nmap
 brew install p7zip
 brew install redis
 brew install testdisk
+brew install heroku-toolbelt
 
 
 #
