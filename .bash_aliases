@@ -100,7 +100,7 @@ alias emptyalltrash="sudo rm -rfv /Volumes/*/.Trashes; sudo rm -rfv ~/.Trash; su
 # alias gi='git'
 # __git_complete gi __git_main
 alias gb='git branch'
-alias gci='git commit'
+alias gci='git commit -m'
 alias gco='git checkout'
 alias gfo='git fetch origin'
 alias gp='git push'

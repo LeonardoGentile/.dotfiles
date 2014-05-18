@@ -3,6 +3,84 @@
 # Compialtion stuff (Set architecture flags)
 export ARCHFLAGS="-arch x86_64"
 
+# =============================================
+# PATHS
+# =============================================
+# Loading sequence:
+#   1     /etc/paths
+#   2     /etc/paths./whatever (e.g. x11)
+#   3     ~/.MacOSX/environment.plist (AVOID!)
+#   4     PATH defined in this file
+#
+#   BEWARE: Avoid (3) cause it overrides the default PATH set in /etc/paths and it is deprecated
+
+# For loading HOMEBREW binaries first change the /etc/paths file
+# putting /usr/local/bin at the beginning of the file instead of the end
+# Even if we do it here it will be 'too late'
+
+
+# COREUTILS (GNU)
+# ===========================
+# I use the GNU ls (gls) included in COREUTILS (downloaded with BREW)
+# This let me use dircolors command, that will use .dircolors file to colorize gls
+# http://lostincode.net/posts/homebrew
+# http://www.conrad.id.au/2013/07/making-mac-os-x-usable-part-1-terminal.html
+# https://github.com/seebi/dircolors-solarized
+
+if [  -d /usr/local/opt/coreutils/libexec/gnubin  ]; then
+    PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
+fi
+
+if [ -d /usr/local/opt/coreutils/libexec/gnuman ]; then
+    MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
+fi
+
+
+# Local bin in my home (scripts various stuff)
+PATH="$PATH:~/bin"
+
+# Heroku Toolbelt
+if [[ -d /usr/local/heroku/bin ]]; then
+    PATH="$PATH:/usr/local/heroku/bin"
+fi
+
+# MySql bin
+if [[ -d /usr/local/opt/mysql/bin/ ]]; then
+    PATH="${PATH}:/usr/local/opt/mysql/bin"
+fi
+
+# SenchaSDKTools
+if [[ -d /Applications/SenchaSDKTools ]]; then
+    PATH="${PATH}:/Applications/SenchaSDKTools"
+    export SENCHA_SDK_TOOLS_2_0_0_BETA3="/Applications/SenchaSDKTools"
+fi
+
+# Redis (manually installed)
+# PATH="$PATH:~/bin/redis"
+
+# gcc and other dev stuff
+# PATH="${PATH}:/Developer/usr/bin"
+# PATH="${PATH}:/Developer/usr/bin"
+
+# PATH for Python 2.7
+# PATH="${PATH}:/Library/Frameworks/Python.framework/Versions/2.7/bin"
+#
+# PATH="${PATH}:/usr/local/share/python"
+# No needed with python installed from brew
+
+export PATH
+
+
+# Detect which `ls` flavor is in use
+if ls --color > /dev/null 2>&1; then # GNU `ls`
+    alias ls='ls --color=always'
+    # load my color scheme (it only works with GNU ls)
+    # dircolors only work with coreutils
+    eval `dircolors  ~/.dotfiles/data/dircolors`
+else # OS X `ls`
+    alias ls='ls -G'
+fi
+
 
 # VIRTUALENVWRAPPER (should go before bash_functions)
 # =============================================
@@ -13,17 +91,6 @@ if [[ -f /Library/Frameworks/Python.framework/Versions/2.7/bin/virtualenvwrapper
     source /Library/Frameworks/Python.framework/Versions/2.7/bin/virtualenvwrapper.sh
 elif [ -f $(brew --prefix)/bin/virtualenvwrapper.sh ]; then
     source $(brew --prefix)/bin/virtualenvwrapper.sh
-fi
-
-
-# BASH COMPLETION
-# =============================================
-# If possible, add tab completion for many more commands
-if [ -f /etc/bash_completion ]; then
-    source /etc/bash_completion
-# Or if Installed with Brew
-elif [ -f $(brew --prefix)/etc/bash_completion ]; then
-    source $(brew --prefix)/etc/bash_completion
 fi
 
 
@@ -58,81 +125,6 @@ source ~/.dotfiles/bashmarks/bashmarks.sh
 export PYTHONSTARTUP=~/.dotfiles/.pystartup.py
 
 
-# =============================================
-# PATHS
-# =============================================
-# Loading sequence:
-#   1     /etc/paths
-#   2     /etc/paths./whatever (e.g. x11)
-#   3     ~/.MacOSX/environment.plist (AVOID!)
-#   4     PATH defined in this file
-#
-#   BEWARE: Avoid (3) cause it overrides the default PATH set in /etc/paths and it is deprecated
-
-# For loading HOMEBREW binaries first change the /etc/paths file
-# putting /usr/local/bin at the beginning of the file instead of the end
-# Even if we do it here it will be 'too late'
-
-# Local bin in my home (scripts various stuff)
-PATH="$PATH:~/bin"
-
-# Heroku Toolbelt
-if [[ -d /usr/local/heroku/bin ]]; then
-    PATH="$PATH:/usr/local/heroku/bin"
-fi
-
-# MySql bin
-if [[ -d /usr/local/opt/mysql/bin/ ]]; then
-    PATH="${PATH}:/usr/local/opt/mysql/bin/"
-fi
-
-# SenchaSDKTools
-if [[ -d /Applications/SenchaSDKTools ]]; then
-    PATH="${PATH}:/Applications/SenchaSDKTools"
-    export SENCHA_SDK_TOOLS_2_0_0_BETA3="/Applications/SenchaSDKTools"
-fi
-
-# Redis (manually installed)
-# PATH="$PATH:~/bin/redis"
-
-# gcc and other dev stuff
-# PATH="${PATH}:/Developer/usr/bin"
-# PATH="${PATH}:/Developer/usr/bin"
-
-# PATH for Python 2.7
-# PATH="${PATH}:/Library/Frameworks/Python.framework/Versions/2.7/bin"
-#
-# PATH="${PATH}:/usr/local/share/python"
-# No needed with python installed from brew
-
-export PATH
-
-
-# COREUTILS (GNU)
-# ===========================
-# I use the GNU ls (gls) included in COREUTILS (downloaded with BREW)
-# This let me use dircolors command, that will use .dircolors file to colorize gls
-# http://lostincode.net/posts/homebrew
-# http://www.conrad.id.au/2013/07/making-mac-os-x-usable-part-1-terminal.html
-# https://github.com/seebi/dircolors-solarized
-
-if [  -d /usr/local/opt/coreutils/libexec/gnubin  ]; then
-    PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
-fi
-
-if [ -d /usr/local/opt/coreutils/libexec/gnuman ]; then
-    MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
-fi
-
-# Detect which `ls` flavor is in use
-if ls --color > /dev/null 2>&1; then # GNU `ls`
-    alias ls='ls --color=always'
-    # load my color scheme (it only works with GNU ls)
-    # dircolors only work with coreutils
-    eval `dircolors  ~/.dotfiles/data/dircolors`
-else # OS X `ls`
-    alias ls='ls -G'
-fi
 
 
 
@@ -159,6 +151,16 @@ export PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
 # =============================================
 # COMPLETIONS
 # =============================================
+
+# SOURCE BASH COMPLETION
+# =============================================
+# If possible, add tab completion for many more commands
+if [ -f /etc/bash_completion ]; then
+    source /etc/bash_completion
+# Or if Installed with Brew
+elif [ -f $(brew --prefix)/etc/bash_completion ]; then
+    source $(brew --prefix)/etc/bash_completion
+fi
 
 
 # GRUNT COMPLETION
@@ -215,7 +217,7 @@ shopt -s nocaseglob
 shopt -s histappend
 
 # Autocorrect typos in path names when using `cd`
-shopt -s cdspell
+# shopt -s cdspell
 
 # Enable some Bash 4 features when possible:
 # * `autocd`, e.g. `**/qux` will enter `./foo/bar/baz/qux`
@@ -235,26 +237,43 @@ export MANPAGER="less -X"
 # ===========================
 alias grep="grep --color=always"
 alias egrep="egrep --color=always"
+alias egrep="fgrep --color=always"
 
 # # Always enable colored `grep` output
 export GREP_OPTIONS="--color=auto"
 
+# Specify the TERM variable. Otherwise it will throw an error when running scripts in non-interactive mode
+if [[ $COLORTERM = gnome-* && $TERM = xterm ]] && infocmp gnome-256color >/dev/null 2>&1; then
+    export TERM=gnome-256color
+elif infocmp xterm-256color >/dev/null 2>&1; then
+    export TERM=xterm-256color
+fi
+
 
 # MAN COLORS (Less Colors for Man Pages)
 # ===========================
-export LESS_TERMCAP_mb=$(tput bold; tput setaf 2) # green
-export LESS_TERMCAP_md=$(tput bold; tput setaf 6) # cyan
-export LESS_TERMCAP_me=$(tput sgr0)
-export LESS_TERMCAP_so=$(tput bold; tput setaf 3; tput setab 4) # yellow on blue
-export LESS_TERMCAP_se=$(tput rmso; tput sgr0)
-export LESS_TERMCAP_us=$(tput smul; tput bold; tput setaf 7) # white
-export LESS_TERMCAP_ue=$(tput rmul; tput sgr0)
-export LESS_TERMCAP_mr=$(tput rev)
-export LESS_TERMCAP_mh=$(tput dim)
-export LESS_TERMCAP_ZN=$(tput ssubm)
-export LESS_TERMCAP_ZV=$(tput rsubm)
-export LESS_TERMCAP_ZO=$(tput ssupm)
-export LESS_TERMCAP_ZW=$(tput rsupm)
+# A SSH command line that specifies a remote command will normally run in "non-interactive mode". One of the consequences is that no pseudo-TTY will be assigned for the connection in the remote host.
+# This happens because /etc/profile, ~/.profile or some other login script on those nodes contains a tput command that is executed unconditionally - even if the session does not have a TTY
+# associated with it. (The HP-UX default login scripts have had this issue for ages.)
+# The true fix would be to find the tput commands on those nodes and make them conditional. For example, on sh, ksh, bash and other Bourne-style shells, you could replace the command:
+# (tput) with (tty -s && tput)
+# This will run the tput command only if the session is interactive and has a TTY assigned. ("tput" is a terminal initialization/configuration command, so running it when there is no TTY makes no sense anyway.)
+if tput setaf 1 &> /dev/null; then
+    export LESS_TERMCAP_mb=$(tty -s && tput bold; tty -s && tput setaf 2) # green
+    export LESS_TERMCAP_md=$(tty -s && tput bold; tty -s && tput setaf 6) # cyan
+    export LESS_TERMCAP_me=$(tty -s && tput sgr0)
+    export LESS_TERMCAP_so=$(tty -s && tput bold; tty -s && tput setaf 3; tput setab 4) # yellow on blue
+    export LESS_TERMCAP_se=$(tty -s && tput rmso; tty -s && tput sgr0)
+    export LESS_TERMCAP_us=$(tty -s && tput smul; tty -s && tput bold; tput setaf 7) # white
+    export LESS_TERMCAP_ue=$(tty -s && tput rmul; tty -s && tput sgr0)
+    export LESS_TERMCAP_mr=$(tty -s && tput rev)
+    export LESS_TERMCAP_mh=$(tty -s && tput dim)
+    export LESS_TERMCAP_ZN=$(tty -s && tput ssubm)
+    export LESS_TERMCAP_ZV=$(tty -s && tput rsubm)
+    export LESS_TERMCAP_ZO=$(tty -s && tput ssupm)
+    export LESS_TERMCAP_ZW=$(tty -s && tput rsupm)
+fi
+
 
 
 # BASH HISTORY
