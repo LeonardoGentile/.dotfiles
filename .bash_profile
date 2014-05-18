@@ -37,23 +37,6 @@ source ~/.dotfiles/.bash_aliases
 source ~/.dotfiles/.bash_functions
 
 
-# BASH PROMPT (powerline shell)
-# =============================================
-
-# to know how many colors are supported by the terminal (it is based on the terminfo database):
-# if [ $(tput colors) -ge 256 ] ; then
-# PS1="your 256 color prompt"
-# else
-# PS1="your default prompt"
-# fi
-
-function _update_ps1() {
-   export PS1="$(~/.dotfiles/powerline-shell/powerline-shell.py $? --cwd-max-depth 4 --colorize-hostname  2> /dev/null)"
-}
-export PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
-
-# source utils/bash-powerline.sh
-
 # EXTRA (settings I don't want to commit)
 # =============================================
 # ~/.bash_extra used for settings I don't want to commit.
@@ -150,6 +133,27 @@ if ls --color > /dev/null 2>&1; then # GNU `ls`
 else # OS X `ls`
     alias ls='ls -G'
 fi
+
+
+
+# BASH PROMPT (powerline shell)
+# =============================================
+
+# to know how many colors are supported by the terminal (it is based on the terminfo database):
+# if [ $(tput colors) -ge 256 ] ; then
+# PS1="your 256 color prompt"
+# else
+# PS1="your default prompt"
+# fi
+
+function _update_ps1() {
+   export PS1="$(~/.dotfiles/powerline-shell/powerline-shell.py $? --cwd-max-depth 4 --colorize-hostname  2> /dev/null)"
+}
+export PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
+
+
+# source utils/bash-powerline.sh
+
 
 
 # =============================================
