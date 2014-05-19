@@ -63,6 +63,8 @@ brew install p7zip
 brew install redis
 brew install testdisk
 brew install heroku-toolbelt
+# info for our mac
+brew install archey
 
 
 #
