@@ -45,8 +45,10 @@ if [[ -d /usr/local/heroku/bin ]]; then
 fi
 
 # MySql bin
-if [[ -d /usr/local/opt/mysql/bin/ ]]; then
+if [ -d /usr/local/opt/mysql/lib ]; then
     PATH="${PATH}:/usr/local/opt/mysql/bin"
+elif [ -d /usr/local/mysql/bin ]; then
+    PATH="${PATH}:/usr/local/mysql/bin"
 fi
 
 # SenchaSDKTools
@@ -309,7 +311,15 @@ export LC_ALL="en_US.UTF-8"
 # Fix problem when importing
 # mysql-python (MySQLdb)
 # http://stackoverflow.com/questions/4559699/python-mysqldb-and-library-not-loaded-libmysqlclient-16-dylib
-export DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:/usr/local/opt/mysql/lib
+
+
+if [ -d /usr/local/opt/mysql/lib ]; then
+    export DYLD_LIBRARY_PATH=/usr/local/opt/mysql/lib:$DYLD_LIBRARY_PATH
+elif [ -d /usr/local/mysql/lib ]; then
+    export DYLD_LIBRARY_PATH=/usr/local/mysql/lib:$DYLD_LIBRARY_PATH
+fi
+
+
 
 
 # SET COMPILER VERSION
