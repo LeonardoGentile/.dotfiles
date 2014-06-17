@@ -30,7 +30,7 @@ installcask --appdir="/Applications/Web" 	cyberduck
 installcask --appdir="/Applications/Web" 	skype
 installcask --appdir="/Applications/Web"    transmission
 installcask --appdir="/Applications/Web"    transmit
-installcask --appdir="/Applications/Web" 	transmit
+installcask --appdir="/Applications/Web" 	send-to-kindle
 
 installcask --appdir="/Applications/Coding" iterm2
 installcask --appdir="/Applications/Coding" sublime-text
@@ -75,8 +75,6 @@ brew tap caskroom/fonts
 
 # Others
 #
-# installcask imagealpha
-# installcask imageoptim
 # installcask macvim
 # installcask miro-video-converter
 # installcask tor-browser

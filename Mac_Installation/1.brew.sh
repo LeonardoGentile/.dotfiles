@@ -63,9 +63,14 @@ brew install p7zip
 brew install redis
 brew install testdisk
 brew install heroku-toolbelt
+# Default Celery broker
+brew install rabbitmq
+
 # info for our mac
 brew install archey
 
+# For graphviz
+brew install graphviz
 
 #
 # brew install pigz

@@ -71,7 +71,9 @@ then
   alias ls="ls --color=auto"
 fi
 
-
+# Archery, gives info about this mac
+# ============
+alias mac="archey"
 
 
 # ========================================
