@@ -50,6 +50,13 @@ brew install node
 # After installation run this:
 # npm completion > /usr/local/etc/bash_completion.d/npm
 
+# For different version of ruby
+brew install rbenv
+brew install ruby-build
+# rbenv install -l  # for the list of the available ruby version
+# rbenv global 2.1.2 # makes ruby 2.1.2 the default one
+# rbenv rehash # Run this command after you install a new version of Ruby, or install a gem that provides commands.
+
 # Install everything else
 brew install ack
 brew install rename

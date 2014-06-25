@@ -27,6 +27,14 @@ export ARCHFLAGS="-arch x86_64"
 # http://www.conrad.id.au/2013/07/making-mac-os-x-usable-part-1-terminal.html
 # https://github.com/seebi/dircolors-solarized
 
+# rbenv for switching ruby versions
+export RBENV_ROOT="$HOME/.rbenv"
+
+if [ -d $RBENV_ROOT ]; then
+    PATH="$RBENV_ROOT/shims:$PATH"
+    eval "$(rbenv init -)"
+fi
+
 if [  -d /usr/local/opt/coreutils/libexec/gnubin  ]; then
     PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
 fi
@@ -82,6 +90,7 @@ if ls --color > /dev/null 2>&1; then # GNU `ls`
 else # OS X `ls`
     alias ls='ls -G'
 fi
+
 
 
 # VIRTUALENVWRAPPER (should go before bash_functions)
@@ -311,8 +320,6 @@ export LC_ALL="en_US.UTF-8"
 # Fix problem when importing
 # mysql-python (MySQLdb)
 # http://stackoverflow.com/questions/4559699/python-mysqldb-and-library-not-loaded-libmysqlclient-16-dylib
-
-
 if [ -d /usr/local/opt/mysql/lib ]; then
     export DYLD_LIBRARY_PATH=/usr/local/opt/mysql/lib:$DYLD_LIBRARY_PATH
 elif [ -d /usr/local/mysql/lib ]; then
@@ -332,16 +339,16 @@ fi
 # Because sometimes it doesn't
 # find the libs that are actually
 # here (e.g: crt1.10.6.o)
-# export MACOSX_DEPLOYMENT_TARGET=10.6
+export MACOSX_DEPLOYMENT_TARGET=10.6
 
 # To Solve I problem I DON'T REMEMBER!
 # ===========================
-# export C_INCLUDE_PATH=$C_INCLUDE_PATH:/Developer/SDKs/MacOSX10.6.sdk/usr/include:/usr/local/include
+export C_INCLUDE_PATH=$C_INCLUDE_PATH:/Developer/SDKs/MacOSX10.6.sdk/usr/include:/usr/local/include
 
 # HEADERS (I guess)
 # ===========================
 # I added the headers from brew (/usr/local/include)
-# export LIBRARY_PATH=$LIBRARY_PATH:/Developer/SDKs/MacOSX10.6.sdk/usr/lib:/usr/local/lib/
+export LIBRARY_PATH=$LIBRARY_PATH:/Developer/SDKs/MacOSX10.6.sdk/usr/lib:/usr/local/lib/
 
 
 
