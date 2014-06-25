@@ -1,0 +1,235 @@
+#Titolo Finestra
+PROMPT_COMMAND='echo -ne "\033]0;${PWD}\007"'
+#Carico i colori
+export CLICOLOR=1
+export LSCOLORS=ExFxCxDxBxegedabagacad
+#alias ls='ls --color=always'
+# export LSCOLORS=GxFxCxDxBxegedabagaced
+
+alias ll="ls -l"
+alias la="ls -al"
+alias h="cd ~"
+alias md=mkdir
+
+# cyclic tab-completion
+# bind '"\t":menu-complete'
+
+# bash-completion (installato con Brew)
+if [ -f $(brew --prefix)/etc/bash_completion ]; then
+    . $(brew --prefix)/etc/bash_completion
+fi
+
+# pip bash completion start
+_pip_completion()
+{
+    COMPREPLY=( $( COMP_WORDS="${COMP_WORDS[*]}" \
+                   COMP_CWORD=$COMP_CWORD \
+                   PIP_AUTO_COMPLETE=1 $1 ) )
+}
+complete -o default -F _pip_completion pip
+# pip bash completion end
+
+
+
+# BASHMARKS
+source ~/.local/bin/bashmarks.sh
+#see http://bilalh.github.com/2012/01/14/enchanted-bashmarks-terminal-directory-bookmarks/
+
+# the "kp" alias ("que pasa"), in honor of tony p.
+alias kp="ps auxwww"
+
+#Screen saver
+alias ss="/System/Library/Frameworks/ScreenSaver.framework/Resources/ScreenSaverEngine.app/Contents/MacOS/ScreenSaverEngine -background &"
+
+alias cd..="cd .."
+alias lp="ls -p"
+alias h=history
+
+#PATH: see ~/.MacOSX/environment.plist
+
+
+#PATH for MySql
+export PATH="/usr/local/mysql/bin:${PATH}"
+alias mysql_start="sudo /Library/StartupItems/MySQLCOM/MySQLCOM start"
+alias mysql_stop="sudo /Library/StartupItems/MySQLCOM/MySQLCOM stop"
+
+#Path Finder
+alias pf="open -a Path\ Finder"
+
+#sudo enviroment
+alias sudo='A=`alias` sudo env '
+
+#PROMPT
+if [ "$PS1" ]; then
+  if [ "$BASH" ]; then
+    PS1='\[\033[0;33m\]$(__git_ps1 "(%s)")\[\033[0;32m\]\u@\h\[\033[0m\]:\w\$ '
+  else
+    if [ "`id -u`" -eq 0 ]; then
+      PS1='# '
+    else
+      PS1='$ '
+    fi
+  fi
+fi
+
+# $(__git_ps1 "(%s)") Dice in quale branch di git stiamo lavorando, comando in .git-completion.sh
+# Ho aggiunto manualmente __git_ps1 perchè non era presente nella versione dello script che avevo.
+
+# \[\033[0;34m\] BLUE
+# \[\033[0m\] original font color
+# Color list: http://sos.blog-city.com/mac_os_x__bash_customize_your_terminal_prompt_a_little_color.htm
+
+
+
+#To let autocompletion for SUDO
+if [ "$PS1" ]; then
+complete -cf sudo
+fi
+
+#Tmp for mysql python compiling
+# export CC="gcc-4.0"
+# export CXX="g++-4.0"
+
+# Perchè spesso non trovava le lib che in realtà sono qui. Es. crt1.10.6.o
+export MACOSX_DEPLOYMENT_TARGET=10.6
+export C_INCLUDE_PATH=/Developer/SDKs/MacOSX10.6.sdk/usr/include:/usr/local/include:$C_INCLUDE_PATH
+# /usr/local/include sono gli header delle lib installate con brew
+export LIBRARY_PATH=/Developer/SDKs/MacOSX10.6.sdk/usr/lib:/usr/local/lib/:$LIBRARY_PATH
+
+
+
+
+#gcc and other dev stuff
+PATH="/Developer/usr/bin:${PATH}"
+
+# Setting PATH for Python 2.7
+# The orginal version is saved in .profile.pysave
+PATH="/Library/Frameworks/Python.framework/Versions/2.7/bin:${PATH}"
+export PATH
+
+#for python and mysql
+export DYLD_LIBRARY_PATH=/usr/local/mysql/lib/:$DYLD_LIBRARY_PATH
+
+#Completion for python command line
+export PYTHONSTARTUP=~/.pythonrc
+
+
+#VirtualenvWrapper
+export WORKON_HOME="$HOME/.virtualenvs"
+source /Library/Frameworks/Python.framework/Versions/2.7/bin/virtualenvwrapper.sh
+
+# NB PER CUSTOMIZZARE IL PROMPT VEDI IL FILE .virtualenv/postactivate
+
+# Automatically activate Git projects' virtual environments based on the
+# directory name of the project. Virtual environment name can be overridden
+# by placing a .venv file in the project root with a virtualenv name in it
+# http://hmarr.com/2010/jan/19/making-virtualenv-play-nice-with-git/
+
+
+function workon_cwd {
+    # Check that this is a Git repo
+    GIT_DIR=`git rev-parse --git-dir 2> /dev/null`
+    if [ $? == 0 ]; then
+        # Find the repo root and check for virtualenv name override
+        GIT_DIR=`\cd $GIT_DIR; pwd`
+        PROJECT_ROOT=`dirname "$GIT_DIR"`
+        ENV_NAME=`basename "$PROJECT_ROOT"`
+        if [ -f "$PROJECT_ROOT/.venv" ]; then
+            ENV_NAME=`cat "$PROJECT_ROOT/.venv"`
+        fi
+        # Activate the environment only if it is not already active
+        if [ "$VIRTUAL_ENV" != "$WORKON_HOME/$ENV_NAME" ]; then
+            if [ -e "$WORKON_HOME/$ENV_NAME/bin/activate" ]; then
+                workon "$ENV_NAME" && export CD_VIRTUAL_ENV="$ENV_NAME"
+            fi
+        fi
+        # Check if an settings_env.sh file exists. If yes executes it.
+        # It will export the DJANGO_SETTINGS_MODULE env. variable.
+        # This variable is necessary to tell runserver and manage.py (in case of interactive shell) where the settings files
+        # are located
+        if [ -f ./settings_env.txt ];
+            then
+                value=$(<settings_env.txt)
+                export DJANGO_SETTINGS_MODULE=$value
+            # else echo "file settings_env.sh not defined"
+        fi
+
+        if [ -f ./extra_pythonpath.txt ];
+            then
+                value=$(<extra_pythonpath.txt)
+                export PYTHONPATH=$PYTHONPATH:$value
+            # else echo "file settings_env.sh not defined"
+        fi
+
+    elif [ $CD_VIRTUAL_ENV ]; then
+        # We've just left the repo, deactivate the environment
+        # Note: this only happens if the virtualenv was activated automatically
+        deactivate && unset CD_VIRTUAL_ENV
+        # set the DJANGO_SETTINGS_MODULE to empty
+        unset DJANGO_SETTINGS_MODULE
+        # See the .path_tools.bash script to manipulate path env. variables
+        # See http://stackoverflow.com/questions/273909/how-do-i-manipulate-path-elements-in-shell-scripts
+        replace_path PYTHONPATH $value
+    fi
+}
+
+# New cd function that does the virtualenv magic
+function venv_cd {
+    cd "$@" && workon_cwd
+}
+
+function venv_g {
+    g "$@" && workon_cwd
+}
+
+alias cd="venv_cd"
+alias g="venv_g"
+
+
+#git Completion
+if [ -f ~/.git-completion.bash ]; then  #se esiste il file
+	source ~/.git-completion.bash #caricalo
+fi
+
+#man colors
+# Less Colors for Man Pages
+export LESS_TERMCAP_mb=$(tput bold; tput setaf 2) # green
+export LESS_TERMCAP_md=$(tput bold; tput setaf 6) # cyan
+export LESS_TERMCAP_me=$(tput sgr0)
+export LESS_TERMCAP_so=$(tput bold; tput setaf 3; tput setab 4) # yellow on blue
+export LESS_TERMCAP_se=$(tput rmso; tput sgr0)
+export LESS_TERMCAP_us=$(tput smul; tput bold; tput setaf 7) # white
+export LESS_TERMCAP_ue=$(tput rmul; tput sgr0)
+export LESS_TERMCAP_mr=$(tput rev)
+export LESS_TERMCAP_mh=$(tput dim)
+export LESS_TERMCAP_ZN=$(tput ssubm)
+export LESS_TERMCAP_ZV=$(tput rsubm)
+export LESS_TERMCAP_ZO=$(tput ssupm)
+export LESS_TERMCAP_ZW=$(tput rsupm)
+
+
+# For Django Runserver
+alias run="python manage.py runserver"
+
+
+#Export locale, required in Django 1.4
+export LANG="en_US.UTF8"
+export LC_COLLATE="en_US.UTF8"
+export LC_CTYPE="en_US.UTF8"
+export LC_MESSAGES="en_US.UTF8"
+export LC_MONETARY="en_US.UTF8"
+export LC_NUMERIC="en_US.UTF8"
+export LC_TIME="en_US.UTF8"
+export LC_ALL=
+
+### Added by the Heroku Toolbelt
+export PATH="/usr/local/heroku/bin:$PATH"
+
+
+# FOR INCLUDING EXTRA .profile and scripts FILES
+# ===================================
+# source .profile_django_pick
+source ~/.newtab
+source ~/.path_tools.bash
+
+
