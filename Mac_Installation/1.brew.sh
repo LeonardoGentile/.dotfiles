@@ -36,9 +36,6 @@ brew install wget --enable-iri
 # PHP: https://github.com/Homebrew/homebrew-php
 # brew tap homebrew/homebrew-php
 
-# For Yeoman
-brew install optipng jpeg-turbo phantomjs
-
 # Bash Completions
 brew install bash-completion
 # Add this to the bash_profile
@@ -50,12 +47,6 @@ brew install node
 # After installation run this:
 # npm completion > /usr/local/etc/bash_completion.d/npm
 
-# For different version of ruby
-brew install rbenv
-brew install ruby-build
-# rbenv install -l  # for the list of the available ruby version
-# rbenv global 2.1.2 # makes ruby 2.1.2 the default one
-# rbenv rehash # Run this command after you install a new version of Ruby, or install a gem that provides commands.
 
 # Install everything else
 brew install ack
@@ -70,16 +61,12 @@ brew install p7zip
 brew install redis
 brew install testdisk
 brew install heroku-toolbelt
-# Default Celery broker
-brew install rabbitmq
+brew install rabbitmq       # Default Celery broker
+brew install archey         # info for our mac
+brew install graphviz       # For graphviz
 
-# info for our mac
-brew install archey
+# To check:
 
-# For graphviz
-brew install graphviz
-
-#
 # brew install pigz
 # brew install pv
 # brew install foremost
@@ -88,8 +75,6 @@ brew install graphviz
 # brew install webkit2png
 # brew install zopfli
 # brew install homebrew/versions/lua52
-
-
 
 # Remove outdated versions from the cellar
 brew cleanup

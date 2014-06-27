@@ -1,43 +1,42 @@
 # up to you (me) if you want to run this as a file or copy paste at your leisure
 
-# RVM (https://rvm.io)
-# ===========================
-# rvm for the rubiess
-curl -L https://get.rvm.io | bash -s stable --ruby
 
-# SEE: https://github.com/kevinrenskers/dotfiles#ruby-rvm-ruby-version-manager-and-rubygems
-# $ rvm install 1.9.3
-# $ rvm --default use 1.9.3
+# For different version of ruby
+brew update
+brew install rbenv
+brew install ruby-build
+# rbenv install -l      # for the list of the available ruby version
+# rbenv install 2.1.2   # install ruby
+# rbenv global 2.1.2    # makes ruby 2.1.2 the default one
+# rbenv rehash          # Run this command after you install a new version of Ruby, or install a gem that provides commands.
 
-# Once RVM is installed you can install your favorite packages:
-# $ gem install cocoapods
-# $ gem install rails
+# rbenv Gemset (for sandboxed collection of gems, for example for a specific project)
+# SEE: https://github.com/jf/rbenv-gemset
+brew install rbenv-gemset
 
-# To update RVM itself:
-# $ rvm get stable
-# To update RubyGems itself:
-# $ gem update --system
+# For installing gems from github or anywhere else
+gem install specific_install
+# USAGE: gem specific_install -l <url to a github gem>
 
 
 # COMPASS
 # ===========================
 gem update --system
-gem install compass
-# For source map support (Compass 1.0.0.alpha.19):
-# sudo gem install compass --pre
+gem install compass # For source map support (Compass 1.0.0.alpha.19): sudo gem install compass --pre
 
-# termrc is AMAZING: https://github.com/briangonzalez/termrc
+
+# termrc, for starting up iterm envs from shell (AMAZING)
+# https://github.com/briangonzalez/termrc
 gem install termrc
+
 
 # PYTHON
 # ===========================
 brew install python giflib jpeg
 pip install virtualenv virtualenvwrapper
 # If virtualenvwrapper wont work just uninstall and reinstall virtualenv
-
-# NOTE: double check the installation of PIL with the option --allow-external
 pip install --allow-external PIL
-
+# NOTE: double check the installation of PIL with the option --allow-external (if troubles install pillow)
 pip install --upgrade pip
 pip install --upgrade setuptools
 # Then source: $(brew --prefix)/bin/virtualenvwrapper.sh
@@ -77,6 +76,9 @@ sudo pip install mysql-python
 # launchctl unload -w ~/Library/LaunchAgents/homebrew.mxcl.mysql.plist
 
 
+
+
+
 # Grunt
 # ===========================
 npm install -g grunt-cli
@@ -85,8 +87,11 @@ npm install -g grunt-cli
 # ===========================
 npm install -g bower
 
+
 # YEOMAN (maybe sudo)
 # ===========================
+# For Yeoman
+brew install optipng jpeg-turbo phantomjs
 npm install yeoman -g
 
 # NAVE: VIRTUALENVS FOR NODE
