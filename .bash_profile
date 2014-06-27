@@ -18,6 +18,13 @@ export ARCHFLAGS="-arch x86_64"
 # putting /usr/local/bin at the beginning of the file instead of the end
 # Even if we do it here it will be 'too late'
 
+# rbenv for switching ruby versions
+export RBENV_ROOT="$HOME/.rbenv"
+
+if [ -d $RBENV_ROOT ]; then
+    PATH="$RBENV_ROOT/shims:$PATH"
+    eval "$(rbenv init -)"
+fi
 
 # COREUTILS (GNU)
 # ===========================
@@ -27,14 +34,6 @@ export ARCHFLAGS="-arch x86_64"
 # http://www.conrad.id.au/2013/07/making-mac-os-x-usable-part-1-terminal.html
 # https://github.com/seebi/dircolors-solarized
 
-# rbenv for switching ruby versions
-export RBENV_ROOT="$HOME/.rbenv"
-
-if [ -d $RBENV_ROOT ]; then
-    PATH="$RBENV_ROOT/shims:$PATH"
-    eval "$(rbenv init -)"
-fi
-
 if [  -d /usr/local/opt/coreutils/libexec/gnubin  ]; then
     PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
 fi
@@ -42,7 +41,6 @@ fi
 if [ -d /usr/local/opt/coreutils/libexec/gnuman ]; then
     MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
 fi
-
 
 # Local bin in my home (scripts various stuff)
 PATH="$PATH:~/bin"
@@ -137,10 +135,14 @@ export PYTHONSTARTUP=~/.dotfiles/.pystartup.py
 
 
 
-
-
 # BASH PROMPT (powerline shell)
 # =============================================
+
+function _update_ps1() {
+   export PS1="$(~/.dotfiles/powerline-shell/powerline-shell.py $? --cwd-max-depth 3 --colorize-hostname  2> /dev/null)"
+}
+export PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
+
 
 # to know how many colors are supported by the terminal (it is based on the terminfo database):
 # if [ $(tput colors) -ge 256 ] ; then
@@ -149,14 +151,7 @@ export PYTHONSTARTUP=~/.dotfiles/.pystartup.py
 # PS1="your default prompt"
 # fi
 
-function _update_ps1() {
-   export PS1="$(~/.dotfiles/powerline-shell/powerline-shell.py $? --cwd-max-depth 4 --colorize-hostname  2> /dev/null)"
-}
-export PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
-
-
 # source utils/bash-powerline.sh
-
 
 
 # =============================================
@@ -339,16 +334,16 @@ fi
 # Because sometimes it doesn't
 # find the libs that are actually
 # here (e.g: crt1.10.6.o)
-export MACOSX_DEPLOYMENT_TARGET=10.6
+# export MACOSX_DEPLOYMENT_TARGET=10.6
 
 # To Solve I problem I DON'T REMEMBER!
 # ===========================
-export C_INCLUDE_PATH=$C_INCLUDE_PATH:/Developer/SDKs/MacOSX10.6.sdk/usr/include:/usr/local/include
+# export C_INCLUDE_PATH=$C_INCLUDE_PATH:/Developer/SDKs/MacOSX10.6.sdk/usr/include:/usr/local/include
 
 # HEADERS (I guess)
 # ===========================
 # I added the headers from brew (/usr/local/include)
-export LIBRARY_PATH=$LIBRARY_PATH:/Developer/SDKs/MacOSX10.6.sdk/usr/lib:/usr/local/lib/
+# export LIBRARY_PATH=$LIBRARY_PATH:/Developer/SDKs/MacOSX10.6.sdk/usr/lib:/usr/local/lib/
 
 
 

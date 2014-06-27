@@ -23,7 +23,11 @@ curl -L https://get.rvm.io | bash -s stable --ruby
 # ===========================
 gem update --system
 gem install compass
+# For source map support (Compass 1.0.0.alpha.19):
+# sudo gem install compass --pre
 
+# termrc is AMAZING: https://github.com/briangonzalez/termrc
+gem install termrc
 
 # PYTHON
 # ===========================

@@ -43,6 +43,11 @@ alias run="python manage.py runserver"
 # shell_plus with python command history support
 alias shell_plus="python manage.py shell_plus --use-pythonrc"
 
+# TERMRC: https://github.com/briangonzalez/termrc
+# ============
+alias start="termrc start"
+
+
 # Redis
 # ============
 alias rs="redis-server ~/.redis/redis.conf"
