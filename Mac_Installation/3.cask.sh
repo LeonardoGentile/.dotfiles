@@ -44,6 +44,7 @@ installcask --appdir="/Applications/Coding" imagealpha
 installcask --appdir="/Applications/Coding" diffmerge
 installcask --appdir="/Applications/Coding" tower
 installcask --appdir="/Applications/Coding" shuttle
+installcask --appdir="/Applications/Coding" mysqlworkbench
 
 installcask --appdir="/Applications/Office" evernote
 installcask --appdir="/Applications/Office" skitch
