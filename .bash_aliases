@@ -39,7 +39,7 @@ alias ss="/System/Library/Frameworks/ScreenSaver.framework/Resources/ScreenSaver
 
 # Django Stuff
 # ============
-alias run="python manage.py runserver"
+alias run="python manage.py runserver --nothreading"
 # shell_plus with python command history support
 alias shell_plus="python manage.py shell_plus --use-pythonrc"
 
