@@ -88,6 +88,10 @@ npm install -g grunt-cli
 npm install -g bower
 
 
+# OAUTH.IO Daemon
+# ===========================
+npm install -g forever oauthd
+
 # YEOMAN (maybe sudo)
 # ===========================
 # For Yeoman
