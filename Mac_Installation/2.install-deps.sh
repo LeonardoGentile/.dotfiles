@@ -76,7 +76,21 @@ sudo pip install mysql-python
 # launchctl unload -w ~/Library/LaunchAgents/homebrew.mxcl.mysql.plist
 
 
+# Alcatraz
+# Package manager for Xcode
+# http://alcatraz.io
+# ===========================
+curl -fsSL https://raw.github.com/supermarin/Alcatraz/master/Scripts/install.sh | sh
+# uninstall with:
+# rm -rf ~/Library/Application\ Support/Developer/Shared/Xcode/Plug-ins/Alcatraz.xcplugin
+# Remove all cached data:
+# rm -rf ~/Library/Application\ Support/Alcatraz
 
+# Eero
+# "objective-c, evolved"
+# http://eerolanguage.org/index.html
+# ===========================
+# After Alcatraz look for eero
 
 
 # Grunt
