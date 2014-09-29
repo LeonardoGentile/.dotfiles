@@ -45,6 +45,7 @@ installcask --appdir="/Applications/Coding" diffmerge
 installcask --appdir="/Applications/Coding" tower
 installcask --appdir="/Applications/Coding" shuttle
 installcask --appdir="/Applications/Coding" mysqlworkbench
+installcask --appdir="/Applications/Coding" gitx-rowanj
 
 installcask --appdir="/Applications/Office" evernote
 installcask --appdir="/Applications/Office" skitch
@@ -63,6 +64,7 @@ installcask --appdir="/Applications/Tools"  right-zoom
 installcask ukelele
 installcask vlc
 installcask spotify
+installcask spotifree
 installcask path-finder
 
 # https://github.com/sindresorhus/quick-look-plugins
