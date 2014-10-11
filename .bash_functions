@@ -352,3 +352,8 @@ function clone {
 
   git clone $url $repo && cd $repo && sub .;
 }
+
+
+function caskInstall() {
+    brew cask install "${@}" 2> /dev/null
+}

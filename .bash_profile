@@ -18,6 +18,8 @@ export ARCHFLAGS="-arch x86_64"
 # putting /usr/local/bin at the beginning of the file instead of the end
 # Even if we do it here it will be 'too late'
 
+PATH="/usr/local/bin:/usr/local/sbin:$PATH"
+
 # rbenv for switching ruby versions
 export RBENV_ROOT="$HOME/.rbenv"
 
@@ -41,6 +43,8 @@ fi
 if [ -d /usr/local/opt/coreutils/libexec/gnuman ]; then
     MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
 fi
+
+#TODO: better this way: $(brew --prefix coreutils)/libexec/gnubin to \$PATH."
 
 # Local bin in my home (scripts various stuff)
 PATH="$PATH:~/bin"
@@ -125,6 +129,14 @@ bash_extra=~/.bash_extra
 # =============================================
 # http://bilalh.github.com/2012/01/14/enchanted-bashmarks-terminal-directory-bookmarks/
 source ~/.dotfiles/bashmarks/bashmarks.sh
+
+
+# RUPA Z
+# =============================================
+if command -v brew >/dev/null 2>&1; then
+    # Load rupa's z if installed
+    [ -f $(brew --prefix)/etc/profile.d/z.sh ] && source $(brew --prefix)/etc/profile.d/z.sh
+fi
 
 
 # PYTHON STARTUP

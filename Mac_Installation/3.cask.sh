@@ -2,7 +2,29 @@
 # Install native apps with cask
 # https://github.com/phinze/homebrew-cask/blob/master/USAGE.md
 
-main_app_dir = "/Applications"
+# NO: old procedure
+# brew tap phinze/homebrew-cask
+# Message:
+# It looks like you tapped a private repository. To avoid entering your
+# credentials each time you update, you can use git HTTP credential caching
+# or issue the following command:
+# cd /usr/local/Library/Taps/phinze/homebrew-cask
+# git remote set-url origin git@github.com:phinze/homebrew-cask.git
+# cd /usr/local/Library/Taps/phinze/homebrew-cask
+# git remote set-url origin git@github.com:phinze/homebrew-cask.git
+# brew install brew-cask
+
+
+# OK
+# maybe not necessary
+# brew tap caskroom/cask
+# brew install caskroom/cask/brew-cask
+
+# IMPORTANT: Make sure to go to pref panel/Security & Privacy: allows apps downloaded from anywhere
+# !! If some applications can't be installed re-try with --force option
+
+
+# main_app_dir = "/Applications"
 export HOMEBREW_CASK_OPTS="--appdir=/Applications"
 # -p means if directory doen't exists
 
@@ -10,62 +32,69 @@ mkdir -p /Applications/web
 mkdir -p /Applications/Coding
 mkdir -p /Applications/Tools
 mkdir -p /Applications/Office
-
-
-brew tap phinze/homebrew-cask
-brew install brew-cask
+mkdir -p /Applications/Audio\&Video
+mkdir -p /Applications/Photo\&Graphics
 
 # "${@}" list of all parameters
-function installcask() {
+function caskInstall() {
         brew cask install "${@}" 2> /dev/null
 }
 
-installcask --appdir="/Applications/Tools" alfred
+caskInstall --appdir="/Applications/Tools" alfred
+
+caskInstall --appdir="/Applications/Tools" 	alfred
 # Link alfred
 brew cask alfred link
-installcask --appdir="/Applications/Web" 	dropbox
-installcask --appdir="/Applications/Web" 	google-chrome
-installcask --appdir="/Applications/Web" 	google-chrome-canary
-installcask --appdir="/Applications/Web" 	cyberduck
-installcask --appdir="/Applications/Web" 	skype
-installcask --appdir="/Applications/Web"    transmission
-installcask --appdir="/Applications/Web"    transmit
-installcask --appdir="/Applications/Web" 	send-to-kindle
 
-installcask --appdir="/Applications/Coding" iterm2
-installcask --appdir="/Applications/Coding" sublime-text
-installcask --appdir="/Applications/Coding" atom
-installcask --appdir="/Applications/Coding" virtualbox
-installcask --appdir="/Applications/Coding" pycharm
-installcask --appdir="/Applications/Coding" dash
-installcask --appdir="/Applications/Coding" sequel-pro
-installcask --appdir="/Applications/Coding" imageoptim
-installcask --appdir="/Applications/Coding" imagealpha
-installcask --appdir="/Applications/Coding" diffmerge
-installcask --appdir="/Applications/Coding" tower
-installcask --appdir="/Applications/Coding" shuttle
-installcask --appdir="/Applications/Coding" mysqlworkbench
-installcask --appdir="/Applications/Coding" gitx-rowanj
+# path-finder
+caskInstall path-finder
 
-installcask --appdir="/Applications/Office" evernote
-installcask --appdir="/Applications/Office" skitch
+caskInstall --appdir="/Applications/Web" 	dropbox
+caskInstall --appdir="/Applications/Web" 	google-chrome
+caskInstall --appdir="/Applications/Web" 	google-chrome-canary
+caskInstall --appdir="/Applications/Web" 	cyberduck
+caskInstall --appdir="/Applications/Web" 	skype
+caskInstall --appdir="/Applications/Web"    transmission
+caskInstall --appdir="/Applications/Web"    transmit
 
-installcask --appdir="/Applications/Tools" 	keyremap4macbook
-installcask --appdir="/Applications/Tools" 	the-unarchiver
-installcask --appdir="/Applications/Tools" 	xquartz
-installcask --appdir="/Applications/Tools" 	slate
-installcask --appdir="/Applications/Tools" 	launchrocket
-installcask --appdir="/Applications/Tools"  colorpicker-skalacolor
-installcask --appdir="/Applications/Tools"  cakebrew
-installcask --appdir="/Applications/Tools"  appcleaner
-installcask --appdir="/Applications/Tools"  right-zoom
+caskInstall send-to-kindle
+caskInstall virtualbox
+caskInstall launchrocket
 
+caskInstall --appdir="/Applications/Coding" iterm2
+caskInstall --appdir="/Applications/Coding" sublime-text
+caskInstall --appdir="/Applications/Coding" atom
+caskInstall --appdir="/Applications/Coding" pycharm
+caskInstall --appdir="/Applications/Coding" dash
+caskInstall --appdir="/Applications/Coding" sequel-pro
+caskInstall --appdir="/Applications/Coding" imageoptim
+caskInstall --appdir="/Applications/Coding" imagealpha
+caskInstall --appdir="/Applications/Coding" diffmerge
+caskInstall --appdir="/Applications/Coding" tower
+caskInstall --appdir="/Applications/Coding" shuttle
+caskInstall --appdir="/Applications/Coding" mysqlworkbench
+caskInstall --appdir="/Applications/Coding" gitx-rowanj
 
-installcask ukelele
-installcask vlc
-installcask spotify
-installcask spotifree
-installcask path-finder
+caskInstall --appdir="/Applications/Office" evernote
+caskInstall --appdir="/Applications/Office" skitch
+
+# caskInstall --appdir="/Applications/Tools" 	keyremap4macbook
+caskInstall --appdir="/Applications/Tools" 	karabiner
+caskInstall --appdir="/Applications/Tools" 	the-unarchiver
+caskInstall --appdir="/Applications/Tools" 	slate
+caskInstall --appdir="/Applications/Tools"  colorpicker-skalacolor
+caskInstall --appdir="/Applications/Tools"  cakebrew --force
+caskInstall --appdir="/Applications/Tools"  appcleaner
+caskInstall --appdir="/Applications/Tools"  rightzoom
+caskInstall --appdir="/Applications/Tools"  ukelele
+
+caskInstall --appdir="/Applications/Audio&Video" vlc
+caskInstall --appdir="/Applications/Audio&Video" spotify
+caskInstall --appdir="/Applications/Audio&Video" spotifree
+
+caskInstall --appdir="/Applications/Photo&Graphics" adobe-photoshop-lightroom
+
+caskInstall --appdir="/Applications/Utilities" 	xquartz
 
 # https://github.com/sindresorhus/quick-look-plugins
 brew cask install qlcolorcode qlstephen qlmarkdown quicklook-json qlprettypatch quicklook-csv betterzipql webp-quicklook suspicious-package
@@ -78,15 +107,15 @@ brew tap caskroom/fonts
 
 # Others
 #
-# installcask macvim
-# installcask miro-video-converter
-# installcask tor-browser
+# caskInstall macvim
+# caskInstall miro-video-converter
+# caskInstall tor-browser
 #
 # Web Debugging Proxy Application for Windows, Mac OS and Linux
-# installcask charles
+# caskInstall charles
 #
 # Mou The missing Markdown editor for web developers
-# installcask mou
+# caskInstall mou
 
 
 # DELETING THE INSTALLERS:

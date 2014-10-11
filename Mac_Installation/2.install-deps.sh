@@ -5,6 +5,8 @@
 brew update
 brew install rbenv
 brew install ruby-build
+
+# !!!RUN THIS:
 # rbenv install -l      # for the list of the available ruby version
 # rbenv install 2.1.2   # install ruby
 # rbenv global 2.1.2    # makes ruby 2.1.2 the default one
@@ -37,6 +39,9 @@ pip install virtualenv virtualenvwrapper
 # If virtualenvwrapper wont work just uninstall and reinstall virtualenv
 pip install --allow-external PIL
 # NOTE: double check the installation of PIL with the option --allow-external (if troubles install pillow)
+# If PIL won't install just use
+pip install pillow
+
 pip install --upgrade pip
 pip install --upgrade setuptools
 # Then source: $(brew --prefix)/bin/virtualenvwrapper.sh
@@ -47,6 +52,7 @@ pip install --upgrade setuptools
 # ===========================
 brew install postgresql
 initdb /usr/local/var/postgres
+# For starting it at login
 ln -sfv /usr/local/opt/postgresql/*.plist ~/Library/LaunchAgents
 # cp /usr/local/Cellar/postgresql/9.2.4/org.postgresql.postgres.plist ~/Library/LaunchAgents/
 launchctl load -w ~/Library/LaunchAgents/org.postgresql.postgres.plist
@@ -54,6 +60,7 @@ launchctl load -w ~/Library/LaunchAgents/org.postgresql.postgres.plist
 # To use postgres with Python:
 export CFLAGS=-Qunused-arguments
 export CPPFLAGS=-Qunused-arguments
+# No need for sudo most probably
 sudo pip install psycopg2
 
 # MYSQL
@@ -61,12 +68,17 @@ sudo pip install psycopg2
 brew install mysql
 unset TMPDIR
 mysql_install_db --verbose --user=`whoami` --basedir="$(brew --prefix mysql)" --datadir=/usr/local/var/mysql --tmpdir=/tmp
+# for startup
 ln -sfv /usr/local/opt/mysql/*.plist ~/Library/LaunchAgents
 launchctl load -w ~/Library/LaunchAgents/homebrew.mxcl.mysql.plist
+
+# launch mysql (launchroket)
+# then this for setting it up corrctly
 mysql_secure_installation
 sudo cp $(brew --prefix mysql)/support-files/my-default.cnf /etc/my.cnf
 
-sudo pip install mysql-python
+# gobally
+pip install mysql-python
 
 # config file
 # /usr/local/Cellar/mysql/5.6.12/my.cnf
@@ -110,7 +122,7 @@ npm install -g forever oauthd
 # ===========================
 # For Yeoman
 brew install optipng jpeg-turbo phantomjs
-npm install yeoman -g
+npm install -g yo
 
 # NAVE: VIRTUALENVS FOR NODE
 # ===========================
@@ -122,9 +134,9 @@ npm install -g nave
 
 # https://github.com/rupa/z
 # z, oh how i love you
-cd ~/code
+cd ~/bin
 git clone https://github.com/rupa/z.git
-chmod +x ~/code/z/z.sh
+chmod +x ~/bin/z/z.sh
 # also consider moving over your current .z file if possible. it's painful to rebuild :)
 # z binary is already referenced from .bash_profile
 
