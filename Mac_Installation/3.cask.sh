@@ -42,7 +42,6 @@ function caskInstall() {
 
 caskInstall --appdir="/Applications/Tools" alfred
 
-caskInstall --appdir="/Applications/Tools" 	alfred
 # Link alfred
 brew cask alfred link
 
@@ -87,12 +86,14 @@ caskInstall --appdir="/Applications/Tools"  cakebrew --force
 caskInstall --appdir="/Applications/Tools"  appcleaner
 caskInstall --appdir="/Applications/Tools"  rightzoom
 caskInstall --appdir="/Applications/Tools"  ukelele
+caskInstall --appdir="/Applications/Tools"  smcfancontrol
+caskInstall --appdir="/Applications/Tools"  bettertouchtool
 
-caskInstall --appdir="/Applications/Audio&Video" vlc
-caskInstall --appdir="/Applications/Audio&Video" spotify
-caskInstall --appdir="/Applications/Audio&Video" spotifree
+caskInstall --appdir="/Applications/Audio\&Video" vlc
+caskInstall --appdir="/Applications/Audio\&Video" spotify
+caskInstall --appdir="/Applications/Audio\&Video" spotifree
 
-caskInstall --appdir="/Applications/Photo&Graphics" adobe-photoshop-lightroom
+caskInstall --appdir="/Applications/Photo\&Graphics" adobe-photoshop-lightroom
 
 caskInstall --appdir="/Applications/Utilities" 	xquartz
 
@@ -125,5 +126,9 @@ brew tap caskroom/fonts
 # If you want to automate this you can use:
 # $ rm -rf $(brew --cache)
 # rm -rf $(brew --cache)
+
+
+# EXTRA APPS
+# https://www.docker.com/
 
 brew cask cleanup
