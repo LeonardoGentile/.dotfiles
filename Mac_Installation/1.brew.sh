@@ -4,7 +4,7 @@
 # https://github.com/mattbanks/dotfiles-syntax-highlighting-st2
 
 # Install Brew
-ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"
+ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 
 # Make sure we’re using the latest Homebrew
 brew update
