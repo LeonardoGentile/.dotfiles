@@ -73,6 +73,7 @@ caskInstall --appdir="/Applications/Coding" tower
 caskInstall --appdir="/Applications/Coding" shuttle
 caskInstall --appdir="/Applications/Coding" mysqlworkbench
 caskInstall --appdir="/Applications/Coding" gitx-rowanj
+caskInstall --appdir="/Applications/Coding" mongohub
 
 caskInstall --appdir="/Applications/Office" evernote
 caskInstall --appdir="/Applications/Office" skitch

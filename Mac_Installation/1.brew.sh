@@ -36,7 +36,7 @@ brew install wget --enable-iri
 # PHP: https://github.com/Homebrew/homebrew-php
 # brew tap homebrew/homebrew-php
 
-# Bash Completions
+# Bash Completions (sometimes doesn't work so it needs to be reinstalled)
 brew install bash-completion
 # Add this to the bash_profile
 # If possible, add tab completion for many more commands
@@ -59,6 +59,7 @@ brew install lynx
 brew install nmap
 brew install p7zip
 brew install redis
+brew install mongodb # edit /usr/local/etc/mongod.conf for settings. Start it with launchrocket
 brew install testdisk
 brew install heroku-toolbelt
 brew install rabbitmq       # Default Celery broker
