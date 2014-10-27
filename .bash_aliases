@@ -203,5 +203,8 @@ alias filemerge="open -a '/Applications/Xcode.app/Contents/Applications/FileMerg
 
 # Pianobar can be found here: http://github.com/PromyLOPh/pianobar/
 alias piano='pianobar'
+# brew cask
+alias casksearch='brew cask search'
+
 
 
