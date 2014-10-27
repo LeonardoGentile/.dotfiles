@@ -208,3 +208,19 @@ alias casksearch='brew cask search'
 
 
 
+# ========================================
+# bashmarks g aliases
+# ========================================
+alias ds=g
+alias xs=g
+
+
+if [ $ZSH_VERSION ]; then
+    compctl -K _compzsh ds
+    compctl -K _compzsh xs
+else
+    shopt -s progcomp
+    complete -F _comp ds
+    complete -F _comp xs
+fi
+
