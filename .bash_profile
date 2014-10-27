@@ -24,7 +24,7 @@ PATH="/usr/local/bin:/usr/local/sbin:$PATH"
 export RBENV_ROOT="$HOME/.rbenv"
 
 if [ -d $RBENV_ROOT ]; then
-    PATH="$RBENV_ROOT/shims:$PATH"
+    PATH="$PATH:$RBENV_ROOT/shims"
     eval "$(rbenv init -)"
 fi
 
@@ -36,15 +36,18 @@ fi
 # http://www.conrad.id.au/2013/07/making-mac-os-x-usable-part-1-terminal.html
 # https://github.com/seebi/dircolors-solarized
 
-if [  -d /usr/local/opt/coreutils/libexec/gnubin  ]; then
-    PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
+# Flag to check if we are using coreutils GNU ls or Apple ls
+gnu_ls_installed=false
+if [[  $(brew) &&  -d  $(brew --prefix coreutils)/libexec/gnubin  ]]; then
+    PATH="$(brew --prefix coreutils)/libexec/gnubin:$PATH"
+    gnu_ls_installed=true
 fi
 
-if [ -d /usr/local/opt/coreutils/libexec/gnuman ]; then
-    MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
+
+if [[ $(brew) && -d $(brew --prefix coreutils)/libexec/gnuman ]]; then
+    MANPATH="$(brew) && -d $(brew --prefix coreutils)/libexec/gnuman:$MANPATH"
 fi
 
-#TODO: better this way: $(brew --prefix coreutils)/libexec/gnubin to \$PATH."
 
 # Local bin in my home (scripts various stuff)
 PATH="$PATH:~/bin"
@@ -54,7 +57,8 @@ if [[ -d /usr/local/heroku/bin ]]; then
     PATH="$PATH:/usr/local/heroku/bin"
 fi
 
-# MySql bin
+# MySql bin (installed with dmg or installer, not homebrew)
+# Homebrew mysql version will have the precedence (if installed)
 if [ -d /usr/local/opt/mysql/lib ]; then
     PATH="${PATH}:/usr/local/opt/mysql/bin"
 elif [ -d /usr/local/mysql/bin ]; then
@@ -67,8 +71,6 @@ if [[ -d /Applications/SenchaSDKTools ]]; then
     export SENCHA_SDK_TOOLS_2_0_0_BETA3="/Applications/SenchaSDKTools"
 fi
 
-# Redis (manually installed)
-# PATH="$PATH:~/bin/redis"
 
 # gcc and other dev stuff
 # PATH="${PATH}:/Developer/usr/bin"
@@ -82,15 +84,24 @@ fi
 
 export PATH
 
+# Still use the osx manpages (because for example ls is different in osx and I need it)
+# export MANPATH
+
+# use the standard APPLE ls
+if $gnu_ls_installed; then
+   alias ls=/bin/ls
+fi
 
 # Detect which `ls` flavor is in use
-if ls --color > /dev/null 2>&1; then # GNU `ls`
-    alias ls='ls --color=always'
+
+# GNU `ls`
+if ls --color > /dev/null 2>&1; then
+    alias ls='$(brew --prefix coreutils)/libexec/gnubin/ls --color=always'
     # load my color scheme (it only works with GNU ls)
     # dircolors only work with coreutils
     eval `dircolors  ~/.dotfiles/data/dircolors`
 else # OS X `ls`
-    alias ls='ls -G'
+    alias ls='/bin/ls -G'
 fi
 
 
