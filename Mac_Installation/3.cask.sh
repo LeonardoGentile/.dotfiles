@@ -90,6 +90,9 @@ caskInstall --appdir="/Applications/Tools"  ukelele
 caskInstall --appdir="/Applications/Tools"  smcfancontrol
 caskInstall --appdir="/Applications/Tools"  bettertouchtool
 caskInstall --appdir="/Applications/Tools"  unetbootin
+caskInstall --appdir="/Applications/Tools"  detune
+caskInstall --appdir="/Applications/Tools"  izip
+caskInstall --appdir="/Applications/Tools"  tinkertool
 
 caskInstall --appdir="/Applications/Audio\&Video" vlc
 caskInstall --appdir="/Applications/Audio\&Video" spotify
@@ -128,9 +131,5 @@ brew tap caskroom/fonts
 # If you want to automate this you can use:
 # $ rm -rf $(brew --cache)
 # rm -rf $(brew --cache)
-
-
-# EXTRA APPS
-# https://www.docker.com/
 
 brew cask cleanup
