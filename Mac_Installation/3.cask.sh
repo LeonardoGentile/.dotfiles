@@ -89,6 +89,7 @@ caskInstall --appdir="/Applications/Tools"  rightzoom
 caskInstall --appdir="/Applications/Tools"  ukelele
 caskInstall --appdir="/Applications/Tools"  smcfancontrol
 caskInstall --appdir="/Applications/Tools"  bettertouchtool
+caskInstall --appdir="/Applications/Tools"  unetbootin
 
 caskInstall --appdir="/Applications/Audio\&Video" vlc
 caskInstall --appdir="/Applications/Audio\&Video" spotify
