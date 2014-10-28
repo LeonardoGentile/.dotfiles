@@ -76,5 +76,10 @@ echo "Installing bin dir."
 ln -s $dir/bin ~/
 # cp -r
 
+echo "Moving spotifyLauncher to /Applications/Audio&Video"
+mkdir -p Audio\&Video;
+cp -r ~/bin/SpotifyLauncher.app/ /Applications/Audio\&Video/
+
+
 # http://blog.smalleycreative.com/tutorials/using-git-and-github-to-manage-your-dotfiles/
 # http://lostincode.net/posts/homebrew
