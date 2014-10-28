@@ -38,14 +38,14 @@ fi
 
 # Flag to check if we are using coreutils GNU ls or Apple ls
 gnu_ls_installed=false
-if [[  $(brew) &&  -d  $(brew --prefix coreutils)/libexec/gnubin  ]]; then
+if [[  -d  $(brew --prefix coreutils)/libexec/gnubin  ]]; then
     PATH="$(brew --prefix coreutils)/libexec/gnubin:$PATH"
     gnu_ls_installed=true
 fi
 
 
-if [[ $(brew) && -d $(brew --prefix coreutils)/libexec/gnuman ]]; then
-    MANPATH="$(brew) && -d $(brew --prefix coreutils)/libexec/gnuman:$MANPATH"
+if [[ -d $(brew --prefix coreutils)/libexec/gnuman ]]; then
+    MANPATH="$(brew --prefix coreutils)/libexec/gnuman:$MANPATH"
 fi
 
 
