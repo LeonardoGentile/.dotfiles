@@ -303,7 +303,12 @@ if tput setaf 1 &> /dev/null; then
     export LESS_TERMCAP_ZW=$(tty -s && tput rsupm)
 fi
 
+# For vi use of pagination in manpages
+# export MANPAGER="col -b | vim -c 'set ft=man ts=8 nomod nolist nonu' -c 'nnoremap i <nop>' -c 'nnoremap <Space> <C-f>' -"
 
+# using less for manpages.
+# This will highlight the search result one for at time
+export MANPAGER="less -isg"
 
 # BASH HISTORY
 # ===========================
