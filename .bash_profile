@@ -37,10 +37,10 @@ fi
 # https://github.com/seebi/dircolors-solarized
 
 # Flag to check if we are using coreutils GNU ls or Apple ls
-gnu_ls_installed=false
+coreutils_installed=false
 if [[  -d  $(brew --prefix coreutils)/libexec/gnubin  ]]; then
     PATH="$(brew --prefix coreutils)/libexec/gnubin:$PATH"
-    gnu_ls_installed=true
+    coreutils_installed=true
 fi
 
 
@@ -87,9 +87,10 @@ export PATH
 # Still use the osx manpages (because for example ls is different in osx and I need it)
 # export MANPATH
 
-# use the standard APPLE ls
-if $gnu_ls_installed; then
+# use the standard APPLE ls and chmod
+if $coreutils_installed; then
    alias ls=/bin/ls
+   alias chmod=/bin/chmod
 fi
 
 # Detect which `ls` flavor is in use
