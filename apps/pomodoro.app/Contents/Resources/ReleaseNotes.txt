@@ -1,0 +1,95 @@
+-------------
+Release Notes
+-------------
+
+0.31
+
+- Fixed a bug in interrupt/resume (http://github.com/ugol/pomodoro/issues/#issue/39)
+- Growl End can now be sticky (http://github.com/ugol/pomodoro/issues/#issue/37)
+- Growl Break end can now be sticky
+
+0.30
+
+- Everaldo nicely contributed with new gorgeous icons (http://www.everaldo.com/)
+- Growl Start can now be sticky
+- Preferences are now accessible during pomodoros too (experimental, don't abuse)
+- Fixed a small bug in which "Speech at end" was immune to "Mute All sounds"
+- Upgraded to Growl 1.2.1 SDK final
+- Updated to latest BGHUDAppkit
+- Fixed a missing certificate error (that's why you'll get an "Update is improperly signed" with this release)
+
+
+0.28
+
+- Added shortcut preference panel for user defined global keyboard shortcuts
+- Added "Mute all sounds" option to disable all sounds with a single click
+- Fixed potential leaks
+- Updated to growl 1.2b1 SDK for maximum snow leopard compatibility
+- Updated to latest BGHUDAppkit
+- Migration to Xcode 3.2 template completed
+- Optimized sounds memory resources 
+- Pomodoro.app is now much lighter.
+
+0.27
+
+- final icon for pomodoro app
+- fixed an html visualization issue in about dialog
+- fixed a bug in which if "can restart during break" was enabled pomodoro didn't change the icon to break 
+
+0.26
+
+- added Twitter integration using the great Matt Gemmell MGTwitterEngine
+- fixed a preferences user defaults synchronization issue
+
+0.25
+
+- every notify (including applescript) has now access to common variables: $pomodoroName and $duration
+- you can now load applescripts (*.pomo) from filesystem
+- changed default global shortcuts to CTRL+ALT+Apple plus arrows because of textmate default keybindings
+- added two new options: ticking sound during break (enabled by default) and can restart during breaks (disabled by default)
+- about box is now in html and includes various links
+- testing new new small icons
+- changed some interface stuff to better match apple standards
+
+0.24
+
+- added Volume Control: now you can separately control speech, ring and ticking volumes
+- added updates advanced setup 
+- minor fixes/optimizations
+
+0.23 
+
+- Added Applescript tab 
+- Added editable combobox 
+- fixed bug: in some cases panels were not synced with defaults store
+- added "Reset back to defaults" button
+
+0.22
+
+- Added autoupdate 
+- Added pomodoro name panel (user can enable/disable)
+- Added pomodoro automatic restart
+- Added animated icons
+
+0.21
+
+- Added ticking sound (user can enable/disable)
+- Added Global keyboard shortcuts
+
+0.20
+
+- Added SQLite based backlog.
+
+0.19
+
+- fixed a build stripping symbols configuration, now compiles correctly as Universal binary
+
+0.18
+
+- First public release
+- Added automatic breaks
+- Added $time and $passed placehoders
+
+----
+TODO
+----

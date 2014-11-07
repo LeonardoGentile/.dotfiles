@@ -98,6 +98,10 @@ caskInstall --appdir="/Applications/Tools"  clamxav
 caskInstall --appdir="/Applications/Tools"  ibackup
 caskInstall --appdir="/Applications/Tools"  synergy # share mouse between multiple computers
 
+caskInstall --appdir="/Applications/Tools"  unetbootin
+caskInstall --appdir="/Applications/Tools"  detune
+caskInstall --appdir="/Applications/Tools"  izip
+caskInstall --appdir="/Applications/Tools"  tinkertool
 
 caskInstall --appdir="/Applications/Audio\&Video" vlc
 caskInstall --appdir="/Applications/Audio\&Video" spotify
@@ -137,9 +141,5 @@ brew tap caskroom/fonts
 # If you want to automate this you can use:
 # $ rm -rf $(brew --cache)
 # rm -rf $(brew --cache)
-
-
-# EXTRA APPS
-# https://www.docker.com/
 
 brew cask cleanup

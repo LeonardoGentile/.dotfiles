@@ -76,5 +76,15 @@ echo "Installing bin dir."
 ln -s $dir/bin ~/
 # cp -r
 
+echo "Moving spotifyLauncher to /Applications/Audio&Video"
+mkdir -p /Applications/Audio\&Video;
+cp -r ~/apps/SpotifyLauncher.app/ /Applications/Audio\&Video/
+
+# See here if it won't work https://github.com/ugol/pomodoro
+echo "Moving pmodoro to /Applications/Tools"
+mkdir -p /Applications/Tools;
+cp -r ~/apps/pomodoro.app /Applications/Tools/
+
+
 # http://blog.smalleycreative.com/tutorials/using-git-and-github-to-manage-your-dotfiles/
 # http://lostincode.net/posts/homebrew
