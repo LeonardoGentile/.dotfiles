@@ -29,6 +29,10 @@ echo "Creating $olddir for backup of any existing dotfiles in ~"
 mkdir -p $olddir
 echo "...done"
 
+
+################################
+# NOT VERSIONED STUFF
+
 # Moving .bashmarks_dirs file
 # Not in the repository, I overwrite this using my private  .dotfiles
 echo "Moving ~/.bashmarks_dirs from ~ to $olddir"
@@ -54,6 +58,11 @@ echo "Creating empty .bash_extra file in home directory."
 # Don't forget to configure the bash_extra
 cp $dir/.git_extra ~/.git_extra
 
+
+# END NOT VERSIONED STUFF
+################################
+
+
 # change to the dotfiles directory
 echo "Changing to the $dir directory"
 cd $dir
@@ -70,7 +79,7 @@ done
 # Copying bin dir
 echo "Moving $bin to $oldbin"
 mkdir -p $oldbin;
-cp -r ~/bin $oldbin
+cp -r $bin $oldbin
 rm -r $bin
 echo "Installing bin dir."
 ln -s $dir/bin ~/
