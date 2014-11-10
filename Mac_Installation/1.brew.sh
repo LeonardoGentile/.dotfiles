@@ -27,7 +27,7 @@ brew install findutils
 brew install bash
 
 # Install wget with IRI support
-brew install wget --enable-iri
+brew install wget --with-iri
 
 # Install more recent versions of some OS X tools
 # brew tap homebrew/dupes

@@ -14,9 +14,9 @@ export ARCHFLAGS="-arch x86_64"
 #
 #   BEWARE: Avoid (3) cause it overrides the default PATH set in /etc/paths and it is deprecated
 
-# For loading HOMEBREW binaries first change the /etc/paths file
+# For loading HOMEBREW binaries first you might change the /etc/paths file
 # putting /usr/local/bin at the beginning of the file instead of the end
-# Even if we do it here it will be 'too late'
+# Even if we do it here sometimes could be 'too late'
 
 PATH="/usr/local/bin:/usr/local/sbin:$PATH"
 
@@ -48,6 +48,9 @@ if [[ -d $(brew --prefix coreutils)/libexec/gnuman ]]; then
     MANPATH="$(brew --prefix coreutils)/libexec/gnuman:$MANPATH"
 fi
 
+# I Still use the osx manpages (because for example ls is different in osx and I need the osx version)
+# If I uncomment this export then the manpages comes from gnu coreutils
+# export MANPATH
 
 # Local bin in my home (scripts various stuff)
 PATH="$PATH:~/bin"
@@ -57,7 +60,7 @@ if [[ -d /usr/local/heroku/bin ]]; then
     PATH="$PATH:/usr/local/heroku/bin"
 fi
 
-# MySql bin (installed with dmg or installer, not homebrew)
+# In case of MySql bin (installed with dmg or installer, not homebrew)
 # Homebrew mysql version will have the precedence (if installed)
 if [ -d /usr/local/opt/mysql/lib ]; then
     PATH="${PATH}:/usr/local/opt/mysql/bin"
@@ -71,37 +74,28 @@ if [[ -d /Applications/SenchaSDKTools ]]; then
     export SENCHA_SDK_TOOLS_2_0_0_BETA3="/Applications/SenchaSDKTools"
 fi
 
-
-# gcc and other dev stuff
-# PATH="${PATH}:/Developer/usr/bin"
+# gcc and other (old) dev stuff
 # PATH="${PATH}:/Developer/usr/bin"
 
-# PATH for Python 2.7
+# PATHS for Python 2.7 (not installed with homebrew)
 # PATH="${PATH}:/Library/Frameworks/Python.framework/Versions/2.7/bin"
-#
 # PATH="${PATH}:/usr/local/share/python"
-# No needed with python installed from brew
 
 export PATH
 
-# Still use the osx manpages (because for example ls is different in osx and I need it)
-# export MANPATH
 
-# use the standard APPLE ls and chmod
+# use the standard APPLE ls and chmod (because coreutils version can't handle attributes and ACL)
 if $coreutils_installed; then
    alias ls=/bin/ls
    alias chmod=/bin/chmod
 fi
 
 # Detect which `ls` flavor is in use
-
-# GNU `ls`
-if ls --color > /dev/null 2>&1; then
+if ls --color > /dev/null 2>&1; then    # GNU `ls`
     alias ls='$(brew --prefix coreutils)/libexec/gnubin/ls --color=always'
-    # load my color scheme (it only works with GNU ls)
-    # dircolors only work with coreutils
+    # load my color scheme (dircolors only work with coreutils 'ls')
     eval `dircolors  ~/.dotfiles/data/dircolors`
-else # OS X `ls`
+else    # OS X `ls`
     alias ls='/bin/ls -G'
 fi
 
@@ -112,11 +106,14 @@ fi
 # Check the workon_cwd function in bash_prompt or the .virtualenv/postactivate file
 # to customize the shell prompt after the virtualenv activation
 export WORKON_HOME="$HOME/.virtualenvs"
+# for python installed from DMG or installer
 if [[ -f /Library/Frameworks/Python.framework/Versions/2.7/bin/virtualenvwrapper.sh ]]; then
     source /Library/Frameworks/Python.framework/Versions/2.7/bin/virtualenvwrapper.sh
+# for python installed with homebrew
 elif [ -f $(brew --prefix)/bin/virtualenvwrapper.sh ]; then
     source $(brew --prefix)/bin/virtualenvwrapper.sh
 fi
+
 
 
 # BASH_ALIASES
@@ -124,23 +121,28 @@ fi
 source ~/.dotfiles/.bash_aliases
 
 
+
 # BASH FUNCTIONS
 # =============================================
 source ~/.dotfiles/.bash_functions
 
 
+
 # EXTRA (settings I don't want to commit)
 # =============================================
 # ~/.bash_extra used for settings I don't want to commit.
-# It will be copied in home and the modification there won't be committed
+# It will be copied in home and the modifications there won't be committed
 bash_extra=~/.bash_extra
 [ -r "$bash_extra" ] && [ -f "$bash_extra" ] && source "$bash_extra"
+
 
 
 # BASHMARKS
 # =============================================
 # http://bilalh.github.com/2012/01/14/enchanted-bashmarks-terminal-directory-bookmarks/
+# https://github.com/LeonardoGentile/bashmarks
 source ~/.dotfiles/bashmarks/bashmarks.sh
+
 
 
 # RUPA Z
@@ -151,17 +153,16 @@ if command -v brew >/dev/null 2>&1; then
 fi
 
 
+
 # PYTHON STARTUP
 # =============================================
-# Completion for python command line (commented out right now)
-# Custom hystory file
+# Completion for python command line and Custom hystory file
 export PYTHONSTARTUP=~/.dotfiles/.pystartup.py
 
 
 
 # BASH PROMPT (powerline shell)
 # =============================================
-
 function _update_ps1() {
    export PS1="$(~/.dotfiles/powerline-shell/powerline-shell.py $? --cwd-max-depth 3 --colorize-hostname  2> /dev/null)"
 }
@@ -175,7 +176,7 @@ export PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
 # PS1="your default prompt"
 # fi
 
-# source utils/bash-powerline.sh
+
 
 
 # =============================================
@@ -234,6 +235,7 @@ complete -o "nospace" -W "Contacts Calendar Dock Finder Mail Safari iTunes Syste
 # CYCLIC TAB-COMPLETION
 # ===========================
 # bind '"\t":menu-complete'
+
 
 
 # =============================================
@@ -308,8 +310,10 @@ fi
 # export MANPAGER="col -b | vim -c 'set ft=man ts=8 nomod nolist nonu' -c 'nnoremap i <nop>' -c 'nnoremap <Space> <C-f>' -"
 
 # using less for manpages.
-# This will highlight the search result one for at time
+# This will highlight the search result one at time
 export MANPAGER="less -isg"
+
+
 
 # BASH HISTORY
 # ===========================
@@ -341,15 +345,13 @@ export LC_ALL="en_US.UTF-8"
 
 # FIX MySQLdb ERROR
 # ===========================
-# Fix problem when importing
-# mysql-python (MySQLdb)
+# Fix problem when importing mysql-python (MySQLdb)
 # http://stackoverflow.com/questions/4559699/python-mysqldb-and-library-not-loaded-libmysqlclient-16-dylib
 if [ -d /usr/local/opt/mysql/lib ]; then
     export DYLD_LIBRARY_PATH=/usr/local/opt/mysql/lib:$DYLD_LIBRARY_PATH
 elif [ -d /usr/local/mysql/lib ]; then
     export DYLD_LIBRARY_PATH=/usr/local/mysql/lib:$DYLD_LIBRARY_PATH
 fi
-
 
 
 
