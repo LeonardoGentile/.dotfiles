@@ -77,7 +77,7 @@ launchctl load -w ~/Library/LaunchAgents/homebrew.mxcl.mysql.plist
 mysql_secure_installation
 sudo cp $(brew --prefix mysql)/support-files/my-default.cnf /etc/my.cnf
 
-# gobally
+# globally
 pip install mysql-python
 
 # config file

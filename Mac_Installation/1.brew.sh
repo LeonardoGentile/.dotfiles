@@ -27,7 +27,7 @@ brew install findutils
 brew install bash
 
 # Install wget with IRI support
-brew install wget --enable-iri
+brew install wget --with-iri
 
 # Install more recent versions of some OS X tools
 # brew tap homebrew/dupes
@@ -58,6 +58,7 @@ brew install install imagemagick --with-webp
 brew install lynx
 brew install nmap
 brew install p7zip
+brew install lzip # for lz compressed files, es: lzip -d compressedFile.tar.lz
 brew install redis
 brew install mongodb # edit /usr/local/etc/mongod.conf for settings. Start it with launchrocket
 brew install testdisk

@@ -74,6 +74,8 @@ caskInstall --appdir="/Applications/Coding" shuttle
 caskInstall --appdir="/Applications/Coding" mysqlworkbench
 caskInstall --appdir="/Applications/Coding" gitx-rowanj
 caskInstall --appdir="/Applications/Coding" mongohub
+caskInstall --appdir="/Applications/Coding" arduino
+caskInstall --appdir="/Applications/Coding" processing
 caskInstall --appdir="/Applications/Coding" brackets
 
 caskInstall --appdir="/Applications/Office" evernote
@@ -90,6 +92,12 @@ caskInstall --appdir="/Applications/Tools"  rightzoom
 caskInstall --appdir="/Applications/Tools"  ukelele
 caskInstall --appdir="/Applications/Tools"  smcfancontrol
 caskInstall --appdir="/Applications/Tools"  bettertouchtool
+caskInstall --appdir="/Applications/Tools"  burn
+# Antivirus
+caskInstall --appdir="/Applications/Tools"  clamxav
+caskInstall --appdir="/Applications/Tools"  ibackup
+caskInstall --appdir="/Applications/Tools"  synergy # share mouse between multiple computers
+
 caskInstall --appdir="/Applications/Tools"  unetbootin
 caskInstall --appdir="/Applications/Tools"  detune
 caskInstall --appdir="/Applications/Tools"  izip
@@ -98,6 +106,7 @@ caskInstall --appdir="/Applications/Tools"  tinkertool
 caskInstall --appdir="/Applications/Audio\&Video" vlc
 caskInstall --appdir="/Applications/Audio\&Video" spotify
 caskInstall --appdir="/Applications/Audio\&Video" spotifree
+caskInstall --appdir="/Applications/Audio\&Video" miro-video-converter
 
 caskInstall --appdir="/Applications/Photo\&Graphics" adobe-photoshop-lightroom
 
