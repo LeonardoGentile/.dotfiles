@@ -214,6 +214,12 @@ if [ -f ~/.dotfiles/completions/bash_django_completion ]; then
     source ~/.dotfiles/completions/bash_django_completion
 fi
 
+# FAB COMPLETION
+# ===========================
+if [ -f ~/.dotfiles/completions/bash_fab_completion ]; then
+    source ~/.dotfiles/completions/bash_fab_completion
+fi
+
 
 # SSH HOSTNAMES COMPLETION
 # ===========================
