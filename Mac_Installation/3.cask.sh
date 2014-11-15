@@ -76,7 +76,7 @@ caskInstall --appdir="/Applications/Coding" gitx-rowanj
 caskInstall --appdir="/Applications/Coding" mongohub
 caskInstall --appdir="/Applications/Coding" arduino
 caskInstall --appdir="/Applications/Coding" processing
-
+caskInstall --appdir="/Applications/Coding" brackets
 
 caskInstall --appdir="/Applications/Office" evernote
 caskInstall --appdir="/Applications/Office" skitch
