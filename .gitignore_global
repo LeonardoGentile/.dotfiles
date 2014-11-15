@@ -18,6 +18,3 @@ Thumbs.db
 #
 *.sublime-project
 *.sublime-workspace
-
-# TermRc file: see https://github.com/briangonzalez/termrc
-Termfile
