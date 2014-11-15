@@ -63,10 +63,10 @@ myip ()
 
 
 # Start an HTTP server from a directory, optionally specifying the port
+# NOTE: don't forget to install Chrome duplicate tab detector: https://github.com/LeonardoGentile/chrome-duplicate-tab-detector
 function server() {
     local port="${1:-9000}"
     local browser="${2:-canary}"
-    echo $browser
 
     if [[ "$browser" == 'canary'  ]]
         then
@@ -75,14 +75,13 @@ function server() {
             open "http://localhost:${port}/"
     fi
 
-    # open "http://localhost:${port}/"
     # Set the default Content-Type to `text/plain` instead of `application/octet-stream`
     # And serve everything as UTF-8 (although not technically correct, this doesn’t break anything for binary files)
     python -c $'import SimpleHTTPServer;\nmap = SimpleHTTPServer.SimpleHTTPRequestHandler.extensions_map;\nmap[""] = "text/plain";\nfor key, value in map.items():\n\tmap[key] = value + ";charset=UTF-8";\nSimpleHTTPServer.test();' "$port"
 }
 
-function open_canary(){
-    local url="${1:-http\:\/\/localhost}"
+function open_canary() {
+    local url="${1:-http\:\/\/localhost\:8000/}"
     if [[ -d "/Applications/Web/Google Chrome Canary.app" ]]; then
          /usr/bin/open -a "/Applications/Web/Google Chrome Canary.app" "${url}"
 
@@ -92,18 +91,6 @@ function open_canary(){
      fi
 }
 
-
-
-function canary_localhost() {
-    local port="${1:-8000}"
-    if [ -d /Applications/Web/Google\ Chrome\ Canary.app ]; then
-        /usr/bin/open -a "/Applications/Web/Google Chrome Canary.app" "http://localhost:${port}/"
-    else
-        open "http://localhost:${port}/"
-    fi
-
-
-}
 
 # Start an HTTP server (Apache + php) from a directory, optionally specifying an file parameter to listen to
 # In this case when we use a php framework we can specify the "entry point" with no need of using .htacces and more_rewrite
