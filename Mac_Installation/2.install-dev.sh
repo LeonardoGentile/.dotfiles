@@ -88,6 +88,15 @@ pip install mysql-python
 # launchctl unload -w ~/Library/LaunchAgents/homebrew.mxcl.mysql.plist
 
 
+# apache mod_wsgi
+# ===========================
+brew tap homebrew/apache
+brew install mod_wsgi
+# If problem in compiling see: https://github.com/Homebrew/homebrew-apache
+# SOLUTION:
+# $ sudo ln -s /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/ /Applications/Xcode.app/Contents/Developer/Toolchains/OSX10.9.xctoolchain
+
+
 # Alcatraz
 # Package manager for Xcode
 # http://alcatraz.io
