@@ -24,17 +24,17 @@ http://iterm2.com/
             - `Regular Font` and select `DejaVu sans mono 12pt for Powerline`
             - `Antialiased` and select `Inconsolata 12pt for Powerline`
 3. Generate github [`ssh` keys](https://help.github.com/articles/generating-ssh-keys):  
-run `ssh-keygen -t rsa -C "your_email@example.com"`    
-enter a passphrase (annotate it!)  
-pbcopy < ~/.ssh/id_rsa.pub  
-go on Github  `profile/account/Edit Profile/SSH Keys/Add SSH Key` and paste the previously copied ssh key. You can follow a similar  process for  Bitbucket  
-`ssh -T git@github.com` to verify that the settings are ok.   
-The first time you will be asked to insert your pass-phrase, do it and then tell keychain to remember it. From now on you won't be asked again for the pass-phrase.   
-In case everything was set up  correctly you should get a message `Hi YourUserName! You've successfully authenticated, but GitHub does not provide shell access.`
+    - run `ssh-keygen -t rsa -C "your_email@example.com"`    
+    - enter a passphrase (annotate it!)  
+    - pbcopy < ~/.ssh/id_rsa.pub  
+    - go on Github  `profile/account/Edit Profile/SSH Keys/Add SSH Key` and paste the previously copied ssh key. You can follow a similar  process for  Bitbucket  
+    - `ssh -T git@github.com` to verify that the settings are ok
+    - The first time you will be asked to insert your pass-phrase, do it and then tell keychain to remember it. From now on you won't be asked again for the pass-phrase.   
+    - In case everything was set up  correctly you should get a message `Hi YourUserName! You've successfully authenticated, but GitHub does not provide shell access.`
 4. Get Xcode from App Store  
- open xcode to agree to the TOS (or it won't install the components)  
- install Command Line Tools: `xcode-select --install`  then click install  
- open Xcode's preferences and install the command line tools package (this will install also git, from apple)  
+    - open xcode to agree to the TOS (or it won't install the components)  
+    -  install Command Line Tools: `xcode-select --install`  then click install  
+    -  open Xcode's preferences and install the command line tools package (this will install also git, from apple)  
 
 
 #Dotfiles installation 
