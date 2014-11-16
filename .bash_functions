@@ -64,8 +64,8 @@ myip ()
 
 # Start an HTTP server from a directory, optionally specifying the port
 # NOTE: don't forget to install Chrome duplicate tab detector: https://github.com/LeonardoGentile/chrome-duplicate-tab-detector
-function server() {
-    local port="${1:-9000}"
+function server_python() {
+    local port="${1:-8000}"
     local browser="${2:-canary}"
 
     if [[ "$browser" == 'canary'  ]]
@@ -80,6 +80,8 @@ function server() {
     python -c $'import SimpleHTTPServer;\nmap = SimpleHTTPServer.SimpleHTTPRequestHandler.extensions_map;\nmap[""] = "text/plain";\nfor key, value in map.items():\n\tmap[key] = value + ";charset=UTF-8";\nSimpleHTTPServer.test();' "$port"
 }
 
+# Open canary at a specific url or at the default http://localhost:8000/
+# If canary is not installed or it is not under "/Applications/Web/Google Chrome Canary.app" it will open the url with the defualt browser
 function open_canary() {
     local url="${1:-http\:\/\/localhost\:8000/}"
     if [[ -d "/Applications/Web/Google Chrome Canary.app" ]]; then
@@ -92,27 +94,34 @@ function open_canary() {
 }
 
 
-# Start an HTTP server (Apache + php) from a directory, optionally specifying an file parameter to listen to
+####################################################################################
+# PHP BUILT IN SERVER (seems more reliable than python server, for unknown reasons)
+####################################################################################
+# NOTE: don't forget to install Chrome duplicate tab detector: https://github.com/LeonardoGentile/chrome-duplicate-tab-detector
+
+# Start an HTTP server (Apache + php) from a directory, optionally specifying an file parameter to listen to (router)
 # In this case when we use a php framework we can specify the "entry point" with no need of using .htacces and more_rewrite
-function phpserver() {
-    # local port="${1:-9002}"
-    local port="9002"
-    local root="${1:-/}"
-    open "http://localhost:${port}/"
-    # Example for opening it with another browser:
-    # open /Applications/Google\ Chrome.app
-
-    # The default first parameter is / meaning that the serve will listen to /
-    # otherwise if specified it will listen to a specific file (useful for any php framework/routing app)
+# Optionally we can specify another root directory:  php -S localhost -t rootdirectory
+function server() {
+    local port="${1:-8000}"
+    # The default first parameter is the port 8000
+    local router="${2}"
+    # The router second param if specified to a specific file will listen to it (useful for any php framework/routing app)
     # Example: phpserver index.php
-    php -S localhost:"$port"  "$root"
+
+    open_canary "http://localhost:${port}/"
+
+    if [[ -z "$router" ]]; then
+        echo "a"
+        php -S localhost:"${port}"
+
+        else
+            echo "b"
+            php -S localhost:"${port}" "${router}"
+    fi
+
 }
 
-
-function localhost() {
-    local port="${1:-80}"
-    open "http://localhost:${port}/"
-}
 
 
 # Copy w/ progress
