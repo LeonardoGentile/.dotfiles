@@ -9,9 +9,9 @@ I'm also planning to create a parametric script to install and setup a dev machi
 Before installing the dotfiles I perform some extra steps to assure to have everything functioning for the following steps  
 
 1. download and install:   
-    - http://www.google.com/chrome/     
-    - https://evernote.com/download/    
-    - http://iterm2.com/    
+http://www.google.com/chrome/     
+https://evernote.com/download/    
+http://iterm2.com/    
 2. `iterm2` settings:   
     - Theme:
         - download and extract [Solarized Dark Theme](http://ethanschoonover.com/solarized)
@@ -23,18 +23,18 @@ Before installing the dotfiles I perform some extra steps to assure to have ever
         - open iterm `Preferences/ Profiles / Text /`
             - `Regular Font` and select `DejaVu sans mono 12pt for Powerline`
             - `Antialiased` and select `Inconsolata 12pt for Powerline`
-3. Generate github [`ssh` keys](https://help.github.com/articles/generating-ssh-keys):
-    - run `ssh-keygen -t rsa -C "your_email@example.com"`  
-    - enter a passphrase (annotate it!)
-    - pbcopy < ~/.ssh/id_rsa.pub
-    - go on Github  `profile / account  / Edit Profile / SSH Keys / Add SSH Key` and paste the previousy copied ssh key.   
-    You can follow a similar  process for  Bitbucket
-    - `ssh -T git@github.com` to verify that the settings are ok.   
-    The first time you will be asked to insert your passphrase, do it and then tell keychain to remember it. From now on you won't be asked again for the passphrase.   
-    In case everything was set up  correctly you should get a message `Hi YourUserName! You've successfully authenticated, but GitHub does not provide shell access.`
-4. Get Xcode from App Store
-    - open xcode to agree to the TOS (or it won't install the components)
-    - pen Xcode's preferences and install the command line tools package (this will install also git, from apple)
+3. Generate github [`ssh` keys](https://help.github.com/articles/generating-ssh-keys):  
+run `ssh-keygen -t rsa -C "your_email@example.com"`    
+enter a passphrase (annotate it!)  
+pbcopy < ~/.ssh/id_rsa.pub  
+go on Github  `profile/account/Edit Profile/SSH Keys/Add SSH Key` and paste the previously copied ssh key. You can follow a similar  process for  Bitbucket  
+`ssh -T git@github.com` to verify that the settings are ok.   
+The first time you will be asked to insert your pass-phrase, do it and then tell keychain to remember it. From now on you won't be asked again for the pass-phrase.   
+In case everything was set up  correctly you should get a message `Hi YourUserName! You've successfully authenticated, but GitHub does not provide shell access.`
+4. Get Xcode from App Store  
+ open xcode to agree to the TOS (or it won't install the components)  
+ install Command Line Tools: `xcode-select --install`  then click install  
+ open Xcode's preferences and install the command line tools package (this will install also git, from apple)  
 
 
 #Dotfiles installation 
@@ -246,6 +246,9 @@ If everything is ok `which python` should prompt `/usr/local/bin/python` NOT `/b
 
 ### MYSQL
     brew install mysql
+    # Or if you prefer mariadb 
+    # brew install mariadb 
+    # then also follow the instruction for setting up php.ini (under __apache__ section)
     unset TMPDIR
     mysql_install_db --verbose --user=`whoami` --basedir="$(brew --prefix mysql)" --datadir=/usr/local/var/mysql --tmpdir=/tmp
 For setup:
@@ -257,6 +260,72 @@ For setup:
 For python (globally)
     
         pip install mysql-python
+
+###Apache, mod_php and mod_wsgi 
+`mod_php` is already installed (but not activated) while we need to install `mod_wsgi` from brew.
+
+#### mod_php
+`cd /etc/apache2`  
+`sudo vi httpd.conf`  
+uncomment `# LoadModule php5_module libexec/apache2/libphp5.so`    
+next find the `<IfModule dir_module>`, should be around the line 231 and substitute this block
+    
+    <IfModule dir_module>
+        DirectoryIndex index.html
+    </IfModule>
+with
+    
+    <IfModule dir_module>
+        DirectoryIndex index.html index.php
+    </IfModule>
+this tells apache to process `index.html` OR `index.php` if a directory is requested.  
+Setup your `php.ini`
+
+####php.ini
+`cd /etc/`  
+`sudo cp php.ini.default php.ini`  
+
+In case you installed and want to use _mariadb_ instead of _mysql_ then:
+`sudo chmod +w php.ini`  
+`sudo vi php.ini`    
+> In php.ini, change the MySQL Unix socket (MariaDB installed by Homebrew use /tmp/mysql.sock by default). If php.ini copied from php.ini.default is not writable, make it writable then replace every occurence of /var/mysql/mysql.sock with /tmp/mysql.sock (it should be at two places)  
+> <cite>[Credits](http://blog.manbolo.com/2013/05/02/build-and-deploy-a-django-project-on-osx-from-scratch#4)</cite>
+
+Search for `;date.timezone = Europe/London` and uncomment it by removing the semicolon and add your timezone, for example: `date.timezone = Europe/London`. Then test apache and restart it:
+
+`apachectl configtest`  
+`sudo apachectl graceful`
+
+#####Php built-in web server:
+Php has a built-in development server, if you just want a basic local web server you can `cd mywebsite` and launch `php -S localhost:8000`
+and access it at the address `http://localhost:8000`.   
+Furthermore if you are using a php web framework, for example Silex, you can specify your application entry point (routing): `php -S localhost:8000 index.php`.   
+In my `.bash_functions` there is a function called `server`, when I need a server on a directory, I just cd into it and launch `server` it will also open Chrome Canary (if installed) at the specified address or the default browser if Canary was not found.
+
+
+
+
+#### mod_wsgi
+    brew tap homebrew/apache
+    brew install mod_wsgi
+If problem in compiling see: https://github.com/Homebrew/homebrew-apache  
+In short:
+    
+    $ sudo ln -s /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/ /Applications/Xcode.app/Contents/Developer/Toolchains/OSX10.9.xctoolchain
+ edit `/etc/apache2/http.conf ` and add this:  
+ `LoadModule wsgi_module /usr/local/Cellar/mod_wsgi/3.4/libexec/mod_wsgi.so` or the correct version you have in Cellar  
+ Then test everything is ok:  
+    apachectl configtest   
+    sudo apachectl restart  
+
+####mod_rewrite
+Be also sure to uncomment `LoadModule rewrite_module libexec/apache2/mod_rewrite.so` in your `httpd.conf` file.   
+Normally by default this line should be already uncommented but better to double check.  
+`mod_rewrite` is what let you create websites with pretty URLs as for example applications like WordPress do.  
+Open `/etc/apache2/httpd.conf` and look for all occurrences of  `AllowOverride None` and change them with `AllowOverride All` in the relevant places you want to make pretty urls. Then again:
+    
+    apachectl configtest   
+    sudo apachectl restart  
 
 ### alcatraz
 [alcatraz](http://alcatraz.io) packet manager for xcode. I don't have enough experience with this, I need to play with it a little bit more
