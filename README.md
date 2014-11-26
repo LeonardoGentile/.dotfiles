@@ -143,7 +143,7 @@ The `Install.sh` script from the step 1 doesn't symlink everything, in fact it w
 - `.bash_extra`
 - `.git_extra`
 
-I do so because these are files that I do NOT want to versionate. The `Install.sh` (step 1) copies them in home and if I edit them in `home` nothing will happens to the `.dotfiles` repo.  Usually I overwrite these files with the ones coming from `.dotfiles-private` (`Install.sh` from step 2)
+I do so because these are files that I do NOT want to track. The `Install.sh` (step 1) copies them in home and if I edit them in `home` nothing will happens to the `.dotfiles` repo.  Usually I overwrite these files with the ones coming from `.dotfiles-private` (`Install.sh` from step 2)
 
 ## Mac OS X Installation 
 
@@ -314,7 +314,8 @@ In short:
     $ sudo ln -s /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/ /Applications/Xcode.app/Contents/Developer/Toolchains/OSX10.9.xctoolchain
  edit `/etc/apache2/http.conf ` and add this:  
  `LoadModule wsgi_module /usr/local/Cellar/mod_wsgi/3.4/libexec/mod_wsgi.so` or the correct version you have in Cellar  
- Then test everything is ok:  
+ Then test everything is ok:
+ 
     apachectl configtest   
     sudo apachectl restart  
 
