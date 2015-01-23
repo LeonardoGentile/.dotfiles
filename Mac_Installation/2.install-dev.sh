@@ -118,6 +118,12 @@ curl -fsSL https://raw.github.com/supermarin/Alcatraz/master/Scripts/install.sh 
 # ===========================
 npm install -g grunt-cli
 
+
+# Gulp
+# ===========================
+npm install --global gulp
+
+
 # BOWER
 # ===========================
 npm install -g bower
