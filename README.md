@@ -193,7 +193,13 @@ __rbenv gemset__, for sandboxed collection of gems, for example for a specific p
 __specific_install__ to install gem from github (or anywhere else)
     
     gem install specific_install  # USAGE: gem specific_install -l <url to a github gem>
-    
+
+__Gemfile__
+
+    gem install bundler
+    rbenv rehash
+    bundle install
+This will create a `Gemfile.lock` file
 
 ### compass
 
