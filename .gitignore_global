@@ -21,3 +21,6 @@ Thumbs.db
 
 # Node and related stuff
 node_modules
+
+# editor config
+.editorconfig

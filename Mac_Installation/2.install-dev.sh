@@ -146,6 +146,12 @@ npm install -g yo
 # TODO: I think i'd rather curl down the nave.sh, symlink it into /bin and use that for initial node install.
 npm install -g nave
 
+# NODEMON
+# ===========================
+# watch for file changes and restart our server when changes are detected.
+# Use: nodemon server.js instead of node server.js
+npm install -g nodemon
+
 
 # https://github.com/rupa/z
 # z, oh how i love you
