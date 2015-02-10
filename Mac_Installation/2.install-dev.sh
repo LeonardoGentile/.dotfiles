@@ -128,6 +128,15 @@ npm install --global gulp
 # ===========================
 npm install -g bower
 
+# Node-Inspector (debugger)
+# ===========================
+# For Coffe: coffee -c -m myscript.coffee, then node-debug myscript.js
+npm install -g node-inspector
+
+# Coffescript (compiler and live console for coffescript)
+# ===========================
+npm install -g coffee-script
+
 
 # OAUTH.IO Daemon
 # ===========================
@@ -151,6 +160,25 @@ npm install -g nave
 # watch for file changes and restart our server when changes are detected.
 # Use: nodemon server.js instead of node server.js
 npm install -g nodemon
+
+# MOONSCRIPT
+# ===========================
+# moonscript, compiler from moonscript to lua language
+# Usage: moonc -w -t destination_directory source_directory
+# This will watch an entire directory (along with it’s children) for modified moon files, compiling them to lua and saving them in destination_directory
+# Warning:
+#   1) New files aren’t picked up, you have to restart moonc
+#   2) moonc doesn’t compile everything on start up. Use moonc without the -w flag to excplicity compile everything
+luarocks install moonscript
+# FIX BUG: then cd /usr/local/lib/luarocks/rocks/moonscript/version/bin and change line 168 from: require "socket" to: local socket = require "socket"  (line 168)
+# See: https://github.com/leafo/moonscript/commit/a6e66737ddf5478f4010f857dfe922106e346cf5
+#
+#  OR
+# for better moon-watch: https://github.com/yi/moon-watch
+luarocks install moonrocks
+brew install fsw
+moonrocks install moon-watch
+# USAGE: moon-watch path/to/moonscript [path/to/output/lua]
 
 
 # https://github.com/rupa/z
