@@ -29,7 +29,7 @@ export HOMEBREW_CASK_OPTS="--appdir=/Applications"
 # -p means if directory doen't exists
 
 mkdir -p /Applications/web
-mkdir -p /Applications/Coding
+mkdir -p /Applications/Coding/Db
 mkdir -p /Applications/Tools
 mkdir -p /Applications/Office
 mkdir -p /Applications/Audio\&Video
@@ -48,11 +48,11 @@ brew cask alfred link
 # path-finder
 caskInstall path-finder
 
-caskInstall --appdir="/Applications/Web" 	dropbox
-caskInstall --appdir="/Applications/Web" 	google-chrome
-caskInstall --appdir="/Applications/Web" 	google-chrome-canary
-caskInstall --appdir="/Applications/Web" 	cyberduck
-caskInstall --appdir="/Applications/Web" 	skype
+caskInstall --appdir="/Applications/Web"    dropbox
+caskInstall --appdir="/Applications/Web"    google-chrome
+caskInstall --appdir="/Applications/Web"    google-chrome-canary
+caskInstall --appdir="/Applications/Web"    cyberduck
+caskInstall --appdir="/Applications/Web"    skype
 caskInstall --appdir="/Applications/Web"    transmission
 caskInstall --appdir="/Applications/Web"    transmit
 
@@ -65,15 +65,16 @@ caskInstall --appdir="/Applications/Coding" sublime-text
 caskInstall --appdir="/Applications/Coding" atom
 caskInstall --appdir="/Applications/Coding" pycharm
 caskInstall --appdir="/Applications/Coding" dash
-caskInstall --appdir="/Applications/Coding" sequel-pro
+caskInstall --appdir="/Applications/Coding/Db" sequel-pro
 caskInstall --appdir="/Applications/Coding" imageoptim
 caskInstall --appdir="/Applications/Coding" imagealpha
 caskInstall --appdir="/Applications/Coding" diffmerge
 caskInstall --appdir="/Applications/Coding" tower
 caskInstall --appdir="/Applications/Coding" shuttle
-caskInstall --appdir="/Applications/Coding" mysqlworkbench
+caskInstall --appdir="/Applications/Coding/Db" mysqlworkbench
 caskInstall --appdir="/Applications/Coding" gitx-rowanj
-caskInstall --appdir="/Applications/Coding" mongohub
+caskInstall --appdir="/Applications/Coding/Db" mongohub
+caskInstall --appdir="/Applications/Coding/Db" robomongo
 caskInstall --appdir="/Applications/Coding" arduino
 caskInstall --appdir="/Applications/Coding" processing
 caskInstall --appdir="/Applications/Coding" brackets
@@ -81,10 +82,10 @@ caskInstall --appdir="/Applications/Coding" brackets
 caskInstall --appdir="/Applications/Office" evernote
 caskInstall --appdir="/Applications/Office" skitch
 
-# caskInstall --appdir="/Applications/Tools" 	keyremap4macbook
-caskInstall --appdir="/Applications/Tools" 	karabiner
-caskInstall --appdir="/Applications/Tools" 	the-unarchiver
-caskInstall --appdir="/Applications/Tools" 	slate
+# caskInstall --appdir="/Applications/Tools"    keyremap4macbook
+caskInstall --appdir="/Applications/Tools"  karabiner
+caskInstall --appdir="/Applications/Tools"  the-unarchiver
+caskInstall --appdir="/Applications/Tools"  slate
 caskInstall --appdir="/Applications/Tools"  colorpicker-skalacolor
 caskInstall --appdir="/Applications/Tools"  cakebrew --force
 caskInstall --appdir="/Applications/Tools"  appcleaner
@@ -110,7 +111,7 @@ caskInstall --appdir="/Applications/Audio\&Video" miro-video-converter
 
 caskInstall --appdir="/Applications/Photo\&Graphics" adobe-photoshop-lightroom
 
-caskInstall --appdir="/Applications/Utilities" 	xquartz
+caskInstall --appdir="/Applications/Utilities"  xquartz
 
 # https://github.com/sindresorhus/quick-look-plugins
 brew cask install qlcolorcode qlstephen qlmarkdown quicklook-json qlprettypatch quicklook-csv betterzipql webp-quicklook suspicious-package
