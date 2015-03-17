@@ -79,3 +79,7 @@
 # Requires git => 1.7
 [include]
     path = ~/.git_extra
+[filter "hawser"]
+	clean = git hawser clean %f
+	smudge = git hawser smudge %f
+	required = true

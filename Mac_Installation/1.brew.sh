@@ -79,6 +79,9 @@ brew install luarocks       # package manager for lua
 # brew install zopfli
 # brew install homebrew/versions/lua52
 
+# for syncing the setting and pref of installed apps
+brew install mackup
+
 # Remove outdated versions from the cellar
 brew cleanup
 

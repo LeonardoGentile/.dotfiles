@@ -24,3 +24,7 @@ node_modules
 
 # editor config
 .editorconfig
+
+# bower stuff
+.bower-cache
+.bower-tmp
