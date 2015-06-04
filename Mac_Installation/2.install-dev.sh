@@ -113,6 +113,14 @@ curl -fsSL https://raw.github.com/supermarin/Alcatraz/master/Scripts/install.sh 
 # ===========================
 # After Alcatraz look for eero
 
+# Linters
+# ===========================
+npm install -g jscs
+npm install -g coffee-script
+npm install -g jshint
+npm install -g csslint
+npm install -g htmlhint
+gem install scss_lint
 
 # Grunt
 # ===========================

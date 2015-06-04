@@ -66,6 +66,7 @@ brew install heroku-toolbelt
 brew install rabbitmq       # Default Celery broker
 brew install archey         # info for our mac
 brew install graphviz       # For graphviz
+brew install lua       # package manager for lua
 brew install luarocks       # package manager for lua
 
 # To check:
