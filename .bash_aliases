@@ -215,6 +215,14 @@ alias ds=g
 alias xs=g
 
 
+# ========================================
+# Node and Npm
+# ========================================
+# To get rid of the errors when using "npm list --depth=n" prior to npm 2
+alias npmls0="npm ls --depth=0 "$@" 2>/dev/null"
+alias npmls="npm ls "$@" 2>/dev/null"
+
+
 if [ $ZSH_VERSION ]; then
     compctl -K _compzsh ds
     compctl -K _compzsh xs
