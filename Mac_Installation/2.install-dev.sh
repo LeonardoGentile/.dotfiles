@@ -146,9 +146,20 @@ npm install -g node-inspector
 npm install -g coffee-script
 
 
+# Forever
+# ===========================
+npm install -g forever
+
 # OAUTH.IO Daemon
 # ===========================
-npm install -g forever oauthd
+npm install -g oauthd
+
+# npm-check-updates
+# ===========================
+# USAGE:
+# npm-check-updates # to check if your dependencies have updates
+# npm-check-updates -u # to update your package.json versions
+ npm install -g npm-check-updates
 
 # YEOMAN (maybe sudo)
 # ===========================
