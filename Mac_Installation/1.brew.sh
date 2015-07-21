@@ -50,6 +50,7 @@ brew install node
 
 # Install everything else
 brew install ack
+brew install nmap
 brew install rename
 brew install tree
 brew install markdown
