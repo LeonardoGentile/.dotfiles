@@ -78,6 +78,7 @@ caskInstall --appdir="/Applications/Coding/Db" robomongo
 caskInstall --appdir="/Applications/Coding" arduino
 caskInstall --appdir="/Applications/Coding" processing
 caskInstall --appdir="/Applications/Coding" brackets
+caskInstall --appdir="/Applications/Coding" macdown
 
 caskInstall --appdir="/Applications/Office" evernote
 caskInstall --appdir="/Applications/Office" skitch
