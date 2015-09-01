@@ -90,10 +90,10 @@ caskInstall --appdir="/Applications/Tools"  colorpicker-skalacolor
 caskInstall --appdir="/Applications/Tools"  cakebrew --force
 caskInstall --appdir="/Applications/Tools"  appcleaner
 caskInstall --appdir="/Applications/Tools"  rightzoom
-caskInstall --appdir="/Applications/Tools"  ukelele
 caskInstall --appdir="/Applications/Tools"  smcfancontrol
 caskInstall --appdir="/Applications/Tools"  bettertouchtool
 caskInstall --appdir="/Applications/Tools"  burn
+caskInstall --appdir="/Applications/Tools"  macpass
 # Antivirus
 caskInstall --appdir="/Applications/Tools"  clamxav
 caskInstall --appdir="/Applications/Tools"  ibackup
