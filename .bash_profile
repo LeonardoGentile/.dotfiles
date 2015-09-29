@@ -28,6 +28,12 @@ if [ -d $RBENV_ROOT ]; then
     eval "$(rbenv init -)"
 fi
 
+
+# Cached vars
+coreutils=$(brew --prefix coreutils)
+pfx=$(brew --prefix)
+
+
 # COREUTILS (GNU)
 # ===========================
 # I use the GNU ls (gls) included in COREUTILS (downloaded with BREW)
@@ -38,14 +44,14 @@ fi
 
 # Flag to check if we are using coreutils GNU ls or Apple ls
 coreutils_installed=false
-if [[  -d  $(brew --prefix coreutils)/libexec/gnubin  ]]; then
-    PATH="$(brew --prefix coreutils)/libexec/gnubin:$PATH"
+if [[  -d  $coreutils/libexec/gnubin  ]]; then
+    PATH="$coreutils/libexec/gnubin/:$PATH"
     coreutils_installed=true
 fi
 
 
-if [[ -d $(brew --prefix coreutils)/libexec/gnuman ]]; then
-    MANPATH="$(brew --prefix coreutils)/libexec/gnuman:$MANPATH"
+if [[ -d $coreutils/libexec/gnuman ]]; then
+    MANPATH="$coreutils/libexec/gnuman:$MANPATH"
 fi
 
 # I Still use the osx manpages (because for example ls is different in osx and I need the osx version)
@@ -69,10 +75,10 @@ elif [ -d /usr/local/mysql/bin ]; then
 fi
 
 # SenchaSDKTools
-if [[ -d /Applications/SenchaSDKTools ]]; then
-    PATH="${PATH}:/Applications/SenchaSDKTools"
-    export SENCHA_SDK_TOOLS_2_0_0_BETA3="/Applications/SenchaSDKTools"
-fi
+# if [[ -d /Applications/SenchaSDKTools ]]; then
+#     PATH="${PATH}:/Applications/SenchaSDKTools"
+#     export SENCHA_SDK_TOOLS_2_0_0_BETA3="/Applications/SenchaSDKTools"
+# fi
 
 # gcc and other (old) dev stuff
 # PATH="${PATH}:/Developer/usr/bin"
@@ -92,7 +98,7 @@ fi
 
 # Detect which `ls` flavor is in use
 if ls --color > /dev/null 2>&1; then    # GNU `ls`
-    alias ls='$(brew --prefix coreutils)/libexec/gnubin/ls --color=always'
+    alias ls='$coreutils/libexec/gnubin/ls --color=always'
     # load my color scheme (dircolors only work with coreutils 'ls')
     eval `dircolors  ~/.dotfiles/data/dircolors`
 else    # OS X `ls`
@@ -110,8 +116,8 @@ export WORKON_HOME="$HOME/.virtualenvs"
 if [[ -f /Library/Frameworks/Python.framework/Versions/2.7/bin/virtualenvwrapper.sh ]]; then
     source /Library/Frameworks/Python.framework/Versions/2.7/bin/virtualenvwrapper.sh
 # for python installed with homebrew
-elif [ -f $(brew --prefix)/bin/virtualenvwrapper.sh ]; then
-    source $(brew --prefix)/bin/virtualenvwrapper.sh
+elif [ -f $pfx/bin/virtualenvwrapper.sh ]; then
+    source $pfx/bin/virtualenvwrapper.sh
 fi
 
 
@@ -149,7 +155,7 @@ source ~/.dotfiles/bashmarks/bashmarks.sh
 # =============================================
 if command -v brew >/dev/null 2>&1; then
     # Load rupa's z if installed
-    [ -f $(brew --prefix)/etc/profile.d/z.sh ] && source $(brew --prefix)/etc/profile.d/z.sh
+    [ -f $pfx/etc/profile.d/z.sh ] && source $pfx/etc/profile.d/z.sh
 fi
 
 
@@ -161,7 +167,7 @@ export PYTHONSTARTUP=~/.dotfiles/.pystartup.py
 
 
 
-# BASH PROMPT (powerline shell)
+# BASH PROMPT (POWERLINE SHELL)
 # =============================================
 function _update_ps1() {
    export PS1="$(~/.dotfiles/powerline-shell/powerline-shell.py $? --cwd-max-depth 3 --colorize-hostname  2> /dev/null)"
@@ -189,8 +195,8 @@ export PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
 if [ -f /etc/bash_completion ]; then
     source /etc/bash_completion
 # Or if Installed with Brew
-elif [ -f $(brew --prefix)/etc/bash_completion ]; then
-    source $(brew --prefix)/etc/bash_completion
+elif [ -f $pfx/etc/bash_completion ]; then
+    source $pfx/etc/bash_completion
 fi
 
 
