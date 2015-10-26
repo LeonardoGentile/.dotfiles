@@ -69,6 +69,8 @@ brew install archey         # info for our mac
 brew install graphviz       # For graphviz
 brew install lua       # package manager for lua
 brew install luarocks       # package manager for lua
+brew install gnu-sed       # gnu sed, used for pretty git diff (use it with gsed)
+
 
 # To check:
 

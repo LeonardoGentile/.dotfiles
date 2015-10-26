@@ -30,9 +30,8 @@ fi
 
 
 # Cached vars
-coreutils=$(brew --prefix coreutils)
 pfx=$(brew --prefix)
-
+coreutils=$(brew --prefix coreutils)
 
 # COREUTILS (GNU)
 # ===========================
@@ -106,6 +105,13 @@ else    # OS X `ls`
 fi
 
 
+# PRETTY GIT DIFF (TODO)
+# ======================
+
+if [[  -f  /usr/local/opt/git/share/git-core/contrib/diff-highlight/diff-highlight  ]]; then
+    ln -sf "/usr/local/opt/git/share/git-core/contrib/diff-highlight/diff-highlight" ~/bin/diff-highlight
+fi
+
 
 # VIRTUALENVWRAPPER (should go before bash_functions)
 # =============================================
@@ -170,10 +176,12 @@ export PYTHONSTARTUP=~/.dotfiles/.pystartup.py
 # BASH PROMPT (POWERLINE SHELL)
 # =============================================
 function _update_ps1() {
-   export PS1="$(~/.dotfiles/powerline-shell/powerline-shell.py $? --cwd-max-depth 3 --colorize-hostname  2> /dev/null)"
+   export PS1="$(~/.dotfiles/powerline-shell/powerline-shell.py $? --cwd-mode fancy --cwd-max-depth 3 --cwd-max-dir-size 25 --mode patched --colorize-hostname  2> /dev/null)"
 }
-export PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
 
+if [ "$TERM" != "linux" ]; then
+    PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
+fi
 
 # to know how many colors are supported by the terminal (it is based on the terminfo database):
 # if [ $(tput colors) -ge 256 ] ; then

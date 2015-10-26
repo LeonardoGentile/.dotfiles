@@ -1,10 +1,13 @@
 [core]
-	quotepath = false
-	excludesfile = ~/.gitignore_global
+    quotepath = false
+    excludesfile = ~/.gitignore_global
     # attributesfile = ~/.gitattributes
-	editor = sub -n -w
-	# this will avoid git to think a file has changed when we change the chmod
-	filemode = false
+    editor = sub -n -w
+    # this will avoid git to think a file has changed when we change the chmod
+    filemode = false
+    # insanely beautiful diffs (copied from Paul Irish), TODO:
+    # pager = bash -lc 'diff-highlight | strip_diff_leading_symbols | less -r' -
+    pager = diff-highlight | less -r
 [color "branch"]
     current = yellow reverse
     local = yellow
@@ -19,20 +22,27 @@
     changed = green
     untracked = cyan
 [color]
-	ui = true
-	diff = true
+    ui = true
+    diff = true
+# TODO: meh
+# [color "diff-highlight"]
+#     oldNormal = "red bold"
+#     oldHighlight = "red bold 52"
+#     newNormal = "green bold"
+#     newHighlight = "green bold 22"
+
 [diff]
-	tool = diffmerge
+    tool = diffmerge
 [difftool "diffmerge"]
-	cmd = diffmerge \"$LOCAL\" \"$REMOTE\"
+    cmd = diffmerge \"$LOCAL\" \"$REMOTE\"
 [merge]
-	tool = diffmerge
+    tool = diffmerge
     log = true
 [mergetool "diffmerge"]
-	cmd = "diffmerge --merge --result=\"$MERGED\" \"$LOCAL\" \"$(if test -f \"$BASE\"; then echo \"$BASE\"; else echo \"$LOCAL\"; fi)\" \"$REMOTE\""
-	trustExitCode = true
+    cmd = "diffmerge --merge --result=\"$MERGED\" \"$LOCAL\" \"$(if test -f \"$BASE\"; then echo \"$BASE\"; else echo \"$LOCAL\"; fi)\" \"$REMOTE\""
+    trustExitCode = true
 [mergetool]
-	keepBackup = true
+    keepBackup = true
 [alias]
      # View abbreviated SHA, description, and history graph of the latest 20 commits
     l = log --pretty=oneline -n 20 --graph --abbrev-commit
@@ -75,18 +85,18 @@
     df = diff --color --color-words --abbrev
     lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --
 [push]
-	default = simple
+    default = simple
 # Requires git => 1.7
 [include]
     path = ~/.git_extra
 [filter "hawser"]
-	clean = git hawser clean %f
-	smudge = git hawser smudge %f
-	required = true
+    clean = git hawser clean %f
+    smudge = git hawser smudge %f
+    required = true
 [filter "media"]
-	clean = git-media-clean %f
-	smudge = git-media-smudge %f
+    clean = git-media-clean %f
+    smudge = git-media-smudge %f
 [filter "lfs"]
-	clean = git-lfs clean %f
-	smudge = git-lfs smudge %f
-	required = true
+    clean = git-lfs clean %f
+    smudge = git-lfs smudge %f
+    required = true
