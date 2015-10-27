@@ -40,25 +40,27 @@ brew install giflib jpeg
 # pyenv
 # ===========================
 # put this in .bash_profile
-# export PYENV_VERSION='system' @TOFIX: not working properly
+# export PYENV_VERSION='system' @TOFIX: not working properly, better use:
+#   'pyenv global 2.7.6'
 
 # multiple versions of python
 brew install pyenv
 
-pyenv install 2.7.10 # install a specific version
-pyenv global 2.7.10 # set default global
+pyenv install 2.7.10    # install a specific version
+pyenv global 2.7.10     # set default global
 # If everything is ok 'which python' should be /Users/myuser/.pyenv/shims/python NOT /bin/python
 
 # USAGE:
-#   * list installed versions
+#   - list installed versions
 #       pyenv versions
-#   * current active version
+#   - current active version
 #       pyenv version
-#   * set a python version for the current directory
+#   - set a python version for the current directory
 #       pyenv local 2.7.5
+
 # pyenv and virtualenvwrapper
 # ===========================
-#   * Create a virtualenv with a specific version of python and virtualenvwrapper
+#   - Create a virtualenv with a specific version of python and virtualenvwrapper
 #       mkvirtualenv -p /usr/local/bin/python3.2 my_env
 
 # PYTHON Default packages (for currently set gloabl)
