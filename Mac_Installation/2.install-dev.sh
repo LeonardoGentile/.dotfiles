@@ -32,20 +32,49 @@ gem install compass # For source map support (Compass 1.0.0.alpha.19): sudo gem 
 gem install termrc
 
 
-# PYTHON
+# System PYTHON
 # ===========================
-brew install python giflib jpeg
+brew install python
+brew install giflib jpeg
+
+# pyenv
+# ===========================
+# put this in .bash_profile
+# export PYENV_VERSION='system' @TOFIX: not working properly
+
+# multiple versions of python
+brew install pyenv
+
+pyenv install 2.7.10 # install a specific version
+pyenv global 2.7.10 # set default global
+# If everything is ok 'which python' should be /Users/myuser/.pyenv/shims/python NOT /bin/python
+
+# USAGE:
+#   * list installed versions
+#       pyenv versions
+#   * current active version
+#       pyenv version
+#   * set a python version for the current directory
+#       pyenv local 2.7.5
+# pyenv and virtualenvwrapper
+# ===========================
+#   * Create a virtualenv with a specific version of python and virtualenvwrapper
+#       mkvirtualenv -p /usr/local/bin/python3.2 my_env
+
+# PYTHON Default packages (for currently set gloabl)
+# ==================================================
+# installed (for the global selected python, that it could also be 'system' btw)
 pip install virtualenv virtualenvwrapper
 # If virtualenvwrapper wont work just uninstall and reinstall virtualenv
-pip install --allow-external PIL
+
+pip install --allow-external PIL # Only troubles
 # NOTE: double check the installation of PIL with the option --allow-external (if troubles install pillow)
+
 # If PIL won't install just use
 pip install pillow
 
 pip install --upgrade pip
 pip install --upgrade setuptools
-# Then source: $(brew --prefix)/bin/virtualenvwrapper.sh
-# If everything is ok 'which python' should be /usr/local/bin/python NOT /bin/python
 
 
 # PostgreSQL

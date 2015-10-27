@@ -3,9 +3,11 @@
 # Compialtion stuff (Set architecture flags)
 export ARCHFLAGS="-arch x86_64"
 
-# =============================================
-# PATHS
-# =============================================
+
+#  ============================
+#  = ********* PATH ********* =
+#  ============================
+
 # Loading sequence:
 #   1     /etc/paths
 #   2     /etc/paths./whatever (e.g. x11)
@@ -17,29 +19,40 @@ export ARCHFLAGS="-arch x86_64"
 # For loading HOMEBREW binaries first you might change the /etc/paths file
 # putting /usr/local/bin at the beginning of the file instead of the end
 # Even if we do it here sometimes could be 'too late'
-
 PATH="/usr/local/bin:/usr/local/sbin:$PATH"
 
-# rbenv for switching ruby versions
-export RBENV_ROOT="$HOME/.rbenv"
+# Cached vars
+pfx=$(brew --prefix)
+coreutils=$(brew --prefix coreutils)
 
+
+# RBENV PATH
+# ===========================
+# for switching ruby versions
+export RBENV_ROOT="$HOME/.rbenv"
 if [ -d $RBENV_ROOT ]; then
     PATH="$PATH:$RBENV_ROOT/shims"
     eval "$(rbenv init -)"
 fi
 
 
-# Cached vars
-pfx=$(brew --prefix)
-coreutils=$(brew --prefix coreutils)
+# PYENV PATH
+# ===========================
+# for switching python versions
+export PYENV_ROOT="${HOME}/.pyenv"
+# export PYENV_VERSION='2.7.6'      # not working, @TOFIX
+eval "$(pyenv init -)"              # set python global version
+export PYVER_ROOT=`pyenv prefix`    # Sets the root for our global version
+export PYVER_BIN="$PYVER_ROOT/bin"  # Set the executable path for our global version
+
 
 # COREUTILS (GNU)
-# ===========================
+# =================
 # I use the GNU ls (gls) included in COREUTILS (downloaded with BREW)
-# This let me use dircolors command, that will use .dircolors file to colorize gls
-# http://lostincode.net/posts/homebrew
-# http://www.conrad.id.au/2013/07/making-mac-os-x-usable-part-1-terminal.html
-# https://github.com/seebi/dircolors-solarized
+# This let me use dircolors command, that will use .dircolors file to colorize gls:
+#   http://lostincode.net/posts/homebrew
+#   http://www.conrad.id.au/2013/07/making-mac-os-x-usable-part-1-terminal.html
+#   https://github.com/seebi/dircolors-solarized
 
 # Flag to check if we are using coreutils GNU ls or Apple ls
 coreutils_installed=false
@@ -47,7 +60,6 @@ if [[  -d  $coreutils/libexec/gnubin  ]]; then
     PATH="$coreutils/libexec/gnubin/:$PATH"
     coreutils_installed=true
 fi
-
 
 if [[ -d $coreutils/libexec/gnuman ]]; then
     MANPATH="$coreutils/libexec/gnuman:$MANPATH"
@@ -61,39 +73,43 @@ fi
 PATH="$PATH:~/bin"
 
 # Heroku Toolbelt
+# =================
 if [[ -d /usr/local/heroku/bin ]]; then
     PATH="$PATH:/usr/local/heroku/bin"
 fi
 
-# In case of MySql bin (installed with dmg or installer, not homebrew)
-# Homebrew mysql version will have the precedence (if installed)
+
+# MYSQL
+# =================
+# if installed with DMG
 if [ -d /usr/local/opt/mysql/lib ]; then
     PATH="${PATH}:/usr/local/opt/mysql/bin"
+# if installed with brew
 elif [ -d /usr/local/mysql/bin ]; then
-    PATH="${PATH}:/usr/local/mysql/bin"
+    PATH="${PATH}:$pfx/mysql/bin"
 fi
-
-# SenchaSDKTools
-# if [[ -d /Applications/SenchaSDKTools ]]; then
-#     PATH="${PATH}:/Applications/SenchaSDKTools"
-#     export SENCHA_SDK_TOOLS_2_0_0_BETA3="/Applications/SenchaSDKTools"
-# fi
 
 # gcc and other (old) dev stuff
 # PATH="${PATH}:/Developer/usr/bin"
 
-# PATHS for Python 2.7 (not installed with homebrew)
-# PATH="${PATH}:/Library/Frameworks/Python.framework/Versions/2.7/bin"
-# PATH="${PATH}:/usr/local/share/python"
-
 export PATH
 
+#  =============================
+#  = ********* /PATH ********* =
+#  =============================
+
+
+
+#  =============================
+#  = ********* ALIAS ********* =
+#  =============================
 
 # use the standard APPLE ls and chmod (because coreutils version can't handle attributes and ACL)
 if $coreutils_installed; then
    alias ls=/bin/ls
    alias chmod=/bin/chmod
 fi
+
 
 # Detect which `ls` flavor is in use
 if ls --color > /dev/null 2>&1; then    # GNU `ls`
@@ -105,83 +121,66 @@ else    # OS X `ls`
 fi
 
 
-# PRETTY GIT DIFF (TODO)
-# ======================
-
-if [[  -f  /usr/local/opt/git/share/git-core/contrib/diff-highlight/diff-highlight  ]]; then
-    ln -sf "/usr/local/opt/git/share/git-core/contrib/diff-highlight/diff-highlight" ~/bin/diff-highlight
+# PRETTY GIT DIFF
+# =================
+# @TODO: to finiSH
+if [[  -f  $pfx/opt/git/share/git-core/contrib/diff-highlight/diff-highlight  ]]; then
+    ln -sf "$pfx/opt/git/share/git-core/contrib/diff-highlight/diff-highlight" ~/bin/diff-highlight
 fi
 
+#  ==============================
+#  = ********* /ALIAS ********* =
+#  ==============================
 
-# VIRTUALENVWRAPPER (should go before bash_functions)
-# =============================================
-# Check the workon_cwd function in bash_prompt or the .virtualenv/postactivate file
-# to customize the shell prompt after the virtualenv activation
+
+
+#  ================================
+#  = ********* SOURCING ********* =
+#  ================================
+
+# VIRTUALENVWRAPPER
+# ======================
+# this needs to come before bash_functions
 export WORKON_HOME="$HOME/.virtualenvs"
-# for python installed from DMG or installer
-if [[ -f /Library/Frameworks/Python.framework/Versions/2.7/bin/virtualenvwrapper.sh ]]; then
-    source /Library/Frameworks/Python.framework/Versions/2.7/bin/virtualenvwrapper.sh
-# for python installed with homebrew
+
+# pyenv version
+if [ -f PYVER_BIN/virtualenvwrapper.sh ]; then
+    source PYVER_BIN/virtualenvwrapper.sh
+# brew version
 elif [ -f $pfx/bin/virtualenvwrapper.sh ]; then
     source $pfx/bin/virtualenvwrapper.sh
+# for dmg version
+elif [[ -f /Library/Frameworks/Python.framework/Versions/2.7/bin/virtualenvwrapper.sh ]]; then
+    source /Library/Frameworks/Python.framework/Versions/2.7/bin/virtualenvwrapper.sh
+# no available
+else
+    echo "No Virtualenv Available"
 fi
-
 
 
 # BASH_ALIASES
-# =============================================
+# ============
 source ~/.dotfiles/.bash_aliases
 
 
-
 # BASH FUNCTIONS
-# =============================================
+# ==============
 source ~/.dotfiles/.bash_functions
 
 
-
-# EXTRA (settings I don't want to commit)
-# =============================================
+# EXTRA
+# ==============
 # ~/.bash_extra used for settings I don't want to commit.
 # It will be copied in home and the modifications there won't be committed
 bash_extra=~/.bash_extra
 [ -r "$bash_extra" ] && [ -f "$bash_extra" ] && source "$bash_extra"
 
 
-
-# BASHMARKS
-# =============================================
-# http://bilalh.github.com/2012/01/14/enchanted-bashmarks-terminal-directory-bookmarks/
-# https://github.com/LeonardoGentile/bashmarks
-source ~/.dotfiles/bashmarks/bashmarks.sh
-
-
-
-# RUPA Z
-# =============================================
-if command -v brew >/dev/null 2>&1; then
-    # Load rupa's z if installed
-    [ -f $pfx/etc/profile.d/z.sh ] && source $pfx/etc/profile.d/z.sh
-fi
-
-
-
 # PYTHON STARTUP
-# =============================================
+# ==============
 # Completion for python command line and Custom hystory file
 export PYTHONSTARTUP=~/.dotfiles/.pystartup.py
 
-
-
-# BASH PROMPT (POWERLINE SHELL)
-# =============================================
-function _update_ps1() {
-   export PS1="$(~/.dotfiles/powerline-shell/powerline-shell.py $? --cwd-mode fancy --cwd-max-depth 3 --cwd-max-dir-size 25 --mode patched --colorize-hostname  2> /dev/null)"
-}
-
-if [ "$TERM" != "linux" ]; then
-    PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
-fi
 
 # to know how many colors are supported by the terminal (it is based on the terminfo database):
 # if [ $(tput colors) -ge 256 ] ; then
@@ -190,16 +189,52 @@ fi
 # PS1="your default prompt"
 # fi
 
+#  =================================
+#  = ********* /SOURCING ********* =
+#  =================================
 
 
 
-# =============================================
-# COMPLETIONS
-# =============================================
+#  ==============================
+#  = ********* PROMPT ********* =
+#  ==============================
 
-# SOURCE BASH COMPLETION
-# =============================================
-# If possible, add tab completion for many more commands
+# BASHMARKS
+# ==============
+# http://bilalh.github.com/2012/01/14/enchanted-bashmarks-terminal-directory-bookmarks/
+# https://github.com/LeonardoGentile/bashmarks
+source ~/.dotfiles/bashmarks/bashmarks.sh
+
+# RUPA Z
+# ==============
+if command -v brew >/dev/null 2>&1; then
+    # Load rupa's z if installed
+    [ -f $pfx/etc/profile.d/z.sh ] && source $pfx/etc/profile.d/z.sh
+fi
+
+# POWERLINE SHELL (FANCY PROMPT)
+# ===============================
+function _update_ps1() {
+   export PS1="$(~/.dotfiles/powerline-shell/powerline-shell.py $? --cwd-mode fancy --cwd-max-depth 3 --cwd-max-dir-size 25 --mode patched --colorize-hostname  2> /dev/null)"
+}
+
+if [ "$TERM" != "linux" ]; then
+    PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
+fi
+
+#  ===============================
+#  = ********* /PROMPT ********* =
+#  ===============================
+
+
+
+#  ===================================
+#  = ********* COMPLETIONS ********* =
+#  ===================================
+
+# BASH COMPLETION
+# ================
+# If possible add tab completion for many more commands
 if [ -f /etc/bash_completion ]; then
     source /etc/bash_completion
 # Or if Installed with Brew
@@ -207,20 +242,17 @@ elif [ -f $pfx/etc/bash_completion ]; then
     source $pfx/etc/bash_completion
 fi
 
-
 # GRUNT COMPLETION
 # ===========================
 if [[ $grunt ]]; then
     eval "$(grunt --completion=bash)"
 fi
 
-
 # PIP COMPLETION
 # ===========================
 if [ -f ~/.dotfiles/completions/bash_pip_completion ]; then
     source ~/.dotfiles/completions/bash_pip_completion
 fi
-
 
 # DJANGO COMPLETION
 # ===========================
@@ -234,33 +266,32 @@ if [ -f ~/.dotfiles/completions/bash_fab_completion ]; then
     source ~/.dotfiles/completions/bash_fab_completion
 fi
 
-
 # SSH HOSTNAMES COMPLETION
 # ===========================
 # ssh hostnames tab completion based on ~/.ssh/config, ignoring wildcards
 [ -e "$HOME/.ssh/config" ] && complete -o "default" -o "nospace" -W "$(grep "^Host" ~/.ssh/config | grep -v "[?*]" | cut -d " " -f2 | tr ' ' '\n')" scp sftp ssh
 
-
 # Add tab completion for `defaults read|write NSGlobalDomain`
 # You could just use `-g` instead, but I like being explicit
 complete -W "NSGlobalDomain" defaults
-
 
 # KILLALL COMPLETION
 # ===========================
 # Add `killall` tab completion for common apps
 complete -o "nospace" -W "Contacts Calendar Dock Finder Mail Safari iTunes SystemUIServer Terminal Twitter" killall
 
-
 # CYCLIC TAB-COMPLETION
 # ===========================
 # bind '"\t":menu-complete'
 
+#  ====================================
+#  = ********* /COMPLETIONS ********* =
+#  ====================================
 
 
-# =============================================
-# MISC & EXPORTS
-# =============================================
+#  ======================================
+#  = ********* MISC & EXPORTS ********* =
+#  ======================================
 
 # Case-insensitive globbing (used in pathname expansion)
 shopt -s nocaseglob
@@ -285,13 +316,13 @@ export EDITOR="vim"
 export MANPAGER="less -X"
 
 
-# COLORIZED GREP (could break things with git completion)
+# COLORIZED GREP
 # ===========================
+# Sometimes could break with git completion
 alias grep="grep --color=always"
 alias egrep="egrep --color=always"
 alias egrep="fgrep --color=always"
-
-# # Always enable colored `grep` output
+# Always enable colored `grep` output
 export GREP_OPTIONS="--color=auto"
 
 # Specify the TERM variable. Otherwise it will throw an error when running scripts in non-interactive mode
@@ -301,9 +332,10 @@ elif infocmp xterm-256color >/dev/null 2>&1; then
     export TERM=xterm-256color
 fi
 
-
-# MAN COLORS (Less Colors for Man Pages)
+# MAN COLORS
 # ===========================
+# Less Colors for Man Pages
+#
 # A SSH command line that specifies a remote command will normally run in "non-interactive mode". One of the consequences is that no pseudo-TTY will be assigned for the connection in the remote host.
 # This happens because /etc/profile, ~/.profile or some other login script on those nodes contains a tput command that is executed unconditionally - even if the session does not have a TTY
 # associated with it. (The HP-UX default login scripts have had this issue for ages.)
@@ -334,7 +366,6 @@ fi
 export MANPAGER="less -isg"
 
 
-
 # BASH HISTORY
 # ===========================
 # Larger bash history (allow 32³ entries; default is 500)
@@ -345,23 +376,26 @@ export HISTCONTROL=ignoredups
 export HISTIGNORE="ls:cd:cd -:pwd:exit:date:* --help"
 
 
-# HOMEBREW
+# HOMEBREW CASK
 # ===========================
 # Link Homebrew casks in `/Applications` rather than `~/Applications`
 export HOMEBREW_CASK_OPTS="--appdir=/Applications"
 
 
-# =============================================
 # LOCALE
-# =============================================
+# ===========================
 # https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man3/setlocale.3.html
 export LANG="en_US"
 export LC_ALL="en_US.UTF-8"
 
+#  =======================================
+#  = ********* /MISC & EXPORTS ********* =
+#  =======================================
 
-# =============================================
-# DEV
-# =============================================
+
+#  ===========================
+#  = ********* DEV ********* =
+#  ===========================
 
 # FIX MySQLdb ERROR
 # ===========================
@@ -372,7 +406,6 @@ if [ -d /usr/local/opt/mysql/lib ]; then
 elif [ -d /usr/local/mysql/lib ]; then
     export DYLD_LIBRARY_PATH=/usr/local/mysql/lib:$DYLD_LIBRARY_PATH
 fi
-
 
 
 # SET COMPILER VERSION
@@ -397,10 +430,12 @@ fi
 # export LIBRARY_PATH=$LIBRARY_PATH:/Developer/SDKs/MacOSX10.6.sdk/usr/lib:/usr/local/lib/
 
 
-
 # Dotfiles inspired by many people
 # https://github.com/javierjulio/dotfiles
 # https://github.com/kevinrenskers/dotfiles
 # https://github.com/paulirish/dotfiles
 # https://github.com/mathiasbynens/dotfiles/
 
+#  ============================
+#  = ********* /DEV ********* =
+#  ============================

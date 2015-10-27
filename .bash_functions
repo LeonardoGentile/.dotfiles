@@ -37,26 +37,20 @@ function mdown () {
 }
 
 
-ips ()
-{
-    about 'display all ip addresses for this host'
-    group 'base'
+ips () {
+    # about 'display all ip addresses for this host'
     ifconfig | grep "inet " | awk '{ print $2 }'
 }
 
-down4me ()
-{
-    about 'checks whether a website is down for you, or everybody'
-    param '1: website url'
-    example '$ down4me http://www.google.com'
-    group 'base'
+down4me () {
+    # about 'checks whether a website is down for you, or everybody'
+    # param '1: website url'
+    # example '$ down4me http://www.google.com'
     curl -s "http://www.downforeveryoneorjustme.com/$1" | sed '/just you/!d;s/<[^>]*>//g'
 }
 
-myip ()
-{
-    about 'displays your ip address, as seen by the Internet'
-    group 'base'
+myip () {
+    # about 'displays your ip address, as seen by the Internet'
     res=$(curl -s checkip.dyndns.org | grep -Eo '[0-9\.]+')
     echo -e "Your public IP is: ${echo_bold_green} $res ${echo_normal}"
 }
@@ -123,7 +117,6 @@ function server() {
 }
 
 
-
 # Copy w/ progress
 cp_p () {
     rsync -WavP --human-readable --progress $1 $2
@@ -149,7 +142,7 @@ function json() {
 
 
 # take this repo and copy it to somewhere else minus the .git stuff.
-function gitexport(){
+function gitexport() {
         mkdir -p "$1"
         git archive master | tar -x -C "$1"
 }
@@ -388,6 +381,7 @@ function caskInstall() {
     brew cask install "${@}" 2> /dev/null
 }
 
+# TODO:
 # used for pretty diff
 # function strip_diff_leading_symbols(){
 #     color_code_regex=$'(\x1B\\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K])'

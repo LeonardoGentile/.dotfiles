@@ -242,6 +242,73 @@ so that I just `cd myproject; start` will launch my defined panes and commands d
 Then don't forget to source: `$(brew --prefix)/bin/virtualenvwrapper.sh`.   
 If everything is ok `which python` should prompt `/usr/local/bin/python` NOT `/bin/python`
 
+### pyenv
+[Pyenv](https://github.com/yyuu/pyenv) lets you easily switch between multiple versions of Python
+
+    brew update
+    brew install pyenv
+After the installation don't forget to add `eval "$(pyenv init -)"` to `.bash_profile` 
+
+#### pyenv usage
+    # all available Python versions to install
+    pyenv install –list
+    # or
+    pyenv install –l
+    
+    # install a specifi version
+    pyenv install 2.7.10
+    
+    # list installed versions
+    pyenv versions
+    
+    # set default global
+    pyenv global 2.7.10 
+
+    # current active version
+    pyenv version
+
+    # set a python version for the current directory
+    pyenv local 2.7.5 # creates .python-version file inside the current directory
+
+    # create a virtual env using the currently set global python
+    mkvirtualenv my_venv1
+
+    # for specific version of python (need to specify the full path)
+    mkvirtualenv -p /Users/myuser/.pyenv/versions/2.6.6/bin/python2.6 my_venv2
+
+#### pyenv configuration
+These are the relevant lines in my `.bash_profile`:
+    
+    # PYENV
+    # ================================
+    export PYENV_ROOT="${HOME}/.pyenv"
+    eval "$(pyenv init -)"              
+    export PYVER_ROOT=`pyenv prefix`    # Sets the root for our global version
+    export PYVER_BIN="$PYVER_ROOT/bin"  # Set the executable path for our global version
+    # ...
+    
+    # VIRTUALENVWRAPPER
+    # ================================
+    # Check the workon_cwd function in bash_prompt or the .virtualenv/postactivate file
+    # to customize the shell prompt after the virtualenv activation
+    export WORKON_HOME="$HOME/.virtualenvs"
+
+    # pyenv version
+    if [ -f PYVER_BIN/virtualenvwrapper.sh ]; then
+        source PYVER_BIN/virtualenvwrapper.sh
+    # brew version
+    elif [ -f $pfx/bin/virtualenvwrapper.sh ]; then
+        source $pfx/bin/virtualenvwrapper.sh
+    # for dmg version
+    elif [[ -f /Library/Frameworks/Python.framework/Versions/2.7/bin/virtualenvwrapper.sh ]]; then
+        source /Library/Frameworks/Python.framework/Versions/2.7/bin/virtualenvwrapper.sh
+    # no available
+    else
+        echo "No Virtualenv Available"
+    fi
+So if for example you set the global python to be `2.7.10` don't forget to install the install the releval global packages for that version (ex. `virtualenvwrapper`)
+
+
 ###PostgreSQL
     brew install postgresql
     initdb /usr/local/var/postgres
