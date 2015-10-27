@@ -42,7 +42,8 @@ http://iterm2.com/
 ## Step 1: Installation script
 
 1. `cd ~ `
-2. `git clone --recursive git@github.com:LeonardoGentile/.dotfiles.git` 
+2. `git clone --recursive git@github.com:LeonardoGentile/.dotfiles.git`   
+    if you forgot `--recursive` option then `cd .dotfiles; git submodule update --init`
 3. `cd .dotfiles`
 4. `sh Install.sh`
 5. `cd powerline-shell`
