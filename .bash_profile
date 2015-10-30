@@ -1,7 +1,32 @@
 #!/usr/bin/env bash
+# #!/usr/bin/env NAME is used when we aren't aware of the absolute path of bash or don't want to search for it.
 
-# Compialtion stuff (Set architecture flags)
-export ARCHFLAGS="-arch x86_64"
+
+#  ============================
+#  = ********* INIT ********* =
+#  ============================
+
+# get info from uname and convert to lowercase
+OS="$(echo $(uname -s) | tr '[:upper:]' '[:lower:]')"
+# or OS=$OSTYPE
+case $OS in
+
+    Darwin*|darwin)
+        # Compilation stuff (Set architecture flags)
+        export ARCHFLAGS="-arch x86_64"
+        mac=true
+    ;;
+
+    linux*)
+        linux=true
+    ;;
+    # OTHERS:
+#    solaris*)  echo "SOLARIS" ;;
+#    bsd*)      echo "BSD" ;;
+#    Windows*)  echo "Win" ;;
+#    cygwin*)   echo "Win" ;;
+#    *)         echo "unknown: $OSTYPE" ;;
+esac
 
 
 #  ============================
@@ -19,35 +44,28 @@ export ARCHFLAGS="-arch x86_64"
 # For loading HOMEBREW binaries first you might change the /etc/paths file
 # putting /usr/local/bin at the beginning of the file instead of the end
 # Even if we do it here sometimes could be 'too late'
+
+# brew bins have priority
 PATH="/usr/local/bin:/usr/local/sbin:$PATH"
 
-# Cached vars
-pfx=$(brew --prefix)
-coreutils=$(brew --prefix coreutils)
-
-
-# RBENV PATH
-# ===========================
-# for switching ruby versions
-export RBENV_ROOT="$HOME/.rbenv"
-if [ -d $RBENV_ROOT ]; then
-    PATH="$PATH:$RBENV_ROOT/shims"
-    eval "$(rbenv init -)"
+# Flag for brew and coreutils
+if $mac; then
+    if hash brew 2>/dev/null; then
+        brew=true
+        # Cache vars
+        pfx=$(brew --prefix)
+        coreutils=$(brew --prefix coreutils)
+    else
+        brew=false
+        coreutils=false
+    fi
+elif $linux; then
+    brew=false
 fi
 
 
-# PYENV PATH
-# ===========================
-# for switching python versions
-export PYENV_ROOT="${HOME}/.pyenv"
-# export PYENV_VERSION='2.7.6'      # not working, @TOFIX
-eval "$(pyenv init -)"              # set python global version
-export PYVER_ROOT=`pyenv prefix`    # Sets the root for our global version
-export PYVER_BIN="$PYVER_ROOT/bin"  # Set the executable path for our global version
-
-
 # COREUTILS (GNU)
-# =================
+# ===========================
 # I use the GNU ls (gls) included in COREUTILS (downloaded with BREW)
 # This let me use dircolors command, that will use .dircolors file to colorize gls:
 #   http://lostincode.net/posts/homebrew
@@ -56,21 +74,47 @@ export PYVER_BIN="$PYVER_ROOT/bin"  # Set the executable path for our global ver
 
 # Flag to check if we are using coreutils GNU ls or Apple ls
 coreutils_installed=false
-if [[  -d  $coreutils/libexec/gnubin  ]]; then
+if [[  $coreutils && -d  $coreutils/libexec/gnubin  ]]; then
     PATH="$coreutils/libexec/gnubin/:$PATH"
     coreutils_installed=true
 fi
 
-if [[ -d $coreutils/libexec/gnuman ]]; then
+
+# COREUTILS vs OSX MANPAGES
+# ===========================
+# some man entries are different, for example osx vs gnu 'ls'.
+# I still use osx 'ls' so I need the osx man pages.
+if [[ $coreutils && -d $coreutils/libexec/gnuman ]]; then
     MANPATH="$coreutils/libexec/gnuman:$MANPATH"
+    # If I uncomment this export then the manpages comes from gnu coreutils instead of mac man
+    # export MANPATH
 fi
 
-# I Still use the osx manpages (because for example ls is different in osx and I need the osx version)
-# If I uncomment this export then the manpages comes from gnu coreutils
-# export MANPATH
+
+# RBENV PATH
+# ===========================
+# for switching ruby versions
+export RBENV_ROOT="$HOME/.rbenv"
+if [ -d $RBENV_ROOT/shims ]; then
+    eval "$(rbenv init -)"  # PATH prepend
+fi
+
+
+# PYENV PATH
+# ===========================
+# for switching python versions
+export PYENV_ROOT="${HOME}/.pyenv"
+if [ -d $PYENV_ROOT/shims ]; then
+    # export PYENV_VERSION='2.7.6'      # not working, @TOFIX
+    eval "$(pyenv init -)"              # set python global version, PATH prepend
+    export PYVER_ROOT=`pyenv prefix`    # Sets the root for our global version
+    export PYVER_BIN="$PYVER_ROOT/bin"  # Set the executable path for our global version
+fi
+
 
 # Local bin in my home (scripts various stuff)
 PATH="$PATH:~/bin"
+
 
 # Heroku Toolbelt
 # =================
@@ -112,11 +156,15 @@ fi
 
 
 # Detect which `ls` flavor is in use
-if ls --color > /dev/null 2>&1; then    # GNU `ls`
-    alias ls='$coreutils/libexec/gnubin/ls --color=always'
-    # load my color scheme (dircolors only work with coreutils 'ls')
+if ls --color > /dev/null 2>&1; then
+    # GNU `ls`
+    if [[ $coreutils_installed ]]; then
+        alias ls='$coreutils/libexec/gnubin/ls --color=always'
+    fi
+    # load my color scheme, 'dircolors' only works with gnu 'ls'
     eval `dircolors  ~/.dotfiles/data/dircolors`
-else    # OS X `ls`
+else
+    # OS X `ls`
     alias ls='/bin/ls -G'
 fi
 
@@ -124,14 +172,13 @@ fi
 # PRETTY GIT DIFF
 # =================
 # @TODO: to finiSH
-if [[  -f  $pfx/opt/git/share/git-core/contrib/diff-highlight/diff-highlight  ]]; then
+if [[ $brew && -f  $pfx/opt/git/share/git-core/contrib/diff-highlight/diff-highlight  ]]; then
     ln -sf "$pfx/opt/git/share/git-core/contrib/diff-highlight/diff-highlight" ~/bin/diff-highlight
 fi
 
 #  ==============================
 #  = ********* /ALIAS ********* =
 #  ==============================
-
 
 
 #  ================================
@@ -144,17 +191,17 @@ fi
 export WORKON_HOME="$HOME/.virtualenvs"
 
 # pyenv version
-if [ -f PYVER_BIN/virtualenvwrapper.sh ]; then
+if [[ -f PYVER_BIN/virtualenvwrapper.sh ]]; then
     source PYVER_BIN/virtualenvwrapper.sh
 # brew version
-elif [ -f $pfx/bin/virtualenvwrapper.sh ]; then
+elif [[ $brew && -f $pfx/bin/virtualenvwrapper.sh ]]; then
     source $pfx/bin/virtualenvwrapper.sh
-# for dmg version
-elif [[ -f /Library/Frameworks/Python.framework/Versions/2.7/bin/virtualenvwrapper.sh ]]; then
-    source /Library/Frameworks/Python.framework/Versions/2.7/bin/virtualenvwrapper.sh
+# linux varsion (installed globally with pip)
+elif [[ -f /usr/local/bin/virtualenvwrapper.sh ]]; then
+    source /usr/local/bin/virtualenvwrapper.sh
 # no available
 else
-    echo "No Virtualenv Available"
+    echo "Virtualenvwrapper is not available!"
 fi
 
 
@@ -168,18 +215,12 @@ source ~/.dotfiles/.bash_aliases
 source ~/.dotfiles/.bash_functions
 
 
-# EXTRA
+# BASH EXTRA
 # ==============
 # ~/.bash_extra used for settings I don't want to commit.
 # It will be copied in home and the modifications there won't be committed
 bash_extra=~/.bash_extra
 [ -r "$bash_extra" ] && [ -f "$bash_extra" ] && source "$bash_extra"
-
-
-# PYTHON STARTUP
-# ==============
-# Completion for python command line and Custom hystory file
-export PYTHONSTARTUP=~/.dotfiles/.pystartup.py
 
 
 # to know how many colors are supported by the terminal (it is based on the terminfo database):
@@ -207,15 +248,27 @@ source ~/.dotfiles/bashmarks/bashmarks.sh
 
 # RUPA Z
 # ==============
-if command -v brew >/dev/null 2>&1; then
-    # Load rupa's z if installed
-    [ -f $pfx/etc/profile.d/z.sh ] && source $pfx/etc/profile.d/z.sh
+# if command -v brew >/dev/null 2>&1; then
+# Load rupa's z if installed
+if [[ -f ~/.dotfiles/z/z.sh ]]; then
+    source ~/.dotfiles/z/z.sh
+elif  [[ $brew && -f $pfx/etc/profile.d/z.sh ]]; then
+    source $pfx/etc/profile.d/z.sh
+else
+    echo "z is not available!"
 fi
 
 # POWERLINE SHELL (FANCY PROMPT)
 # ===============================
+if [[ $linux ]]; then
+    pw_options="--cwd-mode plain --cwd-max-depth 3 --cwd-max-dir-size 25 --mode flat --colorize-hostname"
+
+elif [[ $mac ]]; then
+    pw_options="--cwd-mode fancy --cwd-max-depth 3 --cwd-max-dir-size 25 --mode patched --colorize-hostname"
+fi
+
 function _update_ps1() {
-   export PS1="$(~/.dotfiles/powerline-shell/powerline-shell.py $? --cwd-mode fancy --cwd-max-depth 3 --cwd-max-dir-size 25 --mode patched --colorize-hostname  2> /dev/null)"
+   export PS1="$(~/.dotfiles/powerline-shell/powerline-shell.py $? $pw_options  2> /dev/null)"
 }
 
 if [ "$TERM" != "linux" ]; then
@@ -231,6 +284,11 @@ fi
 #  ===================================
 #  = ********* COMPLETIONS ********* =
 #  ===================================
+
+# PYTHON STARTUP
+# ================
+# Completion for python command line and Custom hystory file
+export PYTHONSTARTUP=~/.dotfiles/.pystartup.py
 
 # BASH COMPLETION
 # ================
@@ -296,8 +354,9 @@ complete -o "nospace" -W "Contacts Calendar Dock Finder Mail Safari iTunes Syste
 # Case-insensitive globbing (used in pathname expansion)
 shopt -s nocaseglob
 
-# Append to the Bash history file, rather than overwriting it
-shopt -s histappend
+# check the window size after each command and, if necessary,
+# update the values of LINES and COLUMNS.
+shopt -s checkwinsize
 
 # Autocorrect typos in path names when using `cd`
 # shopt -s cdspell
@@ -368,18 +427,28 @@ export MANPAGER="less -isg"
 
 # BASH HISTORY
 # ===========================
-# Larger bash history (allow 32³ entries; default is 500)
-export HISTSIZE=32768
-export HISTFILESIZE=$HISTSIZE
-export HISTCONTROL=ignoredups
+# Append to the Bash history file, rather than overwriting it
+shopt -s histappend
+# Larger bash history (default is 500)
+export HISTSIZE=1000
+export HISTFILESIZE=2000
+# don't put duplicate lines or lines starting with space in the history.
+# See bash(1) for more options
+
+export HISTCONTROL=ignoreboth
+# ignore only duplicates
+# export HISTCONTROL=ignoredups
+
 # Make some commands not show up in history
 export HISTIGNORE="ls:cd:cd -:pwd:exit:date:* --help"
 
 
 # HOMEBREW CASK
 # ===========================
-# Link Homebrew casks in `/Applications` rather than `~/Applications`
-export HOMEBREW_CASK_OPTS="--appdir=/Applications"
+if [[ $brew ]]; then
+    # Link Homebrew casks in `/Applications` rather than `~/Applications`
+    export HOMEBREW_CASK_OPTS="--appdir=/Applications"
+fi
 
 
 # LOCALE
