@@ -72,7 +72,7 @@ ln -s $dir/bin ~/
 
 # Copying application
 # ------------------------
-if [[ -d  /Applications ]]; then
+if [ -d  /Applications ]; then
     echo "Moving spotifyLauncher to /Applications/Audio&Video"
     mkdir -p /Applications/Audio\&Video;
     cp -r ~/apps/SpotifyLauncher.app/ /Applications/Audio\&Video/
@@ -86,3 +86,5 @@ fi
 
 # http://blog.smalleycreative.com/tutorials/using-git-and-github-to-manage-your-dotfiles/
 # http://lostincode.net/posts/homebrew
+
+
