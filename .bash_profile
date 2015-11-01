@@ -74,11 +74,11 @@ fi
 
 # Flag to check if we are using coreutils GNU ls or Apple ls
 coreutils_installed=false
+# if [[  $coreutils && -d  $coreutils/libexec/gnubin  ]]; then
 if [[  $coreutils && -d  $coreutils/libexec/gnubin  ]]; then
     PATH="$coreutils/libexec/gnubin/:$PATH"
     coreutils_installed=true
 fi
-
 
 # COREUTILS vs OSX MANPAGES
 # ===========================
@@ -148,7 +148,8 @@ export PATH
 #  = ********* ALIAS ********* =
 #  =============================
 
-# use the standard APPLE ls and chmod (because coreutils version can't handle attributes and ACL)
+# use the standard APPLE ls and chmod
+# because coreutils version can't handle attributes and ACL
 if $coreutils_installed; then
    alias ls=/bin/ls
    alias chmod=/bin/chmod
@@ -156,15 +157,16 @@ fi
 
 
 # Detect which `ls` flavor is in use
-if ls --color > /dev/null 2>&1; then
-    # GNU `ls`
-    if [[ $coreutils_installed ]]; then
+if ls --color > /dev/null 2>&1; then  # GNU `ls`
+    if  $coreutils_installed; then
         alias ls='$coreutils/libexec/gnubin/ls --color=always'
+    else
+        # for linux installation
+        alias ls='ls --color=always'
     fi
     # load my color scheme, 'dircolors' only works with gnu 'ls'
     eval `dircolors  ~/.dotfiles/data/dircolors`
-else
-    # OS X `ls`
+else    # OS X `ls`
     alias ls='/bin/ls -G'
 fi
 
@@ -260,10 +262,9 @@ fi
 
 # POWERLINE SHELL (FANCY PROMPT)
 # ===============================
-if [[ $linux ]]; then
-    pw_options="--cwd-mode plain --cwd-max-depth 3 --cwd-max-dir-size 25 --mode flat --colorize-hostname"
-
-elif [[ $mac ]]; then
+if $linux; then
+    pw_options="--cwd-mode fancy --cwd-max-depth 3 --cwd-max-dir-size 25 --mode patched --colorize-hostname"
+elif $mac; then
     pw_options="--cwd-mode fancy --cwd-max-depth 3 --cwd-max-dir-size 25 --mode patched --colorize-hostname"
 fi
 
