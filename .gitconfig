@@ -7,7 +7,7 @@
     filemode = false
     # insanely beautiful diffs (copied from Paul Irish), TODO:
     # pager = bash -lc 'diff-highlight | strip_diff_leading_symbols | less -r' -
-    pager = diff-highlight | less -r
+    # pager = diff-highlight | less -r
 [color "branch"]
     current = yellow reverse
     local = yellow
