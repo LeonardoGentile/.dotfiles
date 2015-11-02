@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
-# #!/usr/bin/env NAME is used when we aren't aware of the absolute path of bash or don't want to search for it.
-
+#
+# NOTE: '#!/usr/bin/env NAME'
+# is used when we aren't aware of the absolute path of bash or don't want to search for it.
 
 #  ============================
 #  = ********* INIT ********* =
@@ -53,8 +54,8 @@ if $mac; then
     if hash brew 2>/dev/null; then
         brew=true
         # Cache vars
-        pfx=$(brew --prefix)
         coreutils=$(brew --prefix coreutils)
+        pfx=$(brew --prefix)
     else
         brew=false
         coreutils=false
@@ -74,11 +75,11 @@ fi
 
 # Flag to check if we are using coreutils GNU ls or Apple ls
 coreutils_installed=false
+# if [[  $coreutils && -d  $coreutils/libexec/gnubin  ]]; then
 if [[  $coreutils && -d  $coreutils/libexec/gnubin  ]]; then
     PATH="$coreutils/libexec/gnubin/:$PATH"
     coreutils_installed=true
 fi
-
 
 # COREUTILS vs OSX MANPAGES
 # ===========================
@@ -148,7 +149,8 @@ export PATH
 #  = ********* ALIAS ********* =
 #  =============================
 
-# use the standard APPLE ls and chmod (because coreutils version can't handle attributes and ACL)
+# use the standard APPLE ls and chmod
+# because coreutils version can't handle attributes and ACL
 if $coreutils_installed; then
    alias ls=/bin/ls
    alias chmod=/bin/chmod
@@ -156,15 +158,16 @@ fi
 
 
 # Detect which `ls` flavor is in use
-if ls --color > /dev/null 2>&1; then
-    # GNU `ls`
-    if [[ $coreutils_installed ]]; then
+if ls --color > /dev/null 2>&1; then  # GNU `ls`
+    if  $coreutils_installed; then
         alias ls='$coreutils/libexec/gnubin/ls --color=always'
+    else
+        # for linux installation
+        alias ls='ls --color=always'
     fi
     # load my color scheme, 'dircolors' only works with gnu 'ls'
     eval `dircolors  ~/.dotfiles/data/dircolors`
-else
-    # OS X `ls`
+else    # OS X `ls`
     alias ls='/bin/ls -G'
 fi
 
@@ -223,6 +226,12 @@ bash_extra=~/.bash_extra
 [ -r "$bash_extra" ] && [ -f "$bash_extra" ] && source "$bash_extra"
 
 
+# MYSQL-COLORIZE
+# ==============
+# Not so important, commented for now.
+# Important: use gnu-sed: brew install gnu-sed
+# source ~/.dotfiles/mysql-colorize.bash/mysql-colorize.bash
+
 # to know how many colors are supported by the terminal (it is based on the terminfo database):
 # if [ $(tput colors) -ge 256 ] ; then
 # PS1="your 256 color prompt"
@@ -260,20 +269,39 @@ fi
 
 # POWERLINE SHELL (FANCY PROMPT)
 # ===============================
-if [[ $linux ]]; then
-    pw_options="--cwd-mode plain --cwd-max-depth 3 --cwd-max-dir-size 25 --mode flat --colorize-hostname"
-
-elif [[ $mac ]]; then
+if $linux; then
+    pw_options="--cwd-mode fancy --cwd-max-depth 3 --cwd-max-dir-size 25 --mode patched --colorize-hostname"
+elif $mac; then
     pw_options="--cwd-mode fancy --cwd-max-depth 3 --cwd-max-dir-size 25 --mode patched --colorize-hostname"
 fi
 
-function _update_ps1() {
-   export PS1="$(~/.dotfiles/powerline-shell/powerline-shell.py $? $pw_options  2> /dev/null)"
-}
+if $mac; then
+    function _update_ps1() {
+       export PS1="$(~/.dotfiles/powerline-shell/powerline-shell.py $? $pw_options  2> /dev/null)"
+    }
 
-if [ "$TERM" != "linux" ]; then
-    PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
+    if [ "$TERM" != "linux" ]; then
+        PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
+    fi
+elif $linux; then
+    # TOFIX
+    # source ~/.dotfiles/bash-powerline/bash-powerline.sh
+    # OR
+    function color_my_prompt {
+        local __user_and_host="\[\033[01;32m\]\u@\h"
+        local __cur_location="\[\033[01;34m\]\w"
+        local __git_branch_color="\[\033[31m\]"
+        local __git_branch='`git branch 2> /dev/null | grep -e ^* | sed -E  s/^\\\\\*\ \(.+\)$/\(\\\\\1\)\ /`'
+        local __prompt_tail="\[\033[35m\]$"
+        local __last_color="\[\033[00m\]"
+        export PS1="$__user_and_host $__cur_location $__git_branch_color$__git_branch$__prompt_tail$__last_color "
+    }
+    color_my_prompt
 fi
+
+
+
+
 
 #  ===============================
 #  = ********* /PROMPT ********* =
@@ -378,9 +406,9 @@ export MANPAGER="less -X"
 # COLORIZED GREP
 # ===========================
 # Sometimes could break with git completion
-alias grep="grep --color=always"
-alias egrep="egrep --color=always"
-alias egrep="fgrep --color=always"
+alias grep="grep --color=auto"
+alias egrep="egrep --color=auto"
+alias fgrep="fgrep --color=auto"
 # Always enable colored `grep` output
 export GREP_OPTIONS="--color=auto"
 
