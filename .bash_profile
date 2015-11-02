@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
-# #!/usr/bin/env NAME is used when we aren't aware of the absolute path of bash or don't want to search for it.
-
+#
+# NOTE: '#!/usr/bin/env NAME'
+# is used when we aren't aware of the absolute path of bash or don't want to search for it.
 
 #  ============================
 #  = ********* INIT ********* =
@@ -53,8 +54,8 @@ if $mac; then
     if hash brew 2>/dev/null; then
         brew=true
         # Cache vars
-        pfx=$(brew --prefix)
         coreutils=$(brew --prefix coreutils)
+        pfx=$(brew --prefix)
     else
         brew=false
         coreutils=false
