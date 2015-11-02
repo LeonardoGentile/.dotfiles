@@ -71,10 +71,10 @@ alias path='echo -e ${PATH//:/\\n}'
 # Alias for bashmarks
 # alias k='g'
 
-if [ $(uname) = "Linux" ]
-then
-  alias ls="ls --color=auto"
-fi
+# if [ $(uname) = "Linux" ]
+# then
+#   alias ls="ls --color=auto"
+# fi
 
 # Archery, gives info about this mac
 # ============
