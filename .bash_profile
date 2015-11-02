@@ -275,13 +275,30 @@ elif $mac; then
     pw_options="--cwd-mode fancy --cwd-max-depth 3 --cwd-max-dir-size 25 --mode patched --colorize-hostname"
 fi
 
-function _update_ps1() {
-   export PS1="$(~/.dotfiles/powerline-shell/powerline-shell.py $? $pw_options  2> /dev/null)"
-}
+if $mac; then
+    function _update_ps1() {
+       export PS1="$(~/.dotfiles/powerline-shell/powerline-shell.py $? $pw_options  2> /dev/null)"
+    }
 
-if [ "$TERM" != "linux" ]; then
-    PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
+    if [ "$TERM" != "linux" ]; then
+        PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
+    fi
+elif $linux; then
+    source ~/.dotfiles/bash-powerline/bash-powerline.sh
+    # OR
+    # function color_my_prompt {
+    #     local __user_and_host="\[\033[01;32m\]\u@\h"
+    #     local __cur_location="\[\033[01;34m\]\w"
+    #     local __git_branch_color="\[\033[31m\]"
+    #     local __git_branch='`git branch 2> /dev/null | grep -e ^* | sed -E  s/^\\\\\*\ \(.+\)$/\(\\\\\1\)\ /`'
+    #     local __prompt_tail="\[\033[35m\]$"
+    #     local __last_color="\[\033[00m\]"
+    #     export PS1="$__user_and_host $__cur_location $__git_branch_color$__git_branch$__prompt_tail$__last_color "
+    # }
+    # color_my_prompt
 fi
+
+
 
 #  ===============================
 #  = ********* /PROMPT ********* =
