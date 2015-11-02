@@ -226,6 +226,12 @@ bash_extra=~/.bash_extra
 [ -r "$bash_extra" ] && [ -f "$bash_extra" ] && source "$bash_extra"
 
 
+# MYSQL-COLORIZE
+# ==============
+# Not so important, commented for now.
+# Important: use gnu-sed: brew install gnu-sed
+# source ~/.dotfiles/mysql-colorize.bash/mysql-colorize.bash
+
 # to know how many colors are supported by the terminal (it is based on the terminfo database):
 # if [ $(tput colors) -ge 256 ] ; then
 # PS1="your 256 color prompt"

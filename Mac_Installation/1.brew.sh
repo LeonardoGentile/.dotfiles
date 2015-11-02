@@ -47,6 +47,7 @@ brew install node
 # After installation run this:
 # npm completion > /usr/local/etc/bash_completion.d/npm
 
+# The --default-names option will prevent Homebrew from prepending gs to the newly installed commands, thus we could use these commands as default ones over the ones shipped by OS X.
 
 # Install everything else
 brew install ack
