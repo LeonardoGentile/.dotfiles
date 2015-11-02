@@ -380,9 +380,9 @@ export MANPAGER="less -X"
 # COLORIZED GREP
 # ===========================
 # Sometimes could break with git completion
-alias grep="grep --color=always"
-alias egrep="egrep --color=always"
-alias egrep="fgrep --color=always"
+alias grep="grep --color=auto"
+alias egrep="egrep --color=auto"
+alias fgrep="fgrep --color=auto"
 # Always enable colored `grep` output
 export GREP_OPTIONS="--color=auto"
 
