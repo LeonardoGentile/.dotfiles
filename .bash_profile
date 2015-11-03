@@ -29,6 +29,27 @@ case $OS in
 #    *)         echo "unknown: $OSTYPE" ;;
 esac
 
+pathprepend() {
+    for ((i=$#; i>0; i--));
+    do ARG=${!i}
+        if [ -d "$ARG" ] && [[ ":$PATH:" != *":$ARG:"* ]]; then
+            PATH="$ARG${PATH:+":$PATH"}"
+        fi
+    done
+}
+
+pathappend() {
+    for ARG in "$@"
+    do
+        if [ -d "$ARG" ] && [[ ":$PATH:" != *":$ARG:"* ]]; then
+            PATH="${PATH:+"$PATH:"}$ARG"
+        fi
+    done
+}
+
+# USAGE:
+# pathprepend /usr/local/bin /usr/local/sbin
+
 
 #  ============================
 #  = ********* PATH ********* =
@@ -47,7 +68,8 @@ esac
 # Even if we do it here sometimes could be 'too late'
 
 # brew bins have priority
-PATH="/usr/local/bin:/usr/local/sbin:$PATH"
+pathprepend /usr/local/bin /usr/local/sbin
+# PATH="/usr/local/bin:/usr/local/sbin:$PATH"
 
 # Flag for brew and coreutils
 if $mac; then
@@ -77,7 +99,8 @@ fi
 coreutils_installed=false
 # if [[  $coreutils && -d  $coreutils/libexec/gnubin  ]]; then
 if [[  $coreutils && -d  $coreutils/libexec/gnubin  ]]; then
-    PATH="$coreutils/libexec/gnubin/:$PATH"
+    pathprepend $coreutils/libexec/gnubin/
+    # PATH="$coreutils/libexec/gnubin/:$PATH"
     coreutils_installed=true
 fi
 
@@ -114,13 +137,15 @@ fi
 
 
 # Local bin in my home (scripts various stuff)
-PATH="$PATH:~/bin"
+pathappend ~/bin
+# PATH="$PATH:~/bin"
 
 
 # Heroku Toolbelt
 # =================
 if [[ -d /usr/local/heroku/bin ]]; then
-    PATH="$PATH:/usr/local/heroku/bin"
+    pathappend /usr/local/heroku/bin
+    # PATH="$PATH:/usr/local/heroku/bin"
 fi
 
 
@@ -128,10 +153,12 @@ fi
 # =================
 # if installed with DMG
 if [ -d /usr/local/opt/mysql/lib ]; then
-    PATH="${PATH}:/usr/local/opt/mysql/bin"
+    pathappend /usr/local/opt/mysql/bin
+    # PATH="${PATH}:/usr/local/opt/mysql/bin"
 # if installed with brew
 elif [ -d /usr/local/mysql/bin ]; then
-    PATH="${PATH}:$pfx/mysql/bin"
+    pathappend $pfx/mysql/bin
+    # PATH="${PATH}:$pfx/mysql/bin"
 fi
 
 # gcc and other (old) dev stuff
