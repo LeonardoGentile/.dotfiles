@@ -101,7 +101,7 @@ fi
 coreutils_installed=false
 # if [[  $coreutils && -d  $coreutils/libexec/gnubin  ]]; then
 if [[  $coreutils && -d  $coreutils/libexec/gnubin  ]]; then
-    pathprepend $coreutils/libexec/gnubin/
+    pathprepend $coreutils/libexec/gnubin
     # PATH="$coreutils/libexec/gnubin/:$PATH"
     coreutils_installed=true
 fi
