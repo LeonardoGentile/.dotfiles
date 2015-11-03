@@ -14,3 +14,6 @@
 [submodule "bashmarks"]
 	path = bashmarks
 	url = git@github.com:LeonardoGentile/bashmarks.git
+[submodule "promptastic"]
+	path = promptastic
+	url = git@github.com:LeonardoGentile/promptastic.git

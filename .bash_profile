@@ -314,10 +314,10 @@ fi
 
 # Alternative Prompts:
 
-# 1
+# 1) bash-powerline
 # source ~/.dotfiles/bash-powerline/bash-powerline.sh # @TOFIX
 
-# 2
+# 2) Manual
 # function color_my_prompt {
 #     local __user_and_host="\[\033[01;32m\]\u@\h"
 #     local __cur_location="\[\033[01;34m\]\w"
@@ -328,6 +328,11 @@ fi
 #     export PS1="$__user_and_host $__cur_location $__git_branch_color$__git_branch$__prompt_tail$__last_color "
 # }
 # color_my_prompt
+
+# 3) promptastic (don't user install.py, just uncomment the lines below)
+# function _update_ps1() { export PS1="$(~/.dotfiles/promptastic/promptastic.py $?)"; }
+# export PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
+
 
 
 #  ===============================
@@ -563,3 +568,5 @@ fi
 #  ============================
 #  = ********* /DEV ********* =
 #  ============================
+
+
