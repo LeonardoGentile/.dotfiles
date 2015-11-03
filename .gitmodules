@@ -11,3 +11,6 @@
 [submodule "bash-powerline"]
 	path = bash-powerline
 	url = git@github.com:LeonardoGentile/bash-powerline.git
+[submodule "bashmarks"]
+	path = bashmarks
+	url = git@github.com:LeonardoGentile/bashmarks.git

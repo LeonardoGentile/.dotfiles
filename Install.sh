@@ -29,7 +29,7 @@ echo "...done"
 echo "Moving ~/.bashmarks_dirs from ~ to $olddir"
 mv ~/.bashmarks_dirs $olddir
 echo "Creating default .bashmarks_dirs file in home directory."
-cp $dir/bashmarks/.bashmarks_dirs ~/.bashmarks_dirs # Don't forget to configure the bash_extra
+cp $dir/data/.bashmarks_dirs ~/.bashmarks_dirs # Don't forget to configure the bash_extra
 
 echo "Moving .bash_extra from ~ to $olddir"
 mv ~/.bash_extra $olddir
