@@ -16,9 +16,11 @@ case $OS in
         # Compilation stuff (Set architecture flags)
         export ARCHFLAGS="-arch x86_64"
         mac=true
+        linux=false
     ;;
 
     linux*)
+        mac=false
         linux=true
     ;;
     # OTHERS:
@@ -296,13 +298,13 @@ fi
 
 # POWERLINE SHELL (FANCY PROMPT)
 # ===============================
-if $linux; then
+if $linux ; then
     pw_options="--cwd-mode fancy --cwd-max-depth 3 --cwd-max-dir-size 25 --mode patched --colorize-hostname"
-elif $mac; then
+elif $mac ; then
     pw_options="--cwd-mode fancy --cwd-max-depth 3 --cwd-max-dir-size 25 --mode patched --colorize-hostname"
 fi
 
-if $mac; then
+if $mac ; then
     function _update_ps1() {
        export PS1="$(~/.dotfiles/powerline-shell/powerline-shell.py $? $pw_options  2> /dev/null)"
     }
@@ -310,7 +312,7 @@ if $mac; then
     if [ "$TERM" != "linux" ]; then
         PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
     fi
-elif $linux; then
+elif $linux ; then
     # TOFIX
     # source ~/.dotfiles/bash-powerline/bash-powerline.sh
     # OR
@@ -325,9 +327,6 @@ elif $linux; then
     }
     color_my_prompt
 fi
-
-
-
 
 
 #  ===============================
