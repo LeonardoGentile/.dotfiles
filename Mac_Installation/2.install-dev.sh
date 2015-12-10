@@ -1,5 +1,4 @@
-# up to you (me) if you want to run this as a file or copy paste at your leisure
-
+#!/usr/bin/env bash
 
 # For different version of ruby
 brew update

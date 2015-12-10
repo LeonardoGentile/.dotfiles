@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # For ST2
 # https://github.com/mattbanks/dotfiles-syntax-highlighting-st2
@@ -25,6 +25,9 @@ brew install findutils
 
 # Install Bash 4
 brew install bash
+# Should work out of the box, otherwise:
+#   sudo bash -c 'echo /usr/local/bin/bash >> /etc/shells'
+#   chsh -s /usr/local/bin/bash
 
 # Install wget with IRI support
 brew install wget --with-iri

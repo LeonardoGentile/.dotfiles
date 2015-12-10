@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+
 # Install native apps with cask
 # https://github.com/phinze/homebrew-cask/blob/master/USAGE.md
 
