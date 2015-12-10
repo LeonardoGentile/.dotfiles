@@ -84,11 +84,6 @@
     p = push
     df = diff --color --color-words --abbrev
     lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --
-[push]
-    default = simple
-# Requires git => 1.7
-[include]
-    path = ~/.git_extra
 [filter "hawser"]
     clean = git hawser clean %f
     smudge = git hawser smudge %f
@@ -100,3 +95,8 @@
     clean = git-lfs clean %f
     smudge = git-lfs smudge %f
     required = true
+# Requires git => 1.7
+[push]
+    default = simple
+[include]
+    path = ~/.git_extra

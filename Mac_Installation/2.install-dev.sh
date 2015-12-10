@@ -188,8 +188,9 @@ npm install -g oauthd
 # npm-check-updates
 # ===========================
 # USAGE:
-# npm-check-updates # to check if your dependencies have updates
-# npm-check-updates -u # to update your package.json versions
+# ALIAS ncu
+# ncu # to check if your dependencies have updates
+# ncu -u # to update your package.json versions
  npm install -g npm-check-updates
 
 # YEOMAN (maybe sudo)

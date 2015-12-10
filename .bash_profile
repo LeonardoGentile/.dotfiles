@@ -3,6 +3,23 @@
 # NOTE: '#!/usr/bin/env NAME'
 # is used when we aren't aware of the absolute path of bash or don't want to search for it.
 
+PROFILE_STARTUP=false
+if $PROFILE_STARTUP; then
+    # PS4='+ $(date "+%s.%N")\011 '
+    PS4='$(date "+%s.%N")\011 '
+    exec 3>&2 2>/tmp/bashstart.$$.log
+    # exec 3>&2 2> >( tee /tmp/bashstart-$$.log |
+    #               gsed -u 's/^.*$/now/' |
+    #               date -f - +%s.%N >/tmp/bashstart-$$.tim)
+    set -x # shortcut for 'set -o xtrace'.
+    # It prints command traces before executing command.
+    # The dash is used to activate a shell option and a plus to deactivate it.
+fi
+
+
+
+
+
 #  ============================
 #  = ********* INIT ********* =
 #  ============================
@@ -570,3 +587,7 @@ fi
 #  ============================
 
 
+if $PROFILE_STARTUP; then
+    set +x # The dash is used to activate a shell option and a plus to deactivate it.
+    exec 2>&3 3>&-
+fi
