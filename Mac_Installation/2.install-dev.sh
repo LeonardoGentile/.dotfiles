@@ -161,6 +161,10 @@ npm install -g grunt-cli
 # ===========================
 npm install --global gulp
 
+# Scaffolding tool for gulp (instead of yeoman)
+# ===========================
+npm install --global slush
+
 
 # BOWER
 # ===========================
