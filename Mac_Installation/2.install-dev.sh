@@ -7,9 +7,12 @@ brew install ruby-build
 
 # !!!RUN THIS:
 # rbenv install -l      # for the list of the available ruby version
-# rbenv install 2.1.2   # install ruby
+# rbenv install 2.1.2   # install ruby (globally)
 # rbenv global 2.1.2    # makes ruby 2.1.2 the default one
 # rbenv rehash          # Run this command after you install a new version of Ruby, or install a gem that provides commands.
+#
+# NOTE: if error "Ruby Bundle Symbol not found: _SSLv2_client_method" check here:
+# =>  http://stackoverflow.com/questions/25492787/ruby-bundle-symbol-not-found-sslv2-client-method-loaderror
 
 # rbenv Gemset (for sandboxed collection of gems, for example for a specific project)
 # SEE: https://github.com/jf/rbenv-gemset
@@ -256,3 +259,8 @@ fi
 
 # for the c alias (syntax highlighted cat)
 pip install Pygments
+
+
+# To convert video into gif: https://github.com/dergachev/screengif
+brew install ffmpeg imagemagick gifsicle pkg-config
+gem install screengif

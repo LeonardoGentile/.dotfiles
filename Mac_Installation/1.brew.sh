@@ -74,7 +74,15 @@ brew install graphviz       # For graphviz
 brew install lua       # package manager for lua
 brew install luarocks       # package manager for lua
 brew install gnu-sed       # gnu sed, used for pretty git diff (use it with gsed)
+brew install gs     # ghostscript, need for progressbar in terminal
+# Then
+cd $(brew --prefix)/share/ghostscript/
+wget https://ghostscript.googlecode.com/files/ghostscript-fonts-std-8.11.tar.gz
+tar xzvf ghostscript-fonts-std-8.11.tar.gz
 
+# To find wich and where openssl is installed
+# which -a openssl
+# brew upgrade openssl # should be already installed in the system, only if I need to update it!
 
 # To check:
 
