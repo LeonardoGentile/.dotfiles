@@ -23,6 +23,25 @@ gem install specific_install
 # USAGE: gem specific_install -l <url to a github gem>
 
 
+# NVM
+# ===========================
+# https://github.com/creationix/nvm
+curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.2/install.sh | bash
+# Then delete what's being adder to bashrc
+# and add this to .bash_profile
+#
+# NVM PATH
+# ===========================
+# export NVM_DIR="$HOME/.nvm"
+# if [ -f $NVM_DIR/nvm.sh ]; then
+#     [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+# fi
+
+# Install latest node
+# nvm install 5.0
+
+
+
 # COMPASS
 # ===========================
 gem update --system
@@ -153,7 +172,7 @@ npm install -g coffee-script
 npm install -g jshint
 npm install -g csslint
 npm install -g htmlhint
-gem install scss_lint
+# gem install scss_lint
 
 # Grunt
 # ===========================
@@ -168,7 +187,6 @@ npm install --global gulp
 # ===========================
 npm install --global slush
 
-
 # BOWER
 # ===========================
 npm install -g bower
@@ -181,7 +199,6 @@ npm install -g node-inspector
 # Coffescript (compiler and live console for coffescript)
 # ===========================
 npm install -g coffee-script
-
 
 # Forever
 # ===========================
@@ -217,6 +234,15 @@ npm install -g nave
 # watch for file changes and restart our server when changes are detected.
 # Use: nodemon server.js instead of node server.js
 npm install -g nodemon
+
+# PROTRACTOR
+# ===========================
+npm install -g protractor
+# then
+webdriver-manager update
+# start
+# webdriver-manager start
+
 
 # MOONSCRIPT
 # ===========================

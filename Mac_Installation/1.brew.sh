@@ -44,6 +44,10 @@ brew install bash-completion
 # Add this to the bash_profile
 # If possible, add tab completion for many more commands
 
+# To solve version mismatch, for example for installing protractor (for this issue: https://github.com/angular/protractor/issues/2638)
+brew update
+brew cask install java
+
 # Node.js
 brew install node
 # everything installed under /usr/local/lib/node_modules
