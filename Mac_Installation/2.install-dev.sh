@@ -7,9 +7,12 @@ brew install ruby-build
 
 # !!!RUN THIS:
 # rbenv install -l      # for the list of the available ruby version
-# rbenv install 2.1.2   # install ruby
+# rbenv install 2.1.2   # install ruby (globally)
 # rbenv global 2.1.2    # makes ruby 2.1.2 the default one
 # rbenv rehash          # Run this command after you install a new version of Ruby, or install a gem that provides commands.
+#
+# NOTE: if error "Ruby Bundle Symbol not found: _SSLv2_client_method" check here:
+# =>  http://stackoverflow.com/questions/25492787/ruby-bundle-symbol-not-found-sslv2-client-method-loaderror
 
 # rbenv Gemset (for sandboxed collection of gems, for example for a specific project)
 # SEE: https://github.com/jf/rbenv-gemset
@@ -18,6 +21,29 @@ brew install rbenv-gemset
 # For installing gems from github or anywhere else
 gem install specific_install
 # USAGE: gem specific_install -l <url to a github gem>
+
+
+# NVM
+# ===========================
+# https://github.com/creationix/nvm
+curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.2/install.sh | bash
+# Then delete what's being adder to bashrc
+# and add this to .bash_profile
+#
+# NVM PATH
+# ===========================
+# export NVM_DIR="$HOME/.nvm"
+# if [ -f $NVM_DIR/nvm.sh ]; then
+#     [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+# fi
+
+# Install latest node
+# nvm install 5.0
+#
+# Creates .nvmrc file in the root folder and just write the node version, ex: 5.9 or system
+# Then when cd into the project folder, just run: nvm use
+# See: https://github.com/creationix/nvm#nvmrc
+
 
 
 # COMPASS
@@ -150,7 +176,7 @@ npm install -g coffee-script
 npm install -g jshint
 npm install -g csslint
 npm install -g htmlhint
-gem install scss_lint
+# gem install scss_lint
 
 # Grunt
 # ===========================
@@ -165,7 +191,6 @@ npm install --global gulp
 # ===========================
 npm install --global slush
 
-
 # BOWER
 # ===========================
 npm install -g bower
@@ -178,7 +203,6 @@ npm install -g node-inspector
 # Coffescript (compiler and live console for coffescript)
 # ===========================
 npm install -g coffee-script
-
 
 # Forever
 # ===========================
@@ -214,6 +238,15 @@ npm install -g nave
 # watch for file changes and restart our server when changes are detected.
 # Use: nodemon server.js instead of node server.js
 npm install -g nodemon
+
+# PROTRACTOR
+# ===========================
+npm install -g protractor
+# then
+webdriver-manager update
+# start
+# webdriver-manager start
+
 
 # MOONSCRIPT
 # ===========================
@@ -256,3 +289,8 @@ fi
 
 # for the c alias (syntax highlighted cat)
 pip install Pygments
+
+
+# To convert video into gif: https://github.com/dergachev/screengif
+brew install ffmpeg imagemagick gifsicle pkg-config
+gem install screengif

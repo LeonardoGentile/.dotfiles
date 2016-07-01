@@ -69,7 +69,6 @@ pathappend() {
 # USAGE:
 # pathprepend /usr/local/bin /usr/local/sbin
 
-
 #  ============================
 #  = ********* PATH ********* =
 #  ============================
@@ -140,6 +139,13 @@ fi
 export RBENV_ROOT="$HOME/.rbenv"
 if [ -d $RBENV_ROOT/shims ]; then
     eval "$(rbenv init -)"  # PATH prepend
+fi
+
+# NVM PATH
+# ===========================
+export NVM_DIR="$HOME/.nvm"
+if [ -f $NVM_DIR/nvm.sh ]; then
+    [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 fi
 
 
