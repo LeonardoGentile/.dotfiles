@@ -13,8 +13,24 @@ Thumbs.db
 .Spotlight-V100
 .Trashes
 
-#pycharm stuff
-.idea/
+## pycharm stuff
+# .idea/
+# User-specific stuff:
+.idea/workspace.xml
+.idea/tasks.xml
+# .idea/dictionaries
+# Mongo Explorer plugin:
+.idea/mongoSettings.xml
+## File-based project format:
+*.ipr
+*.iws
+# Sensitive or high-churn files:
+.idea/dataSources.ids
+.idea/dataSources.xml
+.idea/sqlDataSources.xml
+.idea/dynamic.xml
+.idea/uiDesigner.xml
+
 #
 *.sublime-project
 *.sublime-workspace
