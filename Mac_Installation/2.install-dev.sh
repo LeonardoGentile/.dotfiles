@@ -39,6 +39,10 @@ curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.2/install.sh | b
 
 # Install latest node
 # nvm install 5.0
+#
+# Creates .nvmrc file in the root folder and just write the node version, ex: 5.9 or system
+# Then when cd into the project folder, just run: nvm use
+# See: https://github.com/creationix/nvm#nvmrc
 
 
 
