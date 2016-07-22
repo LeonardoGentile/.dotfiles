@@ -29,5 +29,4 @@ I keep all my data in a separate partition. Music, Movies, Pictures, ectr BUT "L
 
 Add Spaces to Dock
 
-    defaults write com.apple.dock persistent-apps -array-add '{"tile-type"="spacer-tile";}'
-    killall Dock
+    defaults write com.apple.dock persistent-apps -array-add '{"tile-type"="spacer-tile";}'; killall Dock
