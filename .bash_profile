@@ -246,8 +246,8 @@ fi
 export WORKON_HOME="$HOME/.virtualenvs"
 
 # pyenv version
-if [[ -f PYVER_BIN/virtualenvwrapper.sh ]]; then
-    source PYVER_BIN/virtualenvwrapper.sh
+if [[ -f $PYVER_BIN/virtualenvwrapper.sh ]]; then
+    source $PYVER_BIN/virtualenvwrapper.sh
 # brew version
 elif [[ $brew && -f $pfx/bin/virtualenvwrapper.sh ]]; then
     source $pfx/bin/virtualenvwrapper.sh
