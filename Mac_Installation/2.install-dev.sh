@@ -54,7 +54,15 @@ gem install compass # For source map support (Compass 1.0.0.alpha.19): sudo gem 
 
 # termrc, for starting up iterm envs from shell (AMAZING)
 # https://github.com/briangonzalez/termrc
-gem install termrc
+# gem install termrc
+
+# NOPE: -->
+# MertRC: https://github.com/eggplanetio/mert
+npm install -g mert
+# USAGE:
+# mert init [type]   # Create new .mertrc file. Options: global or local
+# mert start [name]  # Start project by name or by specifying file path (defaults to .mertrc in cwd)
+
 
 
 # System PYTHON
@@ -69,7 +77,7 @@ brew install giflib jpeg
 #   'pyenv global 2.7.6'
 
 # multiple versions of python
-brew install pyenv
+# brew install pyenv (No needed if we use pyenv)
 
 pyenv install 2.7.10    # install a specific version
 pyenv global 2.7.10     # set default global
@@ -123,13 +131,17 @@ sudo pip install psycopg2
 # ===========================
 brew install mysql
 unset TMPDIR
-mysql_install_db --verbose --user=`whoami` --basedir="$(brew --prefix mysql)" --datadir=/usr/local/var/mysql --tmpdir=/tmp
+export TMPDIR=/tmp
+# DEPRECATED
+# mysql_install_db --verbose --user=`whoami` --basedir="$(brew --prefix mysql)" --datadir=/usr/local/var/mysql
+# --insecure, means it doesn't generat a pass for root
+mysqld --initialize-insecure --log-error-verbosity --user=`whoami` --basedir="$(brew --prefix mysql)" --datadir=/usr/local/var/mysql
 # for startup
 ln -sfv /usr/local/opt/mysql/*.plist ~/Library/LaunchAgents
 launchctl load -w ~/Library/LaunchAgents/homebrew.mxcl.mysql.plist
 
 # launch mysql (launchroket)
-# then this for setting it up corrctly
+# then this for setting it up password for root and remove unsecure stuff
 mysql_secure_installation
 sudo cp $(brew --prefix mysql)/support-files/my-default.cnf /etc/my.cnf
 
@@ -226,12 +238,12 @@ npm install -g oauthd
 brew install optipng jpeg-turbo phantomjs
 npm install -g yo
 
-# NAVE: VIRTUALENVS FOR NODE
+# NAVE: VIRTUALENVS FOR NODE (nope, using NVM)
 # ===========================
 # https://github.com/isaacs/nave
 # needs npm, obviously.
 # TODO: I think i'd rather curl down the nave.sh, symlink it into /bin and use that for initial node install.
-npm install -g nave
+# npm install -g nave
 
 # NODEMON
 # ===========================

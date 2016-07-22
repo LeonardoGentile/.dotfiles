@@ -67,18 +67,17 @@ brew install install imagemagick --with-webp
 brew install lynx
 brew install nmap
 brew install p7zip
-brew install lzip # for lz compressed files, es: lzip -d compressedFile.tar.lz
+brew install lzip 			# for lz compressed files, es: lzip -d compressedFile.tar.lz
 brew install redis
-brew install mongodb # edit /usr/local/etc/mongod.conf for settings. Start it with launchrocket
+brew install mongodb 		# edit /usr/local/etc/mongod.conf for settings. Start it with launchrocket
 brew install testdisk
 brew install heroku-toolbelt
 brew install rabbitmq       # Default Celery broker
 brew install archey         # info for our mac
 brew install graphviz       # For graphviz
-brew install lua       # package manager for lua
-brew install luarocks       # package manager for lua
-brew install gnu-sed       # gnu sed, used for pretty git diff (use it with gsed)
-brew install gs     # ghostscript, need for progressbar in terminal
+brew install lua       		# package manager for lua (will also install luarocks)
+brew install gnu-sed       	# gnu sed, used for pretty git diff (use it with gsed)
+brew install gs     		# ghostscript, need for progressbar in terminal
 # Then
 cd $(brew --prefix)/share/ghostscript/
 wget https://ghostscript.googlecode.com/files/ghostscript-fonts-std-8.11.tar.gz

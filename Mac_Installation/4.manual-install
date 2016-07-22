@@ -26,3 +26,8 @@ I keep all my data in a separate partition. Music, Movies, Pictures, ectr BUT "L
         2) erase home folders that exist on external hd
         3) simlynk them (ln is smart enough not to overwrite existing folder)
             ln -s /Volumes/HomeData/*/ .
+
+Add Spaces to Dock
+
+    defaults write com.apple.dock persistent-apps -array-add '{"tile-type"="spacer-tile";}'
+    killall Dock
