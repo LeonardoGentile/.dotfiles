@@ -23,7 +23,7 @@ mkdir -p /Applications/Photo\&Graphics
 
 # "${@}" list of all parameters
 function caskInstall() {
-	brew cask install "${@}" 2> /dev/null
+    brew cask install "${@}" 2> /dev/null
 }
 
 
@@ -35,7 +35,7 @@ caskInstall send-to-kindle launchrocket path-finder karabiner
 # caskInstall virtualbox
 
 
-caskInstall --appdir="/Applications/Web" dropbox google-chrome google-chrome-canary cyberduck transmission franz
+caskInstall --appdir="/Applications/Web" dropbox google-chrome google-chrome-canary cyberduck transmission franz torbrowser firefox
 # caskInstall --appdir="/Applications/Web" skype transmit shuttle tor-browser
 
 
@@ -48,17 +48,17 @@ caskInstall --appdir="/Applications/Coding" iterm2 sublime-text pycharm webstorm
 # Mou The missing Markdown editor for web developers
 # caskInstall mou
 
-caskInstall --appdir="/Applications/Coding/Db" sequel-pro mysqlworkbench mongohub
+caskInstall --appdir="/Applications/Coding/Db" sequel-pro mysqlworkbench mongohub pgadmin4 postico psequel
 # caskInstall --appdir="/Applications/Coding/Db" robomongo
 
 
 caskInstall --appdir="/Applications/Office" evernote skitch skim
 
 
-caskInstall --appdir="/Applications/Tools"  the-unarchiver hyperdock appcleaner smcfancontrol bettertouchtool burn macpass ibackup clamxav flux
+caskInstall --appdir="/Applications/Tools"  the-unarchiver hyperdock appcleaner smcfancontrol bettertouchtool burn macpass ibackup clamxav flux android-file-transfer
 caskInstall --appdir="/Applications/Tools"  cakebrew --force
 caskInstall --appdir="/Applications/Tools"  unetbootin detune izip tinkertool
-# caskInstall --appdir="/Applications/Tools"  slate colorpicker-skalacolor rightzoom 
+# caskInstall --appdir="/Applications/Tools"  slate colorpicker-skalacolor rightzoom
 # caskInstall --appdir="/Applications/Tools"  synergy # share mouse between multiple computers
 
 
