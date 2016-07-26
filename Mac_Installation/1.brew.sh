@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
-# For ST2
-# https://github.com/mattbanks/dotfiles-syntax-highlighting-st2
+# See also: https://gist.github.com/xuhdev/8b1b16fb802f6870729038ce3789568f
 
 # Install Brew
 ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
@@ -16,12 +15,36 @@ brew install git
 # If bash completions don't work then try with
 # brew install git --without-completions
 
-# Install GNU core utilities (those that come with OS X are outdated)
-brew install coreutils
+#  =============
+#  = COREUTILS =
+#  =============
+# Install GNU core utilities (those that come with OS X are outdated), g-prefixed
+# use --default-names option to prevent Homebrew from prepending a 'g' to each of the newly installed commands
+# thus we could use these commands as default commands over the ones shipped by OS X.
+brew install coreutils  # g-prefixed
 echo "Don’t forget to add $(brew --prefix coreutils)/libexec/gnubin to \$PATH."
 
-# Install GNU `find`, `locate`, `updatedb`, and `xargs`, g-prefixed
-brew install findutils
+# Install more recent versions of some OS X tools
+# These formulae duplicate software provided by OS X, though may provide more recent or bugfix versions.
+brew tap homebrew/dupes
+
+brew install binutils
+brew install diffutils
+brew install ed --with-default-names
+brew install findutils                          # GNU `find`, `locate`, `updatedb`, and `xargs` (g-prefixed)
+brew install gawk
+brew install gnu-indent --with-default-names
+brew install gnu-sed                            # Gnu sed, used for pretty git diff (use it with gsed)
+brew install gnu-tar --with-default-names
+brew install gnu-which --with-default-names
+brew install gnutls
+brew install grep --with-default-names
+brew install gzip
+brew install screen
+brew install watch
+brew install wdiff --with-gettext
+brew install wget --with-iri                    # Install wget with IRI support
+
 
 # Install Bash 4
 brew install bash
@@ -29,78 +52,142 @@ brew install bash
 #   sudo bash -c 'echo /usr/local/bin/bash >> /etc/shells'
 #   chsh -s /usr/local/bin/bash
 
-# Install wget with IRI support
-brew install wget --with-iri
+brew install emacs
+# brew install gdb                      # gdb requires further actions to make it work. See `brew info gdb`.
+brew install gpatch
+brew install m4
+brew install make
+brew install nano
 
-# Install more recent versions of some OS X tools
-# brew tap homebrew/dupes
-# brew install homebrew/dupes/grep
+# NON-GNU
+brew install less
+brew install openssh
+brew install rsync
+brew install unzip
+brew install p7zip
+brew install lzip                       # for lz compressed files, es: lzip -d compressedFile.tar.lz
+brew install vim --override-system-vi
+brew install macvim --override-system-vim --custom-system-icons
 
-# PHP: https://github.com/Homebrew/homebrew-php
-# brew tap homebrew/homebrew-php
-
-# Bash Completions (sometimes doesn't work so it needs to be reinstalled)
-brew install bash-completion
-# Add this to the bash_profile
-# If possible, add tab completion for many more commands
-
-# To solve version mismatch, for example for installing protractor (for this issue: https://github.com/angular/protractor/issues/2638)
-brew update
-brew cask install java
-
-# Node.js
-brew install node
-# everything installed under /usr/local/lib/node_modules
-# After installation run this:
-# npm completion > /usr/local/etc/bash_completion.d/npm
-
-# The --default-names option will prevent Homebrew from prepending gs to the newly installed commands, thus we could use these commands as default ones over the ones shipped by OS X.
-
-# Install everything else
 brew install ack
 brew install nmap
 brew install rename
 brew install tree
 brew install markdown
-brew install wget
-brew install install imagemagick --with-webp
 brew install lynx
-brew install nmap
-brew install p7zip
-brew install lzip 			# for lz compressed files, es: lzip -d compressedFile.tar.lz
-brew install redis
-brew install mongodb 		# edit /usr/local/etc/mongod.conf for settings. Start it with launchrocket
+
+# PHP: https://github.com/Homebrew/homebrew-php
+# brew tap homebrew/homebrew-php
+
+# Bash Completions (sometimes doesn't work so it needs to be reinstalled)
+brew install bash-completion            # source it from .bash_profile
+
+# To solve version mismatch, for example for installing protractor (for this issue: https://github.com/angular/protractor/issues/2638)
+brew cask install java
+
+
+brew install imagemagick --with-webp
 brew install testdisk
+brew install archey                 # info for mac
+brew install redis                  # Start it with launchrocket
+brew install mongodb                # edit /usr/local/etc/mongod.conf for settings. Start it with launchrocket
 brew install heroku-toolbelt
-brew install rabbitmq       # Default Celery broker
-brew install archey         # info for our mac
-brew install graphviz       # For graphviz
-brew install lua       		# package manager for lua (will also install luarocks)
-brew install gnu-sed       	# gnu sed, used for pretty git diff (use it with gsed)
-brew install gs     		# ghostscript, need for progressbar in terminal
-# Then
+brew install rabbitmq               # Default Celery broker
+brew install graphviz               # For graphviz
+brew install lua                    # package manager for lua (will also install luarocks)
+
+
+# GhostScript
+brew install gs                     # ghostscript, needed for progressbar in terminal
 cd $(brew --prefix)/share/ghostscript/
 wget https://ghostscript.googlecode.com/files/ghostscript-fonts-std-8.11.tar.gz
 tar xzvf ghostscript-fonts-std-8.11.tar.gz
 
+#  ==========
+#  = Mackup =
+#  ==========
+# for syncing the setting and pref of installed apps
+brew install mackup
+
+
+#  =======
+#  = SSL =
+#  =======
 # To find wich and where openssl is installed
 # which -a openssl
 # brew upgrade openssl # should be already installed in the system, only if I need to update it!
 
-# To check:
 
-# brew install pigz
-# brew install pv
-# brew install foremost
-# brew install rhino
-# brew install sqlmap
-# brew install webkit2png
-# brew install zopfli
-# brew install homebrew/versions/lua52
+#  ==============
+#  = PostgreSQL =
+#  ==============
+brew install postgresql
+initdb /usr/local/var/postgres -E utf8
+# createuser    # create the initial postgres user
 
-# for syncing the setting and pref of installed apps
-brew install mackup
+# For starting it at login:
+#   ln -sfv /usr/local/opt/postgresql/*.plist ~/Library/LaunchAgents
+#   cp /usr/local/Cellar/postgresql/9.2.4/org.postgresql.postgres.plist ~/Library/LaunchAgents/
+#   launchctl load -w ~/Library/LaunchAgents/org.postgresql.postgres.plist
+
+
+#  =========
+#  = MYSQL =
+#  =========
+brew install mysql
+unset TMPDIR
+export TMPDIR=/tmp
+mysqld --initialize-insecure --log-error-verbosity --user=`whoami` --basedir="$(brew --prefix mysql)" --datadir=/usr/local/var/mysql
+# --insecure, means it doesn't generate a pass for root
+
+# For starting it at login:
+#   ln -sfv /usr/local/opt/mysql/*.plist ~/Library/LaunchAgents
+#   launchctl load -w ~/Library/LaunchAgents/homebrew.mxcl.mysql.plist
+
+# POST-INSTALL:
+#   - launch mysql (launchroket)
+#   - then do this for setting it up password for root and remove unsecure stuff
+#       mysql_secure_installation
+#       sudo cp $(brew --prefix mysql)/support-files/my-default.cnf /etc/my.cnf
+#   - There is another config file into /usr/local/Cellar/mysql/VERSION/my.cnf but I guess the one on /etc/my.cnf has precedence
+
+# START/STOP (or launchroket):
+#   launchctl load -w ~/Library/LaunchAgents/homebrew.mxcl.mysql.plist
+#   launchctl unload -w ~/Library/LaunchAgents/homebrew.mxcl.mysql.plist
+
+
+#  ===================
+#  = APACHE MOD_WSGI =
+#  ===================
+brew tap homebrew/apache
+brew install mod_wsgi
+# If problem in compiling see: https://github.com/Homebrew/homebrew-apache:
+#   sudo ln -s /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/ /Applications/Xcode.app/Contents/Developer/Toolchains/OSX10.9.xctoolchain
+
+#  ============
+#  = Alcatraz =
+#  ============
+# Package manager for Xcode
+# http://alcatraz.io
+# Install:
+#   curl -fsSL https://raw.githubusercontent.com/supermarin/Alcatraz/deploy/Scripts/install.sh | sh
+# Uninstall:
+#   rm -rf ~/Library/Application\ Support/Developer/Shared/Xcode/Plug-ins/Alcatraz.xcplugin
+#   rm -rf ~/Library/Application\ Support/Alcatraz # Remove all cached data
+
+# Eero
+# "objective-c, evolved"
+# http://eerolanguage.org/index.html
+# ===========================
+# After Alcatraz look for eero
+#
+
+# OTHERS:
+# =======
+# brew install pigz pv foremost rhino sqlmap webkit2png zopfli
+
+# ​Disable Analytics
+brew analytics off
 
 # Remove outdated versions from the cellar
 brew cleanup
-

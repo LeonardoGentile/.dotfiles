@@ -3,6 +3,10 @@
 # NOTE: '#!/usr/bin/env NAME'
 # is used when we aren't aware of the absolute path of bash or don't want to search for it.
 
+
+#  ======================================
+#  = PROFILING STARTUP TIME (for debug) =
+#  ======================================
 # PROFILE_STARTUP=false
 # if $PROFILE_STARTUP; then
 #     # PS4='+ $(date "+%s.%N")\011 '
@@ -17,13 +21,9 @@
 # fi
 
 
-
-
-
 #  ============================
 #  = ********* INIT ********* =
 #  ============================
-
 # get info from uname and convert to lowercase
 OS="$(echo $(uname -s) | tr '[:upper:]' '[:lower:]')"
 # or OS=$OSTYPE
@@ -48,6 +48,12 @@ case $OS in
 #    *)         echo "unknown: $OSTYPE" ;;
 esac
 
+
+# Helper Functions
+# ----------------
+# USAGE:
+# pathprepend /usr/local/bin /usr/local/sbin
+
 pathprepend() {
     for ((i=$#; i>0; i--));
     do ARG=${!i}
@@ -66,8 +72,7 @@ pathappend() {
     done
 }
 
-# USAGE:
-# pathprepend /usr/local/bin /usr/local/sbin
+
 
 #  ============================
 #  = ********* PATH ********* =
@@ -75,7 +80,7 @@ pathappend() {
 
 # Loading sequence:
 #   1     /etc/paths
-#   2     /etc/paths./whatever (e.g. x11)
+#   2     /etc/paths.d/whatever (e.g. x11, 40-XQuarts)
 #   3     ~/.MacOSX/environment.plist (AVOID!)
 #   4     PATH defined in this file
 #
@@ -85,11 +90,13 @@ pathappend() {
 # putting /usr/local/bin at the beginning of the file instead of the end
 # Even if we do it here sometimes could be 'too late'
 
-# brew bins have priority
-pathprepend /usr/local/bin /usr/local/sbin
-# PATH="/usr/local/bin:/usr/local/sbin:$PATH"
 
-# Flag for brew and coreutils
+# BREW PATH
+# ============
+# brew bins should have priority
+pathprepend /usr/local/bin /usr/local/sbin
+
+# Flags for brew and coreutils
 if $mac; then
     if hash brew 2>/dev/null; then
         brew=true
@@ -105,7 +112,7 @@ elif $linux; then
 fi
 
 
-# COREUTILS (GNU)
+# (GNU) COREUTILS PATH
 # ===========================
 # I use the GNU ls (gls) included in COREUTILS (downloaded with BREW)
 # This let me use dircolors command, that will use .dircolors file to colorize gls:
@@ -115,15 +122,13 @@ fi
 
 # Flag to check if we are using coreutils GNU ls or Apple ls
 coreutils_installed=false
-# if [[  $coreutils && -d  $coreutils/libexec/gnubin  ]]; then
 if [[  $coreutils && -d  $coreutils/libexec/gnubin  ]]; then
     pathprepend $coreutils/libexec/gnubin
-    # PATH="$coreutils/libexec/gnubin/:$PATH"
     coreutils_installed=true
 fi
 
-# COREUTILS vs OSX MANPAGES
-# ===========================
+# COREUTILS vs OSX MANPAGES (default to OSX Man Pahes)
+# ====================================================
 # some man entries are different, for example osx vs gnu 'ls'.
 # I still use osx 'ls' so I need the osx man pages.
 if [[ $coreutils && -d $coreutils/libexec/gnuman ]]; then
@@ -141,36 +146,37 @@ if [ -d $RBENV_ROOT/shims ]; then
     eval "$(rbenv init -)"  # PATH prepend
 fi
 
+
+# PYENV PATH
+# =============================
+# for switching python versions
+export PYENV_ROOT="${HOME}/.pyenv"
+if [ -d $PYENV_ROOT/shims ]; then
+    # export PYENV_VERSION='2.7.6'      # no needed, the global version is already set during installation
+    eval "$(pyenv init -)"              # manipulates PATH, enable shims and autocompletion
+    export PYVER_ROOT=`pyenv prefix`    # Custom var: it is the root for the global version
+    export PYVER_BIN="$PYVER_ROOT/bin"  # Custom var: the executable path for our global version
+fi
+
+
 # NVM PATH
 # ===========================
+# for switching node versions
 export NVM_DIR="$HOME/.nvm"
 if [ -f $NVM_DIR/nvm.sh ]; then
     [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 fi
 
-
-# PYENV PATH
-# ===========================
-# for switching python versions
-export PYENV_ROOT="${HOME}/.pyenv"
-if [ -d $PYENV_ROOT/shims ]; then
-    # export PYENV_VERSION='2.7.6'      # not working, @TOFIX
-    eval "$(pyenv init -)"              # set python global version, PATH prepend
-    export PYVER_ROOT=`pyenv prefix`    # Sets the root for our global version
-    export PYVER_BIN="$PYVER_ROOT/bin"  # Set the executable path for our global version
-fi
-
-
+# ~/bin PATH
+# =============================
 # Local bin in my home (scripts various stuff)
 pathappend ~/bin
-# PATH="$PATH:~/bin"
 
 
 # Heroku Toolbelt
 # =================
 if [[ -d /usr/local/heroku/bin ]]; then
     pathappend /usr/local/heroku/bin
-    # PATH="$PATH:/usr/local/heroku/bin"
 fi
 
 
@@ -179,15 +185,10 @@ fi
 # if installed with DMG
 if [ -d /usr/local/opt/mysql/lib ]; then
     pathappend /usr/local/opt/mysql/bin
-    # PATH="${PATH}:/usr/local/opt/mysql/bin"
 # if installed with brew
 elif [ -d /usr/local/mysql/bin ]; then
     pathappend $pfx/mysql/bin
-    # PATH="${PATH}:$pfx/mysql/bin"
 fi
-
-# gcc and other (old) dev stuff
-# PATH="${PATH}:/Developer/usr/bin"
 
 export PATH
 
@@ -210,8 +211,9 @@ fi
 
 
 # Detect which `ls` flavor is in use
-if ls --color > /dev/null 2>&1; then  # GNU `ls`
+if ls --color > /dev/null 2>&1; then
     if  $coreutils_installed; then
+        # GNU `ls`
         alias ls='$coreutils/libexec/gnubin/ls --color=always'
     else
         # for linux installation
@@ -219,7 +221,8 @@ if ls --color > /dev/null 2>&1; then  # GNU `ls`
     fi
     # load my color scheme, 'dircolors' only works with gnu 'ls'
     eval `dircolors  ~/.dotfiles/data/dircolors`
-else    # OS X `ls`
+else
+    # OS X `ls`
     alias ls='/bin/ls -G'
 fi
 
@@ -270,8 +273,8 @@ source ~/.dotfiles/.bash_aliases
 source ~/.dotfiles/.bash_functions
 
 
-# BASH EXTRA
-# ==============
+# BASH EXTRA (not using it)
+# =========================
 # ~/.bash_extra used for settings I don't want to commit.
 # It will be copied in home and the modifications there won't be committed
 bash_extra=~/.bash_extra
@@ -356,8 +359,6 @@ fi
 # function _update_ps1() { export PS1="$(~/.dotfiles/promptastic/promptastic.py $?)"; }
 # export PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
 
-
-
 #  ===============================
 #  = ********* /PROMPT ********* =
 #  ===============================
@@ -382,6 +383,29 @@ if [ -f /etc/bash_completion ]; then
 elif [ -f $pfx/etc/bash_completion ]; then
     source $pfx/etc/bash_completion
 fi
+
+# RBENV COMPLETION
+# ================
+# If possible add tab completion for many more commands
+if [ -f $RBENV_ROOT/completions/rbenv.bash ]; then
+    source $RBENV_ROOT/completions/rbenv.bash
+fi
+
+# NVM COMPLETION
+# ================
+# If possible add tab completion for many more commands
+if [ -f $NVM_DIR/bash_completion ]; then
+    source $NVM_DIR/bash_completion
+fi
+
+# NPM TAB COMPLETION
+# ================
+# if npm -v >/dev/null 2>&1; then
+#     .  <(npm completion)
+# fi
+#
+# Or simply (with brew was this, to check):
+# npm completion > /usr/local/etc/bash_completion.d/npm
 
 # GRUNT COMPLETION
 # ===========================
@@ -419,9 +443,9 @@ complete -W "NSGlobalDomain" defaults
 # KILLALL COMPLETION
 # ===========================
 # Add `killall` tab completion for common apps
-complete -o "nospace" -W "Contacts Calendar Dock Finder Mail Safari iTunes SystemUIServer Terminal Twitter" killall
+complete -o "nospace" -W "Contacts Calendar Dock Finder Mail Safari iTunes SystemUIServer Terminal Twitter Chrome" killall
 
-# CYCLIC TAB-COMPLETION
+# CYCLIC TAB-COMPLETION (meh)
 # ===========================
 # bind '"\t":menu-complete'
 
@@ -515,9 +539,8 @@ shopt -s histappend
 # Larger bash history (default is 500)
 export HISTSIZE=1000
 export HISTFILESIZE=2000
-# don't put duplicate lines or lines starting with space in the history.
-# See bash(1) for more options
 
+# Don't put duplicate lines or lines starting with space in the history.
 export HISTCONTROL=ignoreboth
 # ignore only duplicates
 # export HISTCONTROL=ignoredups
@@ -549,15 +572,16 @@ export LC_ALL="en_US.UTF-8"
 #  = ********* DEV ********* =
 #  ===========================
 
-# FIX MySQLdb ERROR
-# ===========================
+# FIX MySQLdb ERROR (Still needed?)
+# ==================================
 # Fix problem when importing mysql-python (MySQLdb)
 # http://stackoverflow.com/questions/4559699/python-mysqldb-and-library-not-loaded-libmysqlclient-16-dylib
-if [ -d /usr/local/opt/mysql/lib ]; then
-    export DYLD_LIBRARY_PATH=/usr/local/opt/mysql/lib:$DYLD_LIBRARY_PATH
-elif [ -d /usr/local/mysql/lib ]; then
-    export DYLD_LIBRARY_PATH=/usr/local/mysql/lib:$DYLD_LIBRARY_PATH
-fi
+
+# if [ -d /usr/local/opt/mysql/lib ]; then
+#     export DYLD_LIBRARY_PATH=/usr/local/opt/mysql/lib:$DYLD_LIBRARY_PATH
+# elif [ -d /usr/local/mysql/lib ]; then
+#     export DYLD_LIBRARY_PATH=/usr/local/mysql/lib:$DYLD_LIBRARY_PATH
+# fi
 
 
 # SET COMPILER VERSION
@@ -581,19 +605,26 @@ fi
 # I added the headers from brew (/usr/local/include)
 # export LIBRARY_PATH=$LIBRARY_PATH:/Developer/SDKs/MacOSX10.6.sdk/usr/lib:/usr/local/lib/
 
-
-# Dotfiles inspired by many people
-# https://github.com/javierjulio/dotfiles
-# https://github.com/kevinrenskers/dotfiles
-# https://github.com/paulirish/dotfiles
-# https://github.com/mathiasbynens/dotfiles/
-
 #  ============================
 #  = ********* /DEV ********* =
 #  ============================
 
 
+# Dotfiles inspired by many people:
+#   https://github.com/javierjulio/dotfiles
+#   https://github.com/kevinrenskers/dotfiles
+#   https://github.com/paulirish/dotfiles
+#   https://github.com/mathiasbynens/dotfiles/
+#   Others I don't rememeber
+
+
+#  ======================================
+#  = PROFILING STARTUP TIME (for debug) =
+#  ======================================
+# Uncomment this block and the block at the beginning of the file to have debug info on this file
+
 # if $PROFILE_STARTUP; then
 #     set +x # The dash is used to activate a shell option and a plus to deactivate it.
 #     exec 2>&3 3>&-
 # fi
+

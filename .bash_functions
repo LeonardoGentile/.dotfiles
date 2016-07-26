@@ -143,8 +143,8 @@ function json() {
 
 # take this repo and copy it to somewhere else minus the .git stuff.
 function gitexport() {
-        mkdir -p "$1"
-        git archive master | tar -x -C "$1"
+    mkdir -p "$1"
+    git archive master | tar -x -C "$1"
 }
 
 
@@ -177,92 +177,92 @@ function unidecode() {
 # Extract archives - use: extract <file>
 # Based on http://dotfiles.org/~pseup/.bashrc
 function extract() {
-        if [ -f "$1" ] ; then
-                local filename=$(basename "$1")
-                local foldername="${filename%%.*}"
-                local fullpath=`perl -e 'use Cwd "abs_path";print abs_path(shift)' "$1"`
-                local didfolderexist=false
-                if [ -d "$foldername" ]; then
-                        didfolderexist=true
-                        read -p "$foldername already exists, do you want to overwrite it? (y/n) " -n 1
-                        echo
-                        if [[ $REPLY =~ ^[Nn]$ ]]; then
-                                return
-                        fi
-                fi
-                mkdir -p "$foldername" && cd "$foldername"
-                case $1 in
-                        *.tar.bz2) tar xjf "$fullpath" ;;
-                        *.tar.gz) tar xzf "$fullpath" ;;
-                        *.tar.xz) tar Jxvf "$fullpath" ;;
-                        *.tar.Z) tar xzf "$fullpath" ;;
-                        *.tar) tar xf "$fullpath" ;;
-                        *.taz) tar xzf "$fullpath" ;;
-                        *.tb2) tar xjf "$fullpath" ;;
-                        *.tbz) tar xjf "$fullpath" ;;
-                        *.tbz2) tar xjf "$fullpath" ;;
-                        *.tgz) tar xzf "$fullpath" ;;
-                        *.txz) tar Jxvf "$fullpath" ;;
-                        *.zip) unzip "$fullpath" ;;
-                        *) echo "'$1' cannot be extracted via extract()" && cd .. && ! $didfolderexist && rm -r "$foldername" ;;
-                esac
-        else
-                echo "'$1' is not a valid file"
+    if [ -f "$1" ] ; then
+        local filename=$(basename "$1")
+        local foldername="${filename%%.*}"
+        local fullpath=`perl -e 'use Cwd "abs_path";print abs_path(shift)' "$1"`
+        local didfolderexist=false
+        if [ -d "$foldername" ]; then
+            didfolderexist=true
+            read -p "$foldername already exists, do you want to overwrite it? (y/n) " -n 1
+            echo
+            if [[ $REPLY =~ ^[Nn]$ ]]; then
+                    return
+            fi
         fi
+        mkdir -p "$foldername" && cd "$foldername"
+        case $1 in
+            *.tar.bz2) tar xjf "$fullpath" ;;
+            *.tar.gz) tar xzf "$fullpath" ;;
+            *.tar.xz) tar Jxvf "$fullpath" ;;
+            *.tar.Z) tar xzf "$fullpath" ;;
+            *.tar) tar xf "$fullpath" ;;
+            *.taz) tar xzf "$fullpath" ;;
+            *.tb2) tar xjf "$fullpath" ;;
+            *.tbz) tar xjf "$fullpath" ;;
+            *.tbz2) tar xjf "$fullpath" ;;
+            *.tgz) tar xzf "$fullpath" ;;
+            *.txz) tar Jxvf "$fullpath" ;;
+            *.zip) unzip "$fullpath" ;;
+            *) echo "'$1' cannot be extracted via extract()" && cd .. && ! $didfolderexist && rm -r "$foldername" ;;
+        esac
+    else
+        echo "'$1' is not a valid file"
+    fi
 }
 
 
 # Create a .tar.gz archive, using `zopfli`, `pigz` or `gzip` for compression
 function targz() {
-        local tmpFile="${@%/}.tar"
-        tar -cvf "${tmpFile}" --exclude=".DS_Store" "${@}" || return 1
+    local tmpFile="${@%/}.tar"
+    tar -cvf "${tmpFile}" --exclude=".DS_Store" "${@}" || return 1
 
-        size=$(
-                stat -f"%z" "${tmpFile}" 2> /dev/null; # OS X `stat`
-                stat -c"%s" "${tmpFile}" 2> /dev/null # GNU `stat`
-        )
+    size=$(
+        stat -f"%z" "${tmpFile}" 2> /dev/null; # OS X `stat`
+        stat -c"%s" "${tmpFile}" 2> /dev/null # GNU `stat`
+    )
 
-        local cmd=""
-        if (( size < 52428800 )) && hash zopfli 2> /dev/null; then
-                # the .tar file is smaller than 50 MB and Zopfli is available; use it
-                cmd="zopfli"
+    local cmd=""
+    if (( size < 52428800 )) && hash zopfli 2> /dev/null; then
+        # the .tar file is smaller than 50 MB and Zopfli is available; use it
+        cmd="zopfli"
+    else
+        if hash pigz 2> /dev/null; then
+                cmd="pigz"
         else
-                if hash pigz 2> /dev/null; then
-                        cmd="pigz"
-                else
-                        cmd="gzip"
-                fi
+                cmd="gzip"
         fi
+    fi
 
-        echo "Compressing .tar using \`${cmd}\`…"
-        "${cmd}" -v "${tmpFile}" || return 1
-        [ -f "${tmpFile}" ] && rm "${tmpFile}"
-        echo "${tmpFile}.gz created successfully."
+    echo "Compressing .tar using \`${cmd}\`…"
+    "${cmd}" -v "${tmpFile}" || return 1
+    [ -f "${tmpFile}" ] && rm "${tmpFile}"
+    echo "${tmpFile}.gz created successfully."
 }
 
 
 # get gzipped size
 function gz() {
-        echo "orig size    (bytes): "
-        cat "$1" | wc -c
-        echo "gzipped size (bytes): "
-        gzip -c "$1" | wc -c
+    echo "orig size    (bytes): "
+    cat "$1" | wc -c
+    echo "gzipped size (bytes): "
+    gzip -c "$1" | wc -c
 }
 
 
 
 # Determine size of a file or total size of a directory
 function fs() {
-        if du -b /dev/null > /dev/null 2>&1; then
-                local arg=-sbh
-        else
-                local arg=-sh
-        fi
-        if [[ -n "$@" ]]; then
-                du $arg -- "$@"
-        else
-                du $arg .[^.]* *
-        fi
+    if du -b /dev/null > /dev/null 2>&1; then
+        local arg=-sbh
+    else
+        local arg=-sh
+    fi
+    if [[ -n "$@" ]]; then
+        du $arg -- "$@"
+    else
+        du $arg .[^.]* *
+    fi
 }
 
 
@@ -286,33 +286,33 @@ gifify() {
 
 # Simple calculator
 function calc() {
-        local result=""
-        result="$(printf "scale=10;$*\n" | bc --mathlib | tr -d '\\\n')"
-        #                       └─ default (when `--mathlib` is used) is 20
-        #
-        if [[ "$result" == *.* ]]; then
-                # improve the output for decimal numbers
-                printf "$result" |
-                sed -e 's/^\./0./'        `# add "0" for cases like ".5"` \
-                    -e 's/^-\./-0./'      `# add "0" for cases like "-.5"`\
-                    -e 's/0*$//;s/\.$//'   # remove trailing zeros
-        else
-                printf "$result"
-        fi
-        printf "\n"
+    local result=""
+    result="$(printf "scale=10;$*\n" | bc --mathlib | tr -d '\\\n')"
+    #                       └─ default (when `--mathlib` is used) is 20
+
+    if [[ "$result" == *.* ]]; then
+        # improve the output for decimal numbers
+        printf "$result" |
+        sed -e 's/^\./0./'        `# add "0" for cases like ".5"` \
+            -e 's/^-\./-0./'      `# add "0" for cases like "-.5"`\
+            -e 's/0*$//;s/\.$//'   # remove trailing zeros
+    else
+        printf "$result"
+    fi
+    printf "\n"
 }
 
 
 # Create a new directory and enter it
 function mkd() {
-        mkdir -p "$@" && cd "$@"
+    mkdir -p "$@" && cd "$@"
 }
 
 # Install Grunt plugins and add them as `devDependencies` to `package.json`
 # Usage: `gi contrib-watch contrib-uglify zopfli`
 function gruntinstall() {
-        local IFS=,
-        eval npm install --save-dev grunt-{"$*"}
+    local IFS=,
+    eval npm install --save-dev grunt-{"$*"}
 }
 
 
@@ -321,7 +321,7 @@ function gruntinstall() {
 # `less` with options to preserve color and line numbers, unless the output is
 # small enough for one screen.
 function tre() {
-        tree -aC -I '.git|node_modules|bower_components' --dirsfirst "$@" | less -FRNX
+    tree -aC -I '.git|node_modules|bower_components' --dirsfirst "$@" | less -FRNX
 }
 
 
