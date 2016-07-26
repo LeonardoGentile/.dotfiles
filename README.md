@@ -45,7 +45,7 @@ http://iterm2.com/
 2. `git clone --recursive git@github.com:LeonardoGentile/.dotfiles.git`   
     if you forgot `--recursive` option then `cd .dotfiles; git submodule update --init`
 3. `cd .dotfiles`
-4. `sh Install.sh`
+4. `sh install.sh`
 5. `cd powerline-shell`
 6. edit `config.py` (optional)
 7. `python install.py`
@@ -91,7 +91,7 @@ For installing these private files I do:
 - `cd ~`
 - `git clone git@bitbucket.org:myusername/.dotfiles-private.git`
 - `cd .dotfiles-privates`
-- `sh Install.sh` where `Install.sh` is a script similar to the one you can see in the step1 that simlynks and copies files around to the right destination, for example:
+- `sh install.sh` where `install.sh` is a script similar to the one you can see in the step1 that simlynks and copies files around to the right destination, for example:
 
         dir=~/.dotfiles-privates            # dotfiles directory
         olddir=~/.dotfiles-private_old      # old dotfiles backup directory
@@ -138,13 +138,12 @@ For installing these private files I do:
         ln -s $dir/org.pqrs.Karabiner.plist  ~/Library/Preferences/org.pqrs.Karabiner.plist
 
 ## Wrapping it up
-The `Install.sh` script from the step 1 doesn't symlink everything, in fact it will __copy__ some files instead from `~/.dotfiles` to `~/`:
+The `install.sh` script from the step 1 doesn't symlink everything, in fact it will __copy__ some files instead from `~/.dotfiles` to `~/`:
 
 - `.bashmarks_dirs`
-- `.bash_extra`
 - `.git_extra`
 
-I do so because these are files that I do NOT want to track. The `Install.sh` (step 1) copies them in home and if I edit them in `home` nothing will happens to the `.dotfiles` repo.  Usually I overwrite these files with the ones coming from `.dotfiles-private` (`Install.sh` from step 2)
+I do so because these are files that I do NOT want to track. The `install.sh` (step 1) copies them in home and if I edit them in `home` nothing will happens to the `.dotfiles` repo.  Usually I overwrite these files with the ones coming from `.dotfiles-private` (`install.sh` from step 2)
 
 ## Mac OS X Installation 
 
