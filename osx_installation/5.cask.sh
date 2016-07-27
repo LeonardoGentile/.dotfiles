@@ -6,6 +6,14 @@
 # IMPORTANT: Make sure to go to pref panel/Security & Privacy: allows apps downloaded from anywhere
 # NOTE: If some applications can't be installed re-try with --force option
 
+# MANUALLY INSTALLED (see osx_installation/README.md):
+# google-chrome
+# dropbox
+# quiver
+# sublime
+# pycharm
+# webstorm
+
 brew tap caskroom/cask # maybe not necessary
 
 brew install homebrew/completions/brew-cask-completion
@@ -36,23 +44,28 @@ function caskInstall() {
 #  =============
 # Apps that ignores the appdir option because thay have installers and they will decide where they will be installed
 caskInstall send-to-kindle launchrocket path-finder karabiner
+# @Office:
 # caskInstall virtualbox teamviewer
-caskInstall timer
+# caskInstall timer # Evolution of pomodoro.app shipped in this repository (not free!)
 
-#  =================
-#  = Web & Network =
-#  =================
-caskInstall --appdir="/Applications/Web" dropbox google-chrome google-chrome-canary cyberduck transmission franz torbrowser firefox
-# caskInstall --appdir="/Applications/Web" skype transmit shuttle tor-browser slack
+
+#  ===============
+#  = Audio&Video =
+#  ===============
+caskInstall --appdir="/Applications/Audio&Video" keycastr recordit spotifree spotify vlc miro-video-converter
 
 
 #  ==========
 #  = Coding =
 #  ==========
-caskInstall --appdir="/Applications/Coding" iterm2 sublime-text pycharm webstorm dash diffmerge tower arduino processing macdown cronnix
-# caskInstall --appdir="/Applications/Coding" atom brackets imageoptim imagealpha gitx-rowanj macvim
-#
+caskInstall --appdir="/Applications/Coding" cronnix dash diffmerge imageoptim imagealpha iterm2 tower macdown
+# Fun Things:
+# caskInstall --appdir="/Applications/Coding" arduino processing
+# Others:
+# caskInstall --appdir="/Applications/Coding" atom brackets gitx-rowanj macvim
+# Charles
 # caskInstall charles # Web Debugging Proxy Application for Windows, Mac OS and Linux (Not free)
+
 
 #  =============
 #  = Databases =
@@ -61,25 +74,48 @@ caskInstall --appdir="/Applications/Coding/Db" sequel-pro mysqlworkbench mongohu
 # caskInstall --appdir="/Applications/Coding/Db" robomongo
 
 
+#  ==========
+#  = Office =
+#  ==========
 caskInstall --appdir="/Applications/Office" evernote skitch skim marked
+# caskInstall --appdir="/Applications/Office" omnigraffle5
+# From app store: clearview (maybe)
+# Installers: M$ Office, iWork
 
 
-caskInstall --appdir="/Applications/Tools"  the-unarchiver hyperdock appcleaner smcfancontrol bettertouchtool burn macpass ibackup clamxav flux android-file-transfer
+#  ==================
+#  = Photo&Graphics =
+#  ==================
+caskInstall --appdir="/Applications/Web" gimp
+# Installers: Lightroom 6
+
+
+#  =========
+#  = Tools =
+#  =========
+caskInstall --appdir="/Applications/Tools"  the-unarchiver hyperdock appcleaner smcfancontrol bettertouchtool burn macpass ibackup clamxav flux android-file-transfer carbon-copy-cloner
 caskInstall --appdir="/Applications/Tools"  cakebrew --force
 caskInstall --appdir="/Applications/Tools"  unetbootin detune izip tinkertool
 # caskInstall --appdir="/Applications/Tools"  slate colorpicker-skalacolor rightzoom
 # caskInstall --appdir="/Applications/Tools"  synergy # share mouse between multiple computers
+
+
+#  =================
+#  = Web & Network =
+#  =================
+caskInstall --appdir="/Applications/Web" google-chrome-canary cyberduck transmission franz firefox
+# caskInstall --appdir="/Applications/Web" skype transmit shuttle torbrowser slack
+
+
+
+
 
 #  =============
 #  = Utilities =
 #  =============
 caskInstall --appdir="/Applications/Utilities"  xquartz
 
-#  ===============
-#  = Audio&Video =
-#  ===============
-caskInstall --appdir="/Applications/Audio&Video" vlc spotify spotifree miro-video-converter
-# caskInstall --appdir="/Applications/Audio&Video" recordit
+
 
 #  =====================
 #  = QuickLook Plugins =

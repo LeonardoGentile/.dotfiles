@@ -368,6 +368,11 @@ fi
 #  ===================================
 #  = ********* COMPLETIONS ********* =
 #  ===================================
+# Autocompletion for SUDO (most probably NOT neeeded)
+# if [ "$PS1" ]; then
+#     complete -cf sudo
+# fi
+
 
 # PYTHON STARTUP
 # ================

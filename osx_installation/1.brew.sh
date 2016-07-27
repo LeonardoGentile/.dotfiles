@@ -10,23 +10,36 @@ brew update
 # Upgrade any already-installed formulae
 brew upgrade
 
+#  ===========
+#  = TAP TAP =
+#  ===========
+# Install more recent versions of some OS X tools
+# These formulae duplicate software provided by OS X, though may provide more recent or bugfix versions.
+brew tap homebrew/dupes
+
+brew tap homebrew/versions
+
+brew tap caskroom/cask
+
+# PHP
+# ==========
+# https://github.com/Homebrew/homebrew-php
+# brew tap homebrew/homebrew-php
+
+
 # Git
 brew install git
 # If bash completions don't work then try with
 # brew install git --without-completions
 
-#  =============
-#  = COREUTILS =
-#  =============
+#  ========================
+#  = COREUTILS + GNU BINS =
+#  ========================
 # Install GNU core utilities (those that come with OS X are outdated), g-prefixed
 # use --default-names option to prevent Homebrew from prepending a 'g' to each of the newly installed commands
 # thus we could use these commands as default commands over the ones shipped by OS X.
 brew install coreutils  # g-prefixed
 echo "Don’t forget to add $(brew --prefix coreutils)/libexec/gnubin to \$PATH."
-
-# Install more recent versions of some OS X tools
-# These formulae duplicate software provided by OS X, though may provide more recent or bugfix versions.
-brew tap homebrew/dupes
 
 brew install binutils
 brew install diffutils
@@ -44,7 +57,6 @@ brew install screen
 brew install watch
 brew install wdiff --with-gettext
 brew install wget --with-iri                    # Install wget with IRI support
-
 
 # Install Bash 4
 brew install bash
@@ -76,16 +88,10 @@ brew install tree
 brew install markdown
 brew install lynx
 
-# PHP: https://github.com/Homebrew/homebrew-php
-# brew tap homebrew/homebrew-php
+# LUA
+brew install lua                    # will also install luarocks (package manager for lua)
 
-# Bash Completions (sometimes doesn't work so it needs to be reinstalled)
-brew install bash-completion            # source it from .bash_profile
-
-# To solve version mismatch, for example for installing protractor (for this issue: https://github.com/angular/protractor/issues/2638)
-brew cask install java
-
-
+# Others
 brew install imagemagick --with-webp
 brew install testdisk
 brew install archey                 # info for mac
@@ -94,8 +100,6 @@ brew install mongodb                # edit /usr/local/etc/mongod.conf for settin
 brew install heroku-toolbelt
 brew install rabbitmq               # Default Celery broker
 brew install graphviz               # For graphviz
-brew install lua                    # package manager for lua (will also install luarocks)
-
 
 # GhostScript
 brew install gs                     # ghostscript, needed for progressbar in terminal
@@ -103,19 +107,28 @@ cd $(brew --prefix)/share/ghostscript/
 wget https://ghostscript.googlecode.com/files/ghostscript-fonts-std-8.11.tar.gz
 tar xzvf ghostscript-fonts-std-8.11.tar.gz
 
-#  ==========
-#  = Mackup =
-#  ==========
-# for syncing the setting and pref of installed apps
-brew install mackup
+# Libraries
+brew install giflib
+brew install libjpeg
+brew install jpeg
+brew install jpeg-turbo
+brew install optipng
+
+# Bash Completions (sometimes doesn't work so it needs to be reinstalled)
+brew install bash-completion            # source it from .bash_profile
+
+# Others (TODO)
+# =============
+# brew install pigz pv foremost rhino sqlmap webkit2png zopfli
 
 
-#  =======
-#  = SSL =
-#  =======
-# To find wich and where openssl is installed
-# which -a openssl
-# brew upgrade openssl # should be already installed in the system, only if I need to update it!
+
+#  ========
+#  = JAVA =
+#  ========
+# To solve version mismatch, for example for installing protractor (for this issue: https://github.com/angular/protractor/issues/2638)
+brew cask install java
+
 
 
 #  ==============
@@ -129,6 +142,7 @@ initdb /usr/local/var/postgres -E utf8
 #   ln -sfv /usr/local/opt/postgresql/*.plist ~/Library/LaunchAgents
 #   cp /usr/local/Cellar/postgresql/9.2.4/org.postgresql.postgres.plist ~/Library/LaunchAgents/
 #   launchctl load -w ~/Library/LaunchAgents/org.postgresql.postgres.plist
+
 
 
 #  =========
@@ -156,6 +170,7 @@ mysqld --initialize-insecure --log-error-verbosity --user=`whoami` --basedir="$(
 #   launchctl unload -w ~/Library/LaunchAgents/homebrew.mxcl.mysql.plist
 
 
+
 #  ===================
 #  = APACHE MOD_WSGI =
 #  ===================
@@ -164,27 +179,7 @@ brew install mod_wsgi
 # If problem in compiling see: https://github.com/Homebrew/homebrew-apache:
 #   sudo ln -s /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/ /Applications/Xcode.app/Contents/Developer/Toolchains/OSX10.9.xctoolchain
 
-#  ============
-#  = Alcatraz =
-#  ============
-# Package manager for Xcode
-# http://alcatraz.io
-# Install:
-#   curl -fsSL https://raw.githubusercontent.com/supermarin/Alcatraz/deploy/Scripts/install.sh | sh
-# Uninstall:
-#   rm -rf ~/Library/Application\ Support/Developer/Shared/Xcode/Plug-ins/Alcatraz.xcplugin
-#   rm -rf ~/Library/Application\ Support/Alcatraz # Remove all cached data
 
-# Eero
-# "objective-c, evolved"
-# http://eerolanguage.org/index.html
-# ===========================
-# After Alcatraz look for eero
-#
-
-# OTHERS:
-# =======
-# brew install pigz pv foremost rhino sqlmap webkit2png zopfli
 
 # ​Disable Analytics
 brew analytics off

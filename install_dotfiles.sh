@@ -6,7 +6,7 @@
 #   This script creates symlinks from the home directory to any desired dotfiles in ~/.dotfiles
 #
 #   git clone --recursive git@github.com:LeonardoGentile/.dotfiles.git
-#   sh ./install.sh
+#   sh ./install_dotfiles.sh
 
 # Variables
 # ------------------------
