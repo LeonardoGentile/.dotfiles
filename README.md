@@ -18,7 +18,9 @@ Before installing the dotfiles I perform some extra steps to assure to have ever
         - In case everything was set up  correctly you should get a message `Hi YourUserName! You've successfully authenticated, but 
         GitHub does not provide shell access.`
     - go to __BitBucket__ `Profile/ Bitbucket Settings/ SSH Keys/ Add Key`
-        + switch the default url scheme from https to ssh
+        - switch the default url scheme from https to ssh
+        - `ssh -T git@bitbucket.com` to verify that the settings are ok
+        - In case everything was set up  correctly you should get a message `logged in as YourUserName. You can use git or hg to connect to Bitbucket. Shell access is disabled.`
 
 
 #Dotfiles installation 
