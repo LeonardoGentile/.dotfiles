@@ -126,6 +126,12 @@ if [[ -d ~/code ]]; then
 fi
 
 
+#  ===========
+#  = MAC CLI =
+#  ===========
+# https://github.com/guarinogabriel/Mac-CLI
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/guarinogabriel/mac-cli/master/mac-cli/tools/install)"
+
 #  ============
 #  = Alcatraz =
 #  ============

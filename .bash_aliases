@@ -78,7 +78,7 @@ alias path='echo -e ${PATH//:/\\n}'
 
 # Archery, gives info about this mac
 # ============
-alias mac="archey"
+# alias mac="archey"
 
 
 # ========================================
