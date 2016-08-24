@@ -493,8 +493,6 @@ export MANPAGER="less -X"
 alias grep="grep --color=auto"
 alias egrep="egrep --color=auto"
 alias fgrep="fgrep --color=auto"
-# Always enable colored `grep` output
-export GREP_OPTIONS="--color=auto"
 
 # Specify the TERM variable. Otherwise it will throw an error when running scripts in non-interactive mode
 if [[ $COLORTERM = gnome-* && $TERM = xterm ]] && infocmp gnome-256color >/dev/null 2>&1; then
