@@ -36,6 +36,8 @@ In case you don't like syncing with google you can just:
     + Preferences / General / Preferences / Check "Load preferences from ..." / Browse / Chose the foolder (dropbox or others) where you saved your settings.     
     + __NOTE__: Anytime I change any settings I should click on "Save Current Settings ..."
     ![iterm2 Settings](../images/iterm.png)
++ Change the login shell
+  * If you have installed bash 4 with `brew install bash` then you have to tell your mac this is your default shell, not the standard `/bin/bash`. one way to do this is to: `System Preferences / Users and Groups` then right click on your user (be sure to click the lock) and select `Advanced Options`. Under the `login shell` input paste the result of `which bash`. Restart iterm or the terminal app and you are done. 
 
 ###Get Xcode from App Store  
 + open xcode to agree to the TOS (or it won't install the components)  
