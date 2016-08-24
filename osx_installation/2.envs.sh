@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 brew update
-
+alias BASHRELOAD=". ~/.bash_profile"
 
 #  =========
 #  = RBENV =
@@ -16,8 +16,8 @@ brew install ruby-build         # rbenv plugin that provides an rbenv install
 # USAGE
 # =======================
 # rbenv install --list          # for the list of the available ruby version
-rbenv install 2.1.2             # install ruby (globally)
-rbenv global 2.1.2              # makes ruby 2.1.2 the default one
+rbenv install 2.3.1             # install ruby (globally)
+rbenv global 2.3.1              # makes ruby 2.3.1 the default one
 rbenv rehash                    # Run this command after you install a new version of Ruby, or install a gem that provides commands.
 
 # NOTE: if error "Ruby Bundle Symbol not found: _SSLv2_client_method" check here:
@@ -27,6 +27,7 @@ rbenv rehash                    # Run this command after you install a new versi
 #       - To find wich and where openssl is installed => which -a openssl
 #       - brew upgrade openssl
 
+BASHRELOAD
 
 # RBENV PLUGINS
 # =======================
@@ -58,7 +59,7 @@ pyenv rehash                # to rebuild your shim files. Doing this on init mak
 # pyenv local 2.7.5         # set a python version for the current directory
 
 # If everything is ok 'which python' should be /Users/myuser/.pyenv/shims/python NOT /bin/python
-
+BASHRELOAD
 
 # Update pip (for currently set gloabl)
 # ======================================
@@ -109,6 +110,8 @@ nvm alias default node      # set as default (to be used in any new shell)
 # Activation by Project: https://github.com/creationix/nvm#nvmrc
 #   Create a .nvmrc file in the root folder and just write the node version, ex: '5.9' or 'system'
 #   Then when cd into the project folder, just run: `nvm use`
+
+BASHRELOAD
 
 # TODO: double check npm completions (it worked with brew)
 npm completion > /usr/local/etc/bash_completion.d/npm
