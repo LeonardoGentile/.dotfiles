@@ -57,7 +57,6 @@ echo "========================================"
 # Change to the dotfiles directory
 echo "Changing to the $dir directory"
 cd $dir
-echo "...done"
 
 # backup
 # -------

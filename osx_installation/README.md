@@ -403,6 +403,9 @@ System Preferences / Keyboard / Shortcuts / ...
 ####Reduce transparency in El Capitan
 System Preferences / Accessibility / Display / Reduce Transparency
 
+####Always show Scrollbars
+System Preferences / General / Show Scroll Bars -> Always
+
 ####System Lock
 
   * System Preferences /

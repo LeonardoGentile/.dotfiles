@@ -185,4 +185,4 @@ brew install mod_wsgi
 brew analytics off
 
 # Remove outdated versions from the cellar
-brew cleanup
+# brew cleanup

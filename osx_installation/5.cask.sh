@@ -14,7 +14,8 @@
 # pycharm
 # webstorm
 
-brew tap caskroom/cask # maybe not necessary
+brew tap caskroom/cask          # maybe not necessary
+brew tap caskroom/versions
 
 brew install homebrew/completions/brew-cask-completion
 
@@ -86,7 +87,7 @@ caskInstall --appdir="/Applications/Office" evernote skitch skim marked
 #  ==================
 #  = Photo&Graphics =
 #  ==================
-caskInstall --appdir="/Applications/Web" gimp
+caskInstall --appdir="/Applications/Photo&Graphics" gimp
 # Installers: Lightroom 6
 
 
