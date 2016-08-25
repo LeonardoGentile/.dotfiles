@@ -45,7 +45,7 @@ alias shell_plus="python manage.py shell_plus --use-pythonrc"
 
 # TERMRC: https://github.com/briangonzalez/termrc
 # ============
-alias start="termrc start"
+alias start="mert start"
 alias st=start
 
 # Redis
