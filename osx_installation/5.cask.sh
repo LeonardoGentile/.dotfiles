@@ -59,7 +59,7 @@ caskInstall --appdir="/Applications/Audio&Video" keycastr recordit spotifree spo
 #  ==========
 #  = Coding =
 #  ==========
-caskInstall --appdir="/Applications/Coding" cronnix dash diffmerge imageoptim imagealpha iterm2 tower macdown
+caskInstall --appdir="/Applications/Coding" cronnix dash diffmerge imageoptim imagealpha iterm2 tower macdown shuttle
 # Fun Things:
 # caskInstall --appdir="/Applications/Coding" arduino processing
 # Others:
@@ -78,7 +78,7 @@ caskInstall --appdir="/Applications/Coding/Db" sequel-pro mysqlworkbench mongohu
 #  ==========
 #  = Office =
 #  ==========
-caskInstall --appdir="/Applications/Office" evernote skitch skim marked
+caskInstall --appdir="/Applications/Office" evernote skitch skim marked kindle
 # caskInstall --appdir="/Applications/Office" omnigraffle5
 # From app store: clearview (maybe)
 # Installers: M$ Office, iWork
@@ -87,7 +87,7 @@ caskInstall --appdir="/Applications/Office" evernote skitch skim marked
 #  ==================
 #  = Photo&Graphics =
 #  ==================
-caskInstall --appdir="/Applications/Photo&Graphics" gimp
+caskInstall --appdir="/Applications/Photo&Graphics" gimp darktable
 # Installers: Lightroom 6
 
 
@@ -105,7 +105,7 @@ caskInstall --appdir="/Applications/Tools"  unetbootin detune izip tinkertool
 #  = Web & Network =
 #  =================
 caskInstall --appdir="/Applications/Web" google-chrome-canary cyberduck transmission franz firefox
-# caskInstall --appdir="/Applications/Web" skype transmit shuttle torbrowser slack
+# caskInstall --appdir="/Applications/Web" skype transmit torbrowser slack
 
 
 
