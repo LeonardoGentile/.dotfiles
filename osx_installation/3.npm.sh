@@ -48,6 +48,13 @@ npm install -g npm-check-updates
 # Use: nodemon server.js instead of node server.js
 npm install -g nodemon
 
+
+# ImportJs
+# ===========================
+# Useful for autoimport ES6 files using the sublime plugin
+npm install import-js -g
+
+
 # Protractor
 # ===========================
 npm install -g protractor

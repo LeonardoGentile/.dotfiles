@@ -104,7 +104,7 @@ caskInstall --appdir="/Applications/Tools"  unetbootin detune izip tinkertool
 #  =================
 #  = Web & Network =
 #  =================
-caskInstall --appdir="/Applications/Web" google-chrome-canary cyberduck transmission franz firefox
+caskInstall --appdir="/Applications/Web" google-chrome-canary cyberduck transmission franz firefox blisk pocket
 # caskInstall --appdir="/Applications/Web" skype transmit torbrowser slack
 
 
