@@ -186,7 +186,7 @@ fi
 if [ -d /usr/local/opt/mysql/lib ]; then
     pathappend /usr/local/opt/mysql/bin
 # if installed with brew
-elif [ -d /usr/local/mysql/bin ]; then
+elif [ -d /usr/local/mysql/bin && $mac]; then
     pathappend $pfx/mysql/bin
 fi
 
@@ -224,14 +224,6 @@ if ls --color > /dev/null 2>&1; then
 else
     # OS X `ls`
     alias ls='/bin/ls -G'
-fi
-
-
-# PRETTY GIT DIFF
-# =================
-# @TODO: to finiSH
-if [[ $brew && -f  $pfx/opt/git/share/git-core/contrib/diff-highlight/diff-highlight  ]]; then
-    ln -sf "$pfx/opt/git/share/git-core/contrib/diff-highlight/diff-highlight" ~/bin/diff-highlight
 fi
 
 #  ==============================
