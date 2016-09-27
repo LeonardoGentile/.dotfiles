@@ -186,7 +186,7 @@ fi
 if [ -d /usr/local/opt/mysql/lib ]; then
     pathappend /usr/local/opt/mysql/bin
 # if installed with brew
-elif [ -d /usr/local/mysql/bin && $mac]; then
+elif [[ -d /usr/local/mysql/bin && $mac ]]; then
     pathappend $pfx/mysql/bin
 fi
 
