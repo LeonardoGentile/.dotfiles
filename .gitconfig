@@ -99,4 +99,4 @@
 [push]
     default = simple
 [include]
-    path = ~/.git_local
+    path = ~/.gitconfig_local

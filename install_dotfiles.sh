@@ -51,13 +51,13 @@ cp $dir/.bash_local ~/.bash_local     # Don't forget to configure the .bash_loca
 echo "========================================"
 
 
-# git_local, commented by default, to edit. Not tracked
+# gitconfig_local, commented by default, to edit. Not tracked
 # --------------------------------------------------
-echo "Moving default .git_local from ~ to $olddir"
-echo "DON'T FORGET TO CONFIGURE .git_local!"
-mv ~/.git_local $olddir
-echo "Creating empty .git_local file in home directory."
-cp $dir/.git_local ~/.git_local     # Don't forget to configure the .git_local
+echo "Moving default .gitconfig_local from ~ to $olddir"
+echo "DON'T FORGET TO CONFIGURE .gitconfig_local!"
+mv ~/.gitconfig_local $olddir
+echo "Creating empty .gitconfig_local file in home directory."
+cp $dir/.gitconfig_local ~/.gitconfig_local     # Don't forget to configure the .gitconfig_local
 echo "========================================"
 
 

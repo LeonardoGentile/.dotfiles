@@ -3,3 +3,5 @@
 #[user]
 #    name = Your Username
 #    email = Your email
+#[core]
+#     editor = vim
