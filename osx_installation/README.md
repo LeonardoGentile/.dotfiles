@@ -20,7 +20,9 @@ In case you don't like syncing with google you can just:
   * import the bookmarks back
   * delete the google user
 
-###iterm sync and settings
+###iterm 
+
+####sync and settings
 
 + Theme:
     + download and extract [Solarized Dark Theme](http://ethanschoonover.com/solarized)
@@ -38,6 +40,22 @@ In case you don't like syncing with google you can just:
     ![iterm2 Settings](../images/iterm.png)
 + Change the login shell
   * If you have installed bash 4 with `brew install bash` then you have to tell your mac this is your default shell, not the standard `/bin/bash`. one way to do this is to: `System Preferences / Users and Groups` then right click on your user (be sure to click the lock) and select `Advanced Options`. Under the `login shell` input paste the result of `which bash`. Restart iterm or the terminal app and you are done. 
+
+####shell integration
+To enable [shell integration](https://www.iterm2.com/documentation-shell-integration.html) either you follow the default procedure by _iTerm2>Install Shell Integration_ or given that I've already installed it and added some extra utilities scripts you can just  open the file `~/.bash_local` and uncomment this line and you are ready to go:
+```
+  test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
+```
+I source the iterm shell integration scipt from `.bash_local` because I do not want it on all my machines so by default it is disabled.
+If you enable shell integration from `.bash_local` you will also get these cool commands (see the `~/iterm2` directory):
+```
+  cd ~/Pictures
+  imgls                   # directory listing that includes a thumbnail of each image in a directory
+  imgcat my_image.jpg     # Displays one or more images inline at their full size
+  download file_name      # Downloads a file, but does not display it inline.
+  divider my_image.jpg    # Draws a full-width, one line-tall graphical divider.
+```
+Check here https://www.iterm2.com/documentation-images.html for more docs.
 
 ###Get Xcode from App Store  
 + open xcode to agree to the TOS (or it won't install the components)  
@@ -240,7 +258,6 @@ This will install:
 * lua packages 
 * linters, useful for [Sublime Linter](https://github.com/SublimeLinter/SublimeLinter3) plugins
 * [mackup](https://github.com/lra/mackup)
-* [termrc](https://github.com/briangonzalez/termrc)
 * [mert](https://github.com/eggplanetio/mert)
 * [screengif](https://github.com/dergachev/screengif)
 * Other things 
@@ -255,35 +272,34 @@ This will install:
 ```
 
 
-### termrc
-[termrc](https://github.com/briangonzalez/termrc) is amazing! This little command will help you starting up iterm2 envs from shell. 
+### Mert
+[mert](https://github.com/eggplanetio/mert) is amazing! It is a command line tool for managing windows, tabs, and pane configurations for iTerm.
+
+####installation
     
-    gem install termrc
+    npm install -g mert
+
+
 __Example__:
 
-Create a `Termfile` in your project directory
-    
-    commands:
-      django_server:    cd myproject; workon myproject; python manage.py runserver;
-      grunt_server:      cd myproject; cd webapp; grunt serve
-      celery_server:     cd myproject; workon myproject; celery -A myproject worker -l info;
-      commands_tab:  cd myproject; workon myproject
+Run `mert init` in your project directory with, it will create a `.mertrc` file.  
+Edit the `.mertrc` file:
 
+    root: "/Users/foo/Projects/NonNewtonianApplesFallingUpwards"
     layout:
-      - [ django_server, grunt_server ]         # row 1, with 2 panes
-      - [ celery_server, commands_tab ]         # row 2, with 2 pane
-then run 
-    
-    termrc start
-This will create 4 panes in iterm2 (2 for row) with your favorite commands for your project. I created an alias in `.bash_aliases`
+      -
+        - workon foo_virtual_env; python manage.py runserver;
+      -
+        - cd webapp; gulp serve;
+      -
+        - git status;
 
-    alias start="termrc start"
-so that I just `cd myproject; start` will launch my defined panes and commands defined in the `Termfile`. This saves me a lot of time!
+then run `mert start`.  
+This will read the `.mertrc` file and create 3 horizontal panes in iterm with your favorite commands for your project.  
+I created an alias in `.bash_aliases`:
 
-####Warning!!
-Termrc has been discontinued, in fact it won't work on iterm2 v3.   
-[mert](https://github.com/eggplanetio/mert) is a similar package from the same author that will work on iterm2 and iterm3 (but it seems yet a bit unstable to me)
-
+    alias start="mert start"
+so that I just `cd myproject; start` will launch my defined panes and commands defined in the `.mertrc`. This saves me a lot of time!
 
 ###alcatraz
 [alcatraz](http://alcatraz.io) packet manager for xcode. I don't have enough experience with this, I need to play with it a little bit more
