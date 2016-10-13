@@ -377,10 +377,6 @@ function clone {
 }
 
 
-function caskInstall() {
-    brew cask install "${@}" 2> /dev/null
-}
-
 # TODO:
 # used for pretty diff
 # function strip_diff_leading_symbols(){

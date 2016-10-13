@@ -338,11 +338,7 @@ To install for example dropbox in `/Applications/Web` directory:
 I've created two aliases. In `.bash_aliases` 
     
     alias casksearch='brew cask search'
-and in `.bash_functions`
-    
-    function caskInstall() {
-        brew cask install "${@}" 2> /dev/null
-    }
+    alias caskinstall='brew cask install'
 
 #### launchRocket
 [LaunchRocket](https://github.com/jimbojsb/launchrocket) is a Mac PrefPane to manage all your Homebrew-installed services
