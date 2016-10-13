@@ -57,7 +57,7 @@ Some files I keep there:
 
  - "extra" dotfiles 
     - `.bashmarks_dirs`  (extra "bookmarks" directories for bashmarks)
-    - `.git_extra` 
+    - `.git_local` 
 
             [user]
                 name = Name Surname
@@ -82,7 +82,7 @@ For installing these private files I do:
         olddir=~/.dotfiles-private_old      # old dotfiles backup directory
         
         # list of files/folders to symlink in homedir
-        files=".git_extra .shuttle.json"
+        files=".git_local .shuttle.json"
         
         # create dotfiles-private_old in homedir
         echo "Creating $olddir for backup of any existing dotfiles-privates in ~"
@@ -126,7 +126,8 @@ For installing these private files I do:
 The `install_dotfiles.sh` script from the step 1 doesn't symlink everything, in fact it will __copy__ some files instead from `~/.dotfiles` to `~/`:
 
 - `.bashmarks_dirs`
-- `.git_extra`
+- `.git_local`
+- `.bash_local`
 
 I do so because these are files that I do NOT want to track. The `install_dotfiles.sh` (step 1) copies them in home and if I edit them in `home` nothing will happens to the `.dotfiles` repo.  Usually I overwrite these files with the ones coming from `.dotfiles-private` (`install_private.sh` from step 2)
 

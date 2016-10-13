@@ -265,12 +265,12 @@ source ~/.dotfiles/.bash_aliases
 source ~/.dotfiles/.bash_functions
 
 
-# BASH EXTRA (not using it)
+# BASH LOCAL
 # =========================
 # ~/.bash_extra used for settings I don't want to commit.
 # It will be copied in home and the modifications there won't be committed
-bash_extra=~/.bash_extra
-[ -r "$bash_extra" ] && [ -f "$bash_extra" ] && source "$bash_extra"
+bash_local=~/.bash_local
+[ -r "$bash_local" ] && [ -f "$bash_local" ] && source "$bash_local"
 
 
 # MYSQL-COLORIZE
@@ -354,7 +354,6 @@ fi
 #  ===============================
 #  = ********* /PROMPT ********* =
 #  ===============================
-
 
 
 #  ===================================

@@ -1,0 +1,16 @@
+# Bash Local
+# This file is copied over ~/.bash_local and won't be tracked
+# so you can activate specific config for a specific machine
+# without having to commit and propagate this conf to other setups.
+
+# iTerm2 SHELL INTEGRATION
+# =========================
+# This should come after prompt section because it modify it,
+# it adds "marks" before the prompt to show that shell integration is available
+#
+# test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
+
+# 1 Navigate marks: Cmd-Shift-Up and Down-arrow keys.
+# 2 Alert box when a mark appears (for long run tasks): Alert on next mark (Cmd-Opt-A)
+# 3 Right-click on a mark to see it returning code (same line of the launched command)
+# 4 imgls, imgcat, ectr: https://www.iterm2.com/documentation-shell-integration.html

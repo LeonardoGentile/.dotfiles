@@ -16,7 +16,7 @@ bin=~/bin                   # bin directory
 oldbin=~/bin_old            # old bin backup directory
 
 # list of files/folders to symlink in homedir
-files=".bash_profile .bashrc .gitattributes .gitconfig .gitignore_global .inputrc .osx .gvimrc .hushlogin .vimrc .wgetrc .mackup.cfg .shuttle.json"
+files=".bash_profile .bashrc .gitattributes .gitconfig .gitignore_global .inputrc .osx .gvimrc .hushlogin .vimrc .wgetrc .mackup.cfg .shuttle.json .iterm2_shell_integration.bash .iterm2"
 
 
 
@@ -40,13 +40,24 @@ echo "Creating default .bashmarks_dirs file in home directory."
 cp $dir/data/.bashmarks_dirs ~/.bashmarks_dirs
 echo "========================================"
 
-# git_extra, empty(commented) to edit. Not versioned
+
+# bash_local, commented by default, to edit. Not tracked
 # --------------------------------------------------
-echo "Moving default .git_extra from ~ to $olddir"
-echo "DON'T FORGET TO CONFIGURE .git_extra!"
-mv ~/.git_extra $olddir
-echo "Creating empty .bash_extra file in home directory."
-cp $dir/.git_extra ~/.git_extra     # Don't forget to configure the .git_extra
+echo "Moving default .bash_local from ~ to $olddir"
+echo "DON'T FORGET TO CONFIGURE .bash_local!"
+mv ~/.bash_local $olddir
+echo "Creating empty .bash_local file in home directory."
+cp $dir/.bash_local ~/.bash_local     # Don't forget to configure the .bash_local
+echo "========================================"
+
+
+# git_local, commented by default, to edit. Not tracked
+# --------------------------------------------------
+echo "Moving default .git_local from ~ to $olddir"
+echo "DON'T FORGET TO CONFIGURE .git_local!"
+mv ~/.git_local $olddir
+echo "Creating empty .git_local file in home directory."
+cp $dir/.git_local ~/.git_local     # Don't forget to configure the .git_local
 echo "========================================"
 
 

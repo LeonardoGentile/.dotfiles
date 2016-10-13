@@ -99,4 +99,4 @@
 [push]
     default = simple
 [include]
-    path = ~/.git_extra
+    path = ~/.git_local
