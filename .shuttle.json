@@ -1,15 +1,20 @@
 {
-	"_comments": [
-		"Valid terminals include: 'Terminal.app' or 'iTerm'",
-		"Hosts will also be read from your ~/.ssh/config or /etc/ssh_config file, if available",
-		"For more information on how to configure, please see http://fitztrev.github.io/shuttle/"
-	],
-	"terminal":  "iTerm",
-	"launch_at_login": true,
-	"show_ssh_config_hosts": true,
-	"ssh_config_ignore_hosts": [],
-	"ssh_config_ignore_keywords": [],
-	"hosts": [
+    "_comments": [
+        "Valid terminals include: 'Terminal.app' or 'iTerm'",
+        "Hosts will also be read from your ~/.ssh/config or /etc/ssh_config file, if available",
+        "For more information on how to configure, please see http://fitztrev.github.io/shuttle/",
+        "Ensure to have a 'Default' profile in iTerm, or change to you favorite "
+    ],
+    "launch_at_login": true,
+    "editor" : "default",
+    "terminal":  "iTerm",
+    "iTerm_version": "stable",
+    "open_in": "tab",
+    "default_theme": "Default",
+    "show_ssh_config_hosts": true,
+    "ssh_config_ignore_hosts": [],
+    "ssh_config_ignore_keywords": [],
+    "hosts": [
 
-	]
+    ]
 }
