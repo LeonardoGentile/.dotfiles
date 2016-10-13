@@ -135,7 +135,7 @@ set tm=500
 set foldcolumn=1
 
 " Line numbers
-set number
+" set number
 "To disable
 "set :invnumber
 
