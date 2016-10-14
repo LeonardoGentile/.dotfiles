@@ -317,7 +317,7 @@ fi
 # POWERLINE SHELL (FANCY PROMPT)
 # ===============================
 if $linux ; then
-    pw_options="--cwd-mode fancy --cwd-max-depth 3 --cwd-max-dir-size 25 --mode patched --colorize-hostname"
+    pw_options="--cwd-mode fancy --cwd-max-depth 3 --cwd-max-dir-size 25 --mode patched"
 elif $mac ; then
     pw_options="--cwd-mode fancy --cwd-max-depth 3 --cwd-max-dir-size 25 --mode patched --colorize-hostname"
 fi
