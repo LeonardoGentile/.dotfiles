@@ -453,6 +453,10 @@ complete -o "nospace" -W "Contacts Calendar Dock Finder Mail Safari iTunes Syste
 #  ======================================
 #  = ********* MISC & EXPORTS ********* =
 #  ======================================
+# By default if you type:
+# shopt     # (without argument show status of all shell options)
+#    -u     # short for unset
+#    -s     # short for set
 
 # Case-insensitive globbing (used in pathname expansion)
 shopt -s nocaseglob
@@ -460,6 +464,12 @@ shopt -s nocaseglob
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
+
+# for considering dot files (turn on dot files)
+shopt -s dotglob # cp or mv will work with dotfiles
+
+# for don't considering dot files (turn off dot files)
+# shopt -u dotglob
 
 # Autocorrect typos in path names when using `cd`
 # shopt -s cdspell
