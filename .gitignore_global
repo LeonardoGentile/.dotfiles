@@ -39,7 +39,7 @@ Thumbs.db
 node_modules
 
 # editor config
-.editorconfig
+#.editorconfig
 
 # bower stuff
 .bower-cache

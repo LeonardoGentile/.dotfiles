@@ -96,7 +96,7 @@ caskInstall --appdir="/Applications/Photo&Graphics" gimp darktable
 #  =========
 caskInstall --appdir="/Applications/Tools"  the-unarchiver hyperdock appcleaner smcfancontrol bettertouchtool burn macpass ibackup clamxav flux android-file-transfer carbon-copy-cloner
 caskInstall --appdir="/Applications/Tools"  cakebrew --force
-caskInstall --appdir="/Applications/Tools"  unetbootin detune izip tinkertool
+caskInstall --appdir="/Applications/Tools"  unetbootin detune izip tinkertool cryptomator
 # caskInstall --appdir="/Applications/Tools"  slate colorpicker-skalacolor rightzoom
 # caskInstall --appdir="/Applications/Tools"  synergy # share mouse between multiple computers
 
