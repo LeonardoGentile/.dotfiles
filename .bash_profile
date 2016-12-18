@@ -179,6 +179,11 @@ if [[ -d /usr/local/heroku/bin ]]; then
     pathappend /usr/local/heroku/bin
 fi
 
+# Ansible
+# ===============
+if [ -f ~/.ansible_hosts ]; then
+    export ANSIBLE_HOSTS=~/.ansible_hosts
+fi
 
 # MYSQL
 # =================
