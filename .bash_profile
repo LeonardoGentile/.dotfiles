@@ -179,11 +179,6 @@ if [[ -d /usr/local/heroku/bin ]]; then
     pathappend /usr/local/heroku/bin
 fi
 
-# Ansible
-# ===============
-if [ -f ~/.ansible_hosts ]; then
-    export ANSIBLE_HOSTS=~/.ansible_hosts
-fi
 
 # MYSQL
 # =================
@@ -566,10 +561,18 @@ if [[ $brew ]]; then
 fi
 
 
+# # ANSIBLE
+# # ===========================
+# if [ -f ~/.ansible_hosts ]; then
+#     # Custom ansible inventory file
+#     export ANSIBLE_HOSTS=~/.ansible_hosts
+# fi
+
+
 # LOCALE
 # ===========================
 # https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man3/setlocale.3.html
-export LANG="en_US"
+export LANG="en_US.UTF-8"
 export LC_ALL="en_US.UTF-8"
 
 #  =======================================

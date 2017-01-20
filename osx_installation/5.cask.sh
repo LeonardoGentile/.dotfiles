@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# Big List of OS Mac Apps: https://github.com/jeffreyjackson/mac-apps
+
 # Install native apps with cask
 # https://github.com/caskroom/homebrew-cask/blob/master/USAGE.md
 
@@ -104,8 +106,8 @@ caskInstall --appdir="/Applications/Tools"  unetbootin detune izip tinkertool cr
 #  =================
 #  = Web & Network =
 #  =================
-caskInstall --appdir="/Applications/Web" google-chrome-canary cyberduck transmission franz firefox blisk pocket
-# caskInstall --appdir="/Applications/Web" skype transmit torbrowser slack
+caskInstall --appdir="/Applications/Web" google-chrome-canary cyberduck transmission franz firefox blisk pocket selfcontrol seafile-client torbrowser
+# caskInstall --appdir="/Applications/Web" skype transmit slack
 
 
 

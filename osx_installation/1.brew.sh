@@ -19,6 +19,9 @@ brew tap homebrew/dupes
 
 brew tap homebrew/versions
 
+# This allows me to: "brew services start/stop/restart mysql" and many other services
+brew tap homebrew/services
+
 brew tap caskroom/cask
 
 # PHP
