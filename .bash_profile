@@ -246,9 +246,12 @@ if [[ -f $PYVER_BIN/virtualenvwrapper.sh ]]; then
 # brew version
 elif [[ $brew && -f $pfx/bin/virtualenvwrapper.sh ]]; then
     source $pfx/bin/virtualenvwrapper.sh
-# linux varsion (installed globally with pip)
+# linux version (installed globally with pip)
 elif [[ -f /usr/local/bin/virtualenvwrapper.sh ]]; then
     source /usr/local/bin/virtualenvwrapper.sh
+# This is (why?) the default location in debian
+elif [[ -f /usr/share/virtualenvwrapper/virtualenvwrapper.sh ]]; then
+    source /usr/share/virtualenvwrapper/virtualenvwrapper.sh
 # no available
 else
     echo "Virtualenvwrapper is not available!"
