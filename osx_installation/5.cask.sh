@@ -61,13 +61,13 @@ caskInstall --appdir="/Applications/Audio&Video" keycastr recordit spotifree spo
 #  ==========
 #  = Coding =
 #  ==========
-caskInstall --appdir="/Applications/Coding" cronnix dash diffmerge imageoptim imagealpha iterm2 tower macdown shuttle
+caskInstall --appdir="/Applications/Coding" cronnix dash diffmerge imageoptim imagealpha iterm2 hyper tower macdown shuttle
 # Fun Things:
 # caskInstall --appdir="/Applications/Coding" arduino processing
 # Others:
 # caskInstall --appdir="/Applications/Coding" atom brackets gitx-rowanj macvim
-# Charles
-# caskInstall charles # Web Debugging Proxy Application for Windows, Mac OS and Linux (Not free)
+# Prototyping
+# caskInstall --appdir="/Applications/Coding" origami-studio # prototyping mobile apps
 
 
 #  =============
@@ -89,7 +89,7 @@ caskInstall --appdir="/Applications/Office" evernote skitch skim marked kindle
 #  ==================
 #  = Photo&Graphics =
 #  ==================
-caskInstall --appdir="/Applications/Photo&Graphics" gimp darktable
+caskInstall --appdir="/Applications/Photo&Graphics" gimp darktable krita lyn
 # Installers: Lightroom 6
 
 

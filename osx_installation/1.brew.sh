@@ -27,7 +27,14 @@ brew tap caskroom/cask
 # PHP
 # ==========
 # https://github.com/Homebrew/homebrew-php
-# brew tap homebrew/homebrew-php
+brew tap homebrew/homebrew-php
+# To install major version of php
+
+# Switch versions of php
+brew install brew-php-switcher
+# USAGE:
+# brew-php-switcher 56
+# brew-php-switcher 70
 
 
 # Git
