@@ -19,27 +19,29 @@ Thumbs.db
 # https://www.gitignore.io/api/pycharm
 
 # User-specific stuff:
-.idea/**/workspace.xml
-.idea/**/tasks.xml
-.idea/**/vcs.xml
-.idea/**/jsLibraryMappings.xml
-# .idea/**/dictionaries
+**/.idea/**/workspace.xml
+**/.idea/**/tasks.xml
+**/.idea/**/jsLibraryMappings.xml
+
+# Maybe (depends on the project)
+# **/.idea/**/dictionaries
+**/.idea/**/vcs.xml
 
 # Sensitive or high-churn files:
-.idea/**/dataSources/
-.idea/**/dataSources.ids
-.idea/**/dataSources.xml
-.idea/**/dataSources.local.xml
-.idea/**/sqlDataSources.xml
-.idea/**/dynamic.xml
-.idea/**/uiDesigner.xml
+**/.idea/**/dataSources/
+**/.idea/**/dataSources.ids
+**/.idea/**/dataSources.xml
+**/.idea/**/dataSources.local.xml
+**/.idea/**/sqlDataSources.xml
+**/.idea/**/dynamic.xml
+**/.idea/**/uiDesigner.xml
 
 # Gradle:
-.idea/**/gradle.xml
-.idea/**/libraries
+**/.idea/**/gradle.xml
+**/.idea/**/libraries
 
 # Mongo Explorer plugin:
-.idea/**/mongoSettings.xml
+**/.idea/**/mongoSettings.xml
 
 ## File-based project format:
 *.iws
@@ -47,13 +49,10 @@ Thumbs.db
 ## Plugin-specific files:
 # IntelliJ
 /out/
-
 # mpeltonen/sbt-idea plugin
-.idea_modules/
-
+**/.idea_modules/
 # JIRA plugin
 atlassian-ide-plugin.xml
-
 # Crashlytics plugin (for Android Studio and IntelliJ)
 com_crashlytics_export_strings.xml
 crashlytics.properties
