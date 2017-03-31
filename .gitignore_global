@@ -59,6 +59,21 @@ crashlytics.properties
 crashlytics-build.properties
 fabric.properties
 
+### PyCharm Patch ###
+# Comment Reason: https://github.com/joeblau/gitignore.io/issues/186#issuecomment-215987721
+
+# MODULES
+# uncomment this if you want to ignore modules!
+# *.iml
+# modules.xml
+# .idea/misc.xml
+# *.ipr
+
+# Sonarlint plugin
+.idea/sonarlint
+
+# End of https://www.gitignore.io/api/pycharm
+
 
 #  ================
 #  = Sublime Text =
