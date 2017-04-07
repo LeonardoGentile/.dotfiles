@@ -368,10 +368,10 @@ fi
 # fi
 
 
-# PYTHON STARTUP
-# ================
-# Completion for python command line and Custom hystory file
-export PYTHONSTARTUP=~/.dotfiles/.pystartup.py
+# # PYTHON STARTUP
+# # ================
+# # Completion for python command line and Custom hystory file
+# export PYTHONSTARTUP=~/.dotfiles/.pystartup.py
 
 # BASH COMPLETION
 # ================
