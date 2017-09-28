@@ -80,6 +80,7 @@ brew install gpatch
 brew install m4
 brew install make
 brew install nano
+brew install micro                      # Super cool text editor: https://github.com/zyedidia/micro
 
 # NON-GNU
 brew install less
