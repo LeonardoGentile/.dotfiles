@@ -41,6 +41,7 @@ brew install brew-php-switcher
 brew install git
 # If bash completions don't work then try with
 # brew install git --without-completions
+brew install mercurial
 
 #  ========================
 #  = COREUTILS + GNU BINS =
@@ -57,7 +58,7 @@ brew install ed --with-default-names
 brew install findutils                          # GNU `find`, `locate`, `updatedb`, and `xargs` (g-prefixed)
 brew install gawk
 brew install gnu-indent --with-default-names
-brew install gnu-sed                            # Gnu sed, used for pretty git diff (use it with gsed)
+brew install gnu-sed --with-default-names       # Gnu sed, used for pretty git diff (call it with `gsed` or install with --with-default-names -> replace sed)
 brew install gnu-tar --with-default-names
 brew install gnu-which --with-default-names
 brew install gnutls
@@ -97,6 +98,7 @@ brew install rename
 brew install tree
 brew install markdown
 brew install lynx
+brew install pstree
 
 # LUA
 brew install lua                    # will also install luarocks (package manager for lua)
@@ -110,6 +112,7 @@ brew install mongodb                # edit /usr/local/etc/mongod.conf for settin
 brew install heroku-toolbelt
 brew install rabbitmq               # Default Celery broker
 brew install graphviz               # For graphviz
+brew install memcached
 
 # GhostScript
 brew install gs                     # ghostscript, needed for progressbar in terminal
