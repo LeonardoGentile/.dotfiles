@@ -114,6 +114,9 @@ set hlsearch
 " Makes search act like search in modern browsers
 set incsearch
 
+" press esc twice to clear the last search highlights
+nmap <esc><esc> :noh<return>
+
 " Don't redraw while executing macros (good performance config)
 set lazyredraw
 
@@ -361,7 +364,7 @@ map <leader>x :e ~/buffer.md<cr>
 " Toggle paste mode on and off
 map <leader>pp :setlocal paste!<cr>
 
-" Auto-toggle set/unset Vim's paste mode when you paste 
+" Auto-toggle set/unset Vim's paste mode when you paste
 let &t_SI .= "\<Esc>[?2004h"
 let &t_EI .= "\<Esc>[?2004l"
 inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
