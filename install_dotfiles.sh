@@ -122,10 +122,12 @@ echo "========================================"
 echo "DONE."
 
 
-#  ======================
-#  = COPYING NVM CONFIG =
-#  ======================
+#  ========================
+#  = NVM DEFAULT PACKAGES =
+#  ========================
+# See https://github.com/creationix/nvm#default-global-packages-from-file-while-installing
 echo "NVM CONFIG"
+nvm_dir=~/.nvm
 mkdir -p $nvm_dir;
 ln -s $dir/default-packages $nvm_dir/
 
