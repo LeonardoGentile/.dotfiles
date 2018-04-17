@@ -121,6 +121,17 @@ fi
 echo "========================================"
 echo "DONE."
 
+
+#  ======================
+#  = COPYING NVM CONFIG =
+#  ======================
+echo "NVM CONFIG"
+mkdir -p $nvm_dir;
+ln -s $dir/default-packages $nvm_dir/
+
+echo "========================================"
+echo "DONE."
+
 # http://blog.smalleycreative.com/tutorials/using-git-and-github-to-manage-your-dotfiles/
 # http://lostincode.net/posts/homebrew
 
