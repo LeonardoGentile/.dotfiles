@@ -61,7 +61,7 @@ caskInstall --appdir="/Applications/Audio&Video" keycastr recordit spotifree spo
 #  ==========
 #  = Coding =
 #  ==========
-caskInstall --appdir="/Applications/Coding" cronnix dash diffmerge imageoptim imagealpha iterm2 hyper tower macdown shuttle
+caskInstall --appdir="/Applications/Coding" cronnix dash diffmerge imageoptim imagealpha iterm2 hyper tower macdown shuttle drawio
 # Fun Things:
 # caskInstall --appdir="/Applications/Coding" arduino processing
 # Others:

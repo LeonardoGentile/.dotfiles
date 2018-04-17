@@ -135,6 +135,10 @@ brew install bash-completion            # source it from .bash_profile
 # =============
 # brew install pigz pv foremost rhino sqlmap webkit2png zopfli
 
+# pipeviewer (useful to check sql import progress)
+# Example: pv sqlfile.sql | mysql -uxxx -pxxxx dbname
+brew install pv
+
 
 
 #  ========
