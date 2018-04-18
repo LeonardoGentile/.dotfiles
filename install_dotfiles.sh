@@ -16,7 +16,7 @@ bin=~/bin                   # bin directory
 oldbin=~/bin_old            # old bin backup directory
 
 # list of files/folders to symlink in homedir
-files=".bash_profile .bashrc .gitattributes .gitconfig .gitignore_global .inputrc .osx .gvimrc .hushlogin .vimrc .wgetrc .mackup.cfg .shuttle.json .iterm2_shell_integration.bash .iterm2"
+files=".bash_profile .bashrc .gitattributes .gitconfig .gitignore_global .inputrc .osx .gvimrc .hushlogin .vimrc .wgetrc .mackup.cfg .shuttle.json"
 
 
 
