@@ -1,8 +1,8 @@
-#OsX Installation Instruction
+# OsX Installation Instruction
 
-##Preparation
+## Preparation
 
-###Priority Apps:
+### Priority Apps:
 These apps should be manually installed asap because I use them for my entire installation process:
 
   * [Chrome](https://www.google.com/chrome/browser/desktop/index.html)
@@ -10,7 +10,7 @@ These apps should be manually installed asap because I use them for my entire in
   * [Quiver](https://itunes.apple.com/fr/app/quiver-programmers-notebook/id866773894?mt=12)
   * [Sublime](https://www.sublimetext.com/)
 
-###Chrome account Sync
+### Chrome account Sync
 Login with your user to sync apps, bookmarks and settings.
 In case you don't like syncing with google you can just: 
 
@@ -20,9 +20,9 @@ In case you don't like syncing with google you can just:
   * import the bookmarks back
   * delete the google user
 
-###iterm 
+### iterm 
 
-####sync and settings
+#### sync and settings
 
 + Theme:
     + download and extract [Solarized Dark Theme](http://ethanschoonover.com/solarized)
@@ -41,7 +41,7 @@ In case you don't like syncing with google you can just:
 + Change the login shell
   * If you have installed bash 4 with `brew install bash` then you have to tell your mac this is your default shell, not the standard `/bin/bash`. one way to do this is to: `System Preferences / Users and Groups` then right click on your user (be sure to click the lock) and select `Advanced Options`. Under the `login shell` input paste the result of `which bash`. Restart iterm or the terminal app and you are done. 
 
-####shell integration
+#### shell integration
 To enable [shell integration](https://www.iterm2.com/documentation-shell-integration.html) either you follow the default procedure by _iTerm2>Install Shell Integration_ or given that I've already installed it and added some extra utilities scripts you can just  open the file `~/.bash_local` and uncomment this line and you are ready to go:
 ```
   test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
@@ -57,12 +57,12 @@ If you enable shell integration from `.bash_local` you will also get these cool 
 ```
 Check here https://www.iterm2.com/documentation-images.html for more docs.
 
-###Get Xcode from App Store  
+### Get Xcode from App Store  
 + open xcode to agree to the TOS (or it won't install the components)  
 +  install Command Line Tools: `xcode-select --install`  then click install  
 +  open Xcode's preferences and install the command line tools package (this will install also git, from apple)  
 
-###Bootable Backup (optional)
+### Bootable Backup (optional)
 Right after a clean installation it's a good idea to crete a bootable backup on an external hard drive when the system is still clean.
 
 + Disk Utility / Erase or Partition / Mac Os Extended (Journaled)
@@ -71,7 +71,7 @@ Right after a clean installation it's a good idea to crete a bootable backup on 
     - Otherwise / Options / Check GUID Partition Table
 + Backup Everything from the current hard disk to the external one with CCC
 
-#Installation Steps
+# Installation Steps
 
 ## Step 1: Install Homebrew and brew packages
 
@@ -87,7 +87,7 @@ This script will install:
 * MySQL
 * mod_wsgi
 
-###PostgreSQL
+### PostgreSQL
     brew install postgresql
     initdb /usr/local/var/postgres -E utf8
 
@@ -107,7 +107,7 @@ For setup:
 
 
 
-###Apache, mod_php and mod_wsgi 
+### Apache, mod_php and mod_wsgi 
 `mod_php` is already installed (but not activated) `mod_wsgi` needs to be installed from brew.
 
 #### mod_php
@@ -127,7 +127,7 @@ with
 this tells apache to process `index.html` OR `index.php` if a directory is requested.  
 Setup your `php.ini`
 
-####php.ini
+#### php.ini
 `cd /etc/`  
 `sudo cp php.ini.default php.ini`  
 
@@ -142,7 +142,7 @@ Search for `;date.timezone = Europe/London` and uncomment it by removing the sem
 `apachectl configtest`  
 `sudo apachectl graceful`
 
-#####Php built-in web server:
+##### Php built-in web server:
 Php has a built-in development server, if you just want a basic local web server you can `cd mywebsite` and launch `php -S localhost:8000`
 and access it at the address `http://localhost:8000`.   
 Furthermore if you are using a php web framework, for example Silex, you can specify your application entry point (routing): `php -S localhost:8000 index.php`.   
@@ -163,7 +163,7 @@ In short:
     apachectl configtest   
     sudo apachectl restart  
 
-####mod_rewrite
+#### mod_rewrite
 Be also sure to uncomment `LoadModule rewrite_module libexec/apache2/mod_rewrite.so` in your `httpd.conf` file.   
 Normally by default this line should be already uncommented but better to double check.  
 `mod_rewrite` is what let you create websites with pretty URLs as for example applications like WordPress do.  
@@ -172,7 +172,7 @@ Open `/etc/apache2/httpd.conf` and look for all occurrences of  `AllowOverride N
     apachectl configtest   
     sudo apachectl restart  
 
-###Turn off brew Analytics 
+### Turn off brew Analytics 
 If you aren't aware brew is collecting [your usage data by default](https://github.com/Homebrew/brew/blob/master/share/doc/homebrew/Analytics.md).   
 I don't like this, so: `brew analytics off`
 
@@ -181,9 +181,9 @@ I don't like this, so: `brew analytics off`
 Run step by step or `sh 2.envs.sh`  
 This script will install [rbenv](https://github.com/rbenv/rbenv), [pyenv](https://github.com/yyuu/pyenv) and [nvm](https://github.com/creationix/nvm) that means tools to easily switch version of Ruby, Python and Node.
 
-###rbenv
+### rbenv
 
-####Installation:
+#### Installation:
     brew install rbenv #for different versions of ruby
     brew install ruby-build
 
@@ -206,12 +206,12 @@ __Gemfile__
     bundle install
 This will create a `Gemfile.lock` file
 
-###pyenv
+### pyenv
 
-####Installation:
+#### Installation:
     brew install pyenv
 
-####Usage:
+#### Usage:
     pyenv install --list    # for the list of the available python version to install
     pyenv install 2.7.10    # install a specific version
     pyenv global 2.7.10     # set default global to be used in all shells by writing the version name to the 
@@ -222,7 +222,7 @@ This will create a `Gemfile.lock` file
     pyenv local 2.7.5       # set a python version for the current directory. It creates .python-version file inside the current directory
 If everything is ok `which python` should prompt `/Users/USERNAME/.pyenv/shims/python` NOT `/bin/python`
 
-####virtualenvwrapper
+#### virtualenvwrapper
 
     pip install virtualenv virtualenvwrapper    # If virtualenvwrapper wont work just uninstall and reinstall virtualenv
     brew install pyenv-virtualenvwrapper        # probably not needed
@@ -235,18 +235,18 @@ Then don't forget to source: `$(brew --prefix)/bin/virtualenvwrapper.sh`.
     # for specific version of python (need to specify the full path)
     mkvirtualenv -p /Users/myuser/.pyenv/versions/2.6.6/bin/python2.6 my_venv2
 
-###nvm
+### nvm
 
-####Installation:
+#### Installation:
 I manage to manually install this, because the installation script write in my `.bashrc` (no, thanks).
 
     git clone https://github.com/creationix/nvm.git ~/.nvm && cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`
     # Then source this from you .bash_profile
     source ~/.nvm/nvm.sh
 
-####[Usage](https://github.com/creationix/nvm#usage)
+#### [Usage](https://github.com/creationix/nvm#usage)
 
-##Step 3: Install gloabl npm packages
+## Step 3: Install gloabl npm packages
 Run step by step or `sh 3.npm.sh`  
 
 
@@ -275,7 +275,7 @@ This will install:
 ### Mert
 [mert](https://github.com/eggplanetio/mert) is amazing! It is a command line tool for managing windows, tabs, and pane configurations for iTerm.
 
-####installation
+#### installation
     
     npm install -g mert
 
@@ -301,7 +301,7 @@ I created an alias in `.bash_aliases`:
     alias start="mert start"
 so that I just `cd myproject; start` will launch my defined panes and commands defined in the `.mertrc`. This saves me a lot of time!
 
-###alcatraz
+### alcatraz
 [alcatraz](http://alcatraz.io) packet manager for xcode. I don't have enough experience with this, I need to play with it a little bit more
 
     curl -fsSL https://raw.github.com/supermarin/Alcatraz/master/Scripts/install.sh | sh
@@ -310,11 +310,11 @@ so that I just `cd myproject; start` will launch my defined panes and commands d
     # Remove all cached data:
     rm -rf ~/Library/Application\ Support/Alcatraz
 
-###mackup
+### mackup
 Mackup sync app settings. I only use this for _better touch tool_ and _f.lux_ but can be used with almost any application.  
 Open ~/.mackup.cfg and change the _directory_ to point to your dropbox (or whatever) where you saved your setting from another machine or osx installation. Then `mackup restore`.
 
-####Usage:
+#### Usage:
     mackup backup       # Launch it and back up your files
     mackup restore      # Launch it and restore your files
     mackup uninstall    # Copy back any synced config file to its original place.
@@ -348,10 +348,10 @@ This will make your life easier when you need to launch/stop/launch at startup s
 `rabbitmq`, `postgresql` and so on..
 
 
-###Manual Apps Installation
+### Manual Apps Installation
 Make sure to go to pref panel/Security & Privacy: allows apps downloaded from anywhere.
 
-####Other Apps (low priority):
+#### Other Apps (low priority):
   * [Alfred2](https://www.alfredapp.com/help/v2/)
   * [Docker](https://www.docker.com/)
   * [LightRoom 6](https://www.adobe.com/products/catalog/software._sl_id-contentfilter_sl_catalog_sl_software_sl_mostpopular.html)
@@ -363,10 +363,10 @@ Make sure to go to pref panel/Security & Privacy: allows apps downloaded from an
   * [Pycharm](https://www.jetbrains.com/pycharm/) v.5.05 professional
   * [WebStorm](https://www.jetbrains.com/webstorm/) v.2016.1
 
-####App Store:
+#### App Store:
   * [ClearView](https://itunes.apple.com/fr/app/clearview/id557090104?l=en&mt=12)
 
-####Licenses:
+#### Licenses:
 Don't forget to add licenses for the following apps:
 
   * [Alfred2](https://www.alfredapp.com/help/v2/)
@@ -380,9 +380,9 @@ Don't forget to add licenses for the following apps:
   * LightRoom
 
 
-###Sytem Preferences
+### Sytem Preferences
 
-####Language and Input Sources
+#### Language and Input Sources
 
 + System Preferences / Language & Region / 
   * Choose Preferred Languages
@@ -391,7 +391,7 @@ Don't forget to add licenses for the following apps:
     - U.S. International (for accents supports)
     - Italian or Whatever
 
-####Data Partition
+#### Data Partition
 
 I keep all my data in a separate partition. Music, Movies, Pictures, ectr BUT "Library" and of course the dotfiles.
 Don't forget to symlink all the folders from external partiton to home:
@@ -401,31 +401,31 @@ Don't forget to symlink all the folders from external partiton to home:
   3. Simlynk them: `cd ~/; ln -s /Volumes/HomeData/*/ .`  (ln is smart enough not to overwrite existing folder)
  
 
-####Add Spaces to Dock
+#### Add Spaces to Dock
 ```bash
   defaults write com.apple.dock persistent-apps -array-add '{"tile-type"="spacer-tile";}' 
   killall Dock
 ```
 
-####Enable double tap-dragging for touchpad
+#### Enable double tap-dragging for touchpad
 System Preferences / Accessibility / Mouse and trackpad / Trackpad options/ Enable dragging
 
-####Setup Global Hotkeys 
+#### Setup Global Hotkeys 
 TODO: add images.
 System Preferences / Keyboard / Shortcuts / ...
 
-####Reduce transparency in El Capitan
+#### Reduce transparency in El Capitan
 System Preferences / Accessibility / Display / Reduce Transparency
 
-####Always show Scrollbars
+#### Always show Scrollbars
 System Preferences / General / Show Scroll Bars -> Always
 
-####System Lock
+#### System Lock
 
   * System Preferences /
     - Security / Require pass immediately ...
     - Security / Disable Automatic Login
     - Desktop & Screen Saver / Screen Saver / Start After X minutes
 
-####Trim Support
+#### Trim Support
 If you have a non-Apple ssd Hard Drive it's a good idea to enable Trim Support: `sudo trimforce enable`
