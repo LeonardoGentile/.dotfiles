@@ -4,7 +4,7 @@ This repository represents my personal "dotfiles", settings and instructions to 
 
 These settings have been tested on __Mac Os X Mavericks__ and __El Capitan__ but they can be adapted to another Os X version with some tweaks.   
 
-#Preparation 
+# Preparation 
 Before installing the dotfiles I perform some extra steps to assure to have everything functioning for the following steps  
 
 1. If installing under Mac Os then open the files [osx_installation/README.md](./osx_installation/README.md) and follow the instruction under the __Preparation__ section.
@@ -131,10 +131,10 @@ The `install_dotfiles.sh` script from the step 1 doesn't symlink everything, in 
 
 I do so because these are files that I do NOT want to track. The `install_dotfiles.sh` (step 1) copies them in home and if I edit them in `home` nothing will happens to the `.dotfiles` repo.  Usually I overwrite these files with the ones coming from `.dotfiles-private` (`install_private.sh` from step 2)
 
-#OsX Installation Instruction
+# OsX Installation Instruction
 Follow the instruction listed under the __Installation Steps__ of the [./osx_installation/README.md](./osx_installation/README.md) file.
 
-#Voilà!
+# Voilà!
 That's all folks! I spent and I keep on spending a lot of time on my personal dev enviroment and setting it up was not easy. I hope this will help someone. Things are a little dirty and I should clean them up a little bit. Feel free to grab my code and make some correction to the dumb things I've created or written ;)
 
 Thanks to many people:
