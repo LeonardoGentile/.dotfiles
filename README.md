@@ -1,4 +1,4 @@
-#Dotfiles
+# Dotfiles
 
 This repository represents my personal "dotfiles", settings and instructions to setup the perfect development environment on a Mac Os X machine. This will help me to setup again a machine after a fresh install and hopefully help someone else out there. 
 
@@ -23,7 +23,7 @@ Before installing the dotfiles I perform some extra steps to assure to have ever
         - In case everything was set up  correctly you should get a message `logged in as YourUserName. You can use git or hg to connect to Bitbucket. Shell access is disabled.`
 
 
-#Dotfiles installation 
+# Dotfiles installation 
 
 ## Step 1: Installation script
 
