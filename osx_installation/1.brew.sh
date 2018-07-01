@@ -139,6 +139,10 @@ brew install bash-completion            # source it from .bash_profile
 # Example: pv sqlfile.sql | mysql -uxxx -pxxxx dbname
 brew install pv
 
+#  ==========
+#  = ffmpeg =
+#  ==========
+brew install ffmpeg --with-fdk-aac --with-tools --with-freetype --with-libass --with-libvorbis --with-libvpx --with-x265
 
 
 #  ========
@@ -161,6 +165,11 @@ initdb /usr/local/var/postgres -E utf8
 #   cp /usr/local/Cellar/postgresql/9.2.4/org.postgresql.postgres.plist ~/Library/LaunchAgents/
 #   launchctl load -w ~/Library/LaunchAgents/org.postgresql.postgres.plist
 
+
+#  ===================
+#  = Django Starters =
+#  ===================
+brew install cookiecutter
 
 
 #  =========
