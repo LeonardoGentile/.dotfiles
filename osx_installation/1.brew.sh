@@ -207,6 +207,10 @@ brew install mod_wsgi
 #   sudo ln -s /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/ /Applications/Xcode.app/Contents/Developer/Toolchains/OSX10.9.xctoolchain
 
 
+# YARN
+# If you use nvm or similar, you should exclude installing Node.js so that nvm’s version of Node.js is used.
+brew install yarn --without-node
+
 
 # ​Disable Analytics
 brew analytics off
