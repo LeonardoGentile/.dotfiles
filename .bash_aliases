@@ -113,9 +113,8 @@ alias gfo='git fetch origin'
 alias gp='git push'
 alias gr='git rebase'
 alias grc='git rebase --continue'
-alias gs='git status'
 alias guci='git reset --soft HEAD^' # undo last commit
-alias gs='git status'
+# alias gs='git status'
 alias gd='git diff'
 alias ga='git add'
 alias gl="git log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --"
@@ -234,3 +233,7 @@ else
     complete -F _comp xs
 fi
 
+
+# Kill the damn GlobalProtect
+# http://richddean.com/post/147155656349/stopautostartglobalprotectvpn
+alias nogp="sudo killall GlobalProtect && sudo killall PanGPS"

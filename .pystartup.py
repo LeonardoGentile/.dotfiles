@@ -10,21 +10,21 @@
 
 import atexit
 import os
-import readline
+import gnureadline
 import rlcompleter
 
 historyPath = os.path.expanduser("~/.dotfiles/data/pyhistory")
 
 def save_history(historyPath=historyPath):
-    import readline
-    readline.write_history_file(historyPath)
+    import gnureadline
+    gnureadline.write_history_file(historyPath)
 
 if os.path.exists(historyPath):
-    readline.read_history_file(historyPath)
+    gnureadline.read_history_file(historyPath)
 
 atexit.register(save_history)
 
 # To use tab instead of ESC
-# readline.parse_and_bind('tab:complete')
+# gnureadline.parse_and_bind('tab:complete')
 
-del os, atexit, readline, rlcompleter, save_history, historyPath
+# del os, atexit, gnureadline, rlcompleter, save_history, historyPath
