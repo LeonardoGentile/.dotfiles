@@ -1,41 +1,39 @@
 #!/usr/bin/env bash
-#
-# NOTE: '#!/usr/bin/env NAME'
-# is used when we aren't aware of the absolute path of bash or don't want to search for it.
-
 
 #  ======================================
 #  = PROFILING STARTUP TIME (for debug) =
 #  ======================================
-# PROFILE_STARTUP=false
-# if $PROFILE_STARTUP; then
-#     # PS4='+ $(date "+%s.%N")\011 '
-#     PS4='$(date "+%s.%N")\011 '
-#     exec 3>&2 2>/tmp/bashstart.$$.log
-#     # exec 3>&2 2> >( tee /tmp/bashstart-$$.log |
-#     #               gsed -u 's/^.*$/now/' |
-#     #               date -f - +%s.%N >/tmp/bashstart-$$.tim)
-#     set -x # shortcut for 'set -o xtrace'.
-#     # It prints command traces before executing command.
-#     # The dash is used to activate a shell option and a plus to deactivate it.
-# fi
+DEBUG=false
+if $DEBUG; then
+    PS4='+ $(gdate "+%s.%N")\011 '
+    exec 3>&2 2>/tmp/bashstart.$$.log
+    # It prints command traces before executing command.
+    # The dash is used to activate a shell option and a plus to deactivate it.
+    set -x  # shortcut for 'set -o xtrace'.
+fi
 
+
+# SETTINGS
+# =====================
+ACTIVATE_RBENV=false
+ACTIVATE_COREUTILS=true
+ACTIVATE_PYENV=true
+ACTIVATE_NVM=true
+ACTIVATE_VIRTUALENVWRAPPER=true
+ACTIVATE_BASH_FNS=true
 
 #  ============================
 #  = ********* INIT ********* =
 #  ============================
 # get info from uname and convert to lowercase
-OS="$(echo $(uname -s) | tr '[:upper:]' '[:lower:]')"
-# or OS=$OSTYPE
+OS="$(echo $(uname -s) | tr '[:upper:]' '[:lower:]')"  # or OS=$OSTYPE
 case $OS in
-
     Darwin*|darwin)
         # Compilation stuff (Set architecture flags)
         export ARCHFLAGS="-arch x86_64"
         mac=true
         linux=false
     ;;
-
     linux*)
         mac=false
         linux=true
@@ -49,11 +47,24 @@ case $OS in
 esac
 
 
-# Helper Functions
-# ----------------
-# USAGE:
-# pathprepend /usr/local/bin /usr/local/sbin
 
+#  ============================
+#  = ********* PATH ********* =
+#  ============================
+
+# Loading sequence:
+#   1     /etc/paths
+#   2     /etc/paths.d/whatever (e.g. x11, 40-XQuarts)
+#   3     PATH defined in this file
+
+# For loading HOMEBREW binaries first you might change the /etc/paths file
+# putting /usr/local/bin at the beginning of the file instead of the end
+# Even if we do it here sometimes could be 'too late'
+
+
+# Helper Path Functions
+# ---------------------
+# USAGE: pathprepend /usr/local/bin /usr/local/sbin
 pathprepend() {
     for ((i=$#; i>0; i--));
     do ARG=${!i}
@@ -73,42 +84,19 @@ pathappend() {
 }
 
 
-
-#  ============================
-#  = ********* PATH ********* =
-#  ============================
-
-# Loading sequence:
-#   1     /etc/paths
-#   2     /etc/paths.d/whatever (e.g. x11, 40-XQuarts)
-#   3     ~/.MacOSX/environment.plist (AVOID!)
-#   4     PATH defined in this file
-#
-#   BEWARE: Avoid (3) cause it overrides the default PATH set in /etc/paths and it is deprecated
-
-# For loading HOMEBREW binaries first you might change the /etc/paths file
-# putting /usr/local/bin at the beginning of the file instead of the end
-# Even if we do it here sometimes could be 'too late'
-
-
 # BREW PATH
 # ============
 # brew bins should have priority
 pathprepend /usr/local/bin /usr/local/sbin
 
 # Flags for brew and coreutils
-if $mac; then
-    if hash brew 2>/dev/null; then
-        brew=true
-        # Cache vars
-        coreutils=$(brew --prefix coreutils)
-        pfx=$(brew --prefix)
-    else
-        brew=false
-        coreutils=false
-    fi
-elif $linux; then
-    brew=false
+brew=false
+coreutils=false
+if [[ $mac && $(hash brew 2>/dev/null) ]]; then
+    # Cached vars
+    brew=true
+    brew_dir=$(brew --prefix)
+    coreutils=$(brew_dir --prefix coreutils)
 fi
 
 
@@ -119,19 +107,18 @@ fi
 #   http://lostincode.net/posts/homebrew
 #   http://www.conrad.id.au/2013/07/making-mac-os-x-usable-part-1-terminal.html
 #   https://github.com/seebi/dircolors-solarized
-
-# Flag to check if we are using coreutils GNU ls or Apple ls
-coreutils_installed=false
-if [[  $coreutils && -d  $coreutils/libexec/gnubin  ]]; then
-    pathprepend $coreutils/libexec/gnubin
+GNU_BIN=$coreutils/libexec/gnubin
+if [[ $ACTIVATE_COREUTILS && $coreutils && -d $GNU_BIN ]]; then
+    pathprepend $GNU_BIN
+    # Flag to check if we are using coreutils GNU ls or Apple ls
     coreutils_installed=true
 fi
 
-# COREUTILS vs OSX MANPAGES (default to OSX Man Pahes)
+# COREUTILS vs OSX MANPAGES (default to OSX Man Pages)
 # ====================================================
 # some man entries are different, for example osx vs gnu 'ls'.
 # I still use osx 'ls' so I need the osx man pages.
-if [[ $coreutils && -d $coreutils/libexec/gnuman ]]; then
+if [[ $ACTIVATE_COREUTILS && $coreutils && -d $coreutils/libexec/gnuman ]]; then
     MANPATH="$coreutils/libexec/gnuman:$MANPATH"
     # If I uncomment this export then the manpages comes from gnu coreutils instead of mac man
     # export MANPATH
@@ -142,30 +129,43 @@ fi
 # ===========================
 # for switching ruby versions
 export RBENV_ROOT="$HOME/.rbenv"
-if [ -d $RBENV_ROOT/shims ]; then
-    eval "$(rbenv init -)"  # PATH prepend
+if [[ $ACTIVATE_RBENV && -d $RBENV_ROOT/shims ]]; then
+    eval "$(rbenv init --no-rehash -)"      # PATH prepend
 fi
 
 
 # PYENV PATH
 # =============================
 # for switching python versions
-export PYENV_ROOT="${HOME}/.pyenv"
-if [ -d $PYENV_ROOT/shims ]; then
-    # export PYENV_VERSION='2.7.6'      # no needed, the global version is already set during installation
-    eval "$(pyenv init -)"              # manipulates PATH, enable shims and autocompletion
-    export PYVER_ROOT=`pyenv prefix`    # Custom var: it is the root for the global version
-    export PYVER_BIN="$PYVER_ROOT/bin"  # Custom var: the executable path for our global version
+export PYENV_ROOT="$HOME/.pyenv"
+if [[ $ACTIVATE_PYENV && -d $PYENV_ROOT/shims ]]; then
+    eval "$(pyenv init --no-rehash -)"              # manipulates PATH, enable shims and autocompletion
+    PYENV_DEFAULT_BIN="$(pyenv prefix)/bin"         # my custom var: the executable path for my default global py version
 fi
 
 
 # NVM PATH
 # ===========================
-# for switching node versions
+# For switching node versions
+# NVM is very slow to load so I had to use a trick to lazy load it: https://gist.github.com/gfguthrie/9f9e3908745694c81330c01111a9d642
 export NVM_DIR="$HOME/.nvm"
-if [ -f $NVM_DIR/nvm.sh ]; then
-    [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+if [[ $ACTIVATE_NVM && -f $NVM_DIR/nvm.sh ]]; then
+    # Lazy loading bash completions does not save meaningful shell startup time, so I won't do it
+    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+
+    # Find which nvm node is the default
+    export DEFAULT_NODE_VER='default';
+    while [ -s "$NVM_DIR/alias/$DEFAULT_NODE_VER" ]; do
+        DEFAULT_NODE_VER="$(<$NVM_DIR/alias/$DEFAULT_NODE_VER)"
+    done;
+
+    # Add my default nvm node to path without loading nvm
+    pathprepend "$NVM_DIR/versions/node/v${DEFAULT_NODE_VER#v}/bin"
+
+    # Lazy-loads nvm the first time we call it
+    alias nvm='unalias nvm; [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" --no-use; nvm'
 fi
+
 
 # ~/bin PATH
 # =============================
@@ -187,8 +187,29 @@ if [ -d /usr/local/opt/mysql/lib ]; then
     pathappend /usr/local/opt/mysql/bin
 # if installed with brew
 elif [[ -d /usr/local/mysql/bin && $mac ]]; then
-    pathappend $pfx/mysql/bin
+    pathappend $brew_dir/mysql/bin
 fi
+
+
+# ANACONDA PATH
+# =============================
+# for anaconda py distribution (installed via homebrew)
+# Disable conda to replace my other python versions
+export CONDA_AUTO_ACTIVATE_BASE=false
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/usr/local/anaconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/usr/local/anaconda3/etc/profile.d/conda.sh" ]; then
+        . "/usr/local/anaconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/usr/local/anaconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
 
 export PATH
 
@@ -212,7 +233,7 @@ fi
 
 # Detect which `ls` flavor is in use
 if ls --color > /dev/null 2>&1; then
-    if  $coreutils_installed; then
+    if $coreutils_installed; then
         # GNU `ls`
         alias ls='$coreutils/libexec/gnubin/ls --color=always'
     else
@@ -239,24 +260,25 @@ fi
 # ======================
 # this needs to come before bash_functions
 export WORKON_HOME="$HOME/.virtualenvs"
-
-# pyenv version
-if [[ -f $PYVER_BIN/virtualenvwrapper.sh ]]; then
-    source $PYVER_BIN/virtualenvwrapper.sh
-# brew version
-elif [[ $brew && -f $pfx/bin/virtualenvwrapper.sh ]]; then
-    source $pfx/bin/virtualenvwrapper.sh
-# linux version (installed globally with pip)
-elif [[ -f /usr/local/bin/virtualenvwrapper.sh ]]; then
-    source /usr/local/bin/virtualenvwrapper.sh
-# This is (why?) the default location in debian
-elif [[ -f /usr/share/virtualenvwrapper/virtualenvwrapper.sh ]]; then
-    source /usr/share/virtualenvwrapper/virtualenvwrapper.sh
-# no available
-else
-    echo "Virtualenvwrapper is not available!"
+if [[ $ACTIVATE_VIRTUALENVWRAPPER ]]; then
+    # pyenv version
+    if [[ -f $PYENV_DEFAULT_BIN/virtualenvwrapper_lazy.sh ]]; then
+        export VIRTUALENVWRAPPER_SCRIPT=$PYENV_DEFAULT_BIN/virtualenvwrapper.sh
+        source $PYENV_DEFAULT_BIN/virtualenvwrapper_lazy.sh
+    # brew version
+    elif [[ $brew && -f $brew_dir/bin/virtualenvwrapper_lazy.sh ]]; then
+        source $brew_dir/bin/virtualenvwrapper_lazy.sh
+    # linux version (installed globally with pip)
+    elif [[ -f /usr/local/bin/virtualenvwrapper.sh ]]; then
+        source /usr/local/bin/virtualenvwrapper.sh
+    # This is (why?) the default location in debian
+    elif [[ -f /usr/share/virtualenvwrapper/virtualenvwrapper.sh ]]; then
+        source /usr/share/virtualenvwrapper/virtualenvwrapper.sh
+    # no available
+    else
+        echo "Virtualenvwrapper is not available!"
+    fi
 fi
-
 
 # BASH_ALIASES
 # ============
@@ -265,7 +287,9 @@ source ~/.dotfiles/.bash_aliases
 
 # BASH FUNCTIONS
 # ==============
-source ~/.dotfiles/.bash_functions
+if [[ $ACTIVATE_BASH_FNS ]]; then
+    source ~/.dotfiles/.bash_functions
+fi
 
 
 # BASH LOCAL
@@ -309,13 +333,13 @@ source ~/.dotfiles/bashmarks/bashmarks.sh
 # ==============
 # if command -v brew >/dev/null 2>&1; then
 # Load rupa's z if installed
-if [[ -f ~/.dotfiles/z/z.sh ]]; then
-    source ~/.dotfiles/z/z.sh
-elif  [[ $brew && -f $pfx/etc/profile.d/z.sh ]]; then
-    source $pfx/etc/profile.d/z.sh
-else
-    echo "z is not available!"
-fi
+# if [[ -f ~/.dotfiles/z/z.sh ]]; then
+#     source ~/.dotfiles/z/z.sh
+# elif  [[ $brew && -f $brew_dir/etc/profile.d/z.sh ]]; then
+#     source $brew_dir/etc/profile.d/z.sh
+# else
+#     echo "z is not available!"
+# fi
 
 # POWERLINE SHELL (FANCY PROMPT)
 # ===============================
@@ -379,8 +403,8 @@ fi
 if [ -f /etc/bash_completion ]; then
     source /etc/bash_completion
 # Or if Installed with Brew
-elif [ -f $pfx/etc/bash_completion ]; then
-    source $pfx/etc/bash_completion
+elif [ -f $brew_dir/etc/bash_completion ]; then
+    source $brew_dir/etc/bash_completion
 fi
 
 # RBENV COMPLETION
@@ -408,15 +432,15 @@ fi
 
 # GRUNT COMPLETION
 # ===========================
-if [[ $grunt ]]; then
-    eval "$(grunt --completion=bash)"
-fi
+# if [[ $grunt ]]; then
+#     eval "$(grunt --completion=bash)"
+# fi
 
 # PIP COMPLETION
 # ===========================
-if [ -f ~/.dotfiles/completions/bash_pip_completion ]; then
-    source ~/.dotfiles/completions/bash_pip_completion
-fi
+# if [ -f ~/.dotfiles/completions/bash_pip_completion ]; then
+#     source ~/.dotfiles/completions/bash_pip_completion
+# fi
 
 # DJANGO COMPLETION
 # ===========================
@@ -426,9 +450,9 @@ fi
 
 # FAB COMPLETION
 # ===========================
-if [ -f ~/.dotfiles/completions/bash_fab_completion ]; then
-    source ~/.dotfiles/completions/bash_fab_completion
-fi
+# if [ -f ~/.dotfiles/completions/bash_fab_completion ]; then
+#     source ~/.dotfiles/completions/bash_fab_completion
+# fi
 
 # SSH HOSTNAMES COMPLETION
 # ===========================
@@ -587,17 +611,6 @@ export LC_ALL="en_US.UTF-8"
 #  = ********* DEV ********* =
 #  ===========================
 
-# FIX MySQLdb ERROR (Still needed?)
-# ==================================
-# Fix problem when importing mysql-python (MySQLdb)
-# http://stackoverflow.com/questions/4559699/python-mysqldb-and-library-not-loaded-libmysqlclient-16-dylib
-
-# if [ -d /usr/local/opt/mysql/lib ]; then
-#     export DYLD_LIBRARY_PATH=/usr/local/opt/mysql/lib:$DYLD_LIBRARY_PATH
-# elif [ -d /usr/local/mysql/lib ]; then
-#     export DYLD_LIBRARY_PATH=/usr/local/mysql/lib:$DYLD_LIBRARY_PATH
-# fi
-
 
 # SET COMPILER VERSION
 # ===========================
@@ -611,9 +624,6 @@ export LC_ALL="en_US.UTF-8"
 # here (e.g: crt1.10.6.o)
 # export MACOSX_DEPLOYMENT_TARGET=10.6
 
-# To Solve I problem I DON'T REMEMBER!
-# ===========================
-# export C_INCLUDE_PATH=$C_INCLUDE_PATH:/Developer/SDKs/MacOSX10.6.sdk/usr/include:/usr/local/include
 
 # HEADERS (I guess)
 # ===========================
@@ -638,8 +648,8 @@ export LC_ALL="en_US.UTF-8"
 #  ======================================
 # Uncomment this block and the block at the beginning of the file to have debug info on this file
 
-# if $PROFILE_STARTUP; then
-#     set +x # The dash is used to activate a shell option and a plus to deactivate it.
-#     exec 2>&3 3>&-
-# fi
+if $DEBUG; then
+    set +x # The dash is used to activate a shell option and a plus to deactivate it.
+    exec 2>&3 3>&-
+fi
 
