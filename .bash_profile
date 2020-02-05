@@ -395,7 +395,7 @@ fi
 # # PYTHON STARTUP
 # # ================
 # # Completion for python command line and Custom hystory file
-# export PYTHONSTARTUP=~/.dotfiles/.pystartup.py
+export PYTHONSTARTUP=~/.dotfiles/.pystartup.py
 
 # BASH COMPLETION
 # ================
@@ -652,4 +652,7 @@ if $DEBUG; then
     set +x # The dash is used to activate a shell option and a plus to deactivate it.
     exec 2>&3 3>&-
 fi
+
+
+# test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
 
