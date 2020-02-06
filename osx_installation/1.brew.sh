@@ -15,9 +15,10 @@ brew upgrade
 #  ===========
 # Install more recent versions of some OS X tools
 # These formulae duplicate software provided by OS X, though may provide more recent or bugfix versions.
-brew tap homebrew/dupes
+# DEPRECATED
+# brew tap homebrew/dupes
 
-brew tap homebrew/versions
+# brew tap homebrew/versions
 
 # This allows me to: "brew services start/stop/restart mysql" and many other services
 brew tap homebrew/services
@@ -52,22 +53,25 @@ brew install mercurial
 brew install coreutils  # g-prefixed
 echo "Don’t forget to add $(brew --prefix coreutils)/libexec/gnubin to \$PATH."
 
+# All prefixes don't exist anymore in brew > 2.0
+# this will be installed with 'g' prefix
+
 brew install binutils
 brew install diffutils
-brew install ed --with-default-names
+brew install ed # --with-default-names
 brew install findutils                          # GNU `find`, `locate`, `updatedb`, and `xargs` (g-prefixed)
 brew install gawk
-brew install gnu-indent --with-default-names
-brew install gnu-sed --with-default-names       # Gnu sed, used for pretty git diff (call it with `gsed` or install with --with-default-names -> replace sed)
-brew install gnu-tar --with-default-names
-brew install gnu-which --with-default-names
+brew install gnu-indent # --with-default-names
+brew install gnu-sed # --with-default-names       # Gnu sed, used for pretty git diff (call it with `gsed` or install with --with-default-names -> replace sed)
+brew install gnu-tar # --with-default-names
+brew install gnu-which # --with-default-names
 brew install gnutls
-brew install grep --with-default-names
+brew install grep # --with-default-names
 brew install gzip
 brew install screen
 brew install watch
-brew install wdiff --with-gettext
-brew install wget --with-iri                    # Install wget with IRI support
+brew install wdiff # --with-gettext
+brew install wget # --with-iri                    # Install wget with IRI support
 
 # Install Bash 4
 brew install bash
@@ -117,6 +121,7 @@ brew install memcached
 
 # GhostScript
 brew install gs                     # ghostscript, needed for progressbar in terminal
+# Doesn't exist anymore
 cd $(brew --prefix)/share/ghostscript/
 wget https://ghostscript.googlecode.com/files/ghostscript-fonts-std-8.11.tar.gz
 tar xzvf ghostscript-fonts-std-8.11.tar.gz
