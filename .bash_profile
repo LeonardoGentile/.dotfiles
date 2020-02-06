@@ -21,6 +21,7 @@ ACTIVATE_PYENV=true
 ACTIVATE_NVM=true
 ACTIVATE_VIRTUALENVWRAPPER=true
 ACTIVATE_BASH_FNS=true
+ACTIVATE_ITERM_INTEGRATION=false
 
 #  ============================
 #  = ********* INIT ********* =
@@ -634,6 +635,13 @@ export LC_ALL="en_US.UTF-8"
 #  = ********* /DEV ********* =
 #  ============================
 
+#  ============================
+#  = ********* iTERM2 ******* =
+#  ============================
+if $ACTIVATE_ITERM_INTEGRATION; then
+    test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
+fi
+
 
 # Dotfiles inspired by many people:
 #   https://github.com/javierjulio/dotfiles
@@ -654,5 +662,4 @@ if $DEBUG; then
 fi
 
 
-# test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
 
