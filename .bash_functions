@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 # =================================================
 # BASH FUNCTIONS
 # =================================================
@@ -126,18 +128,18 @@ cp_p () {
 # Test if HTTP compression (RFC 2616 + SDCH) is enabled for a given URL.
 # Send a fake UA string for sites that sniff it instead of using the Accept-Encoding header. (Looking at you, ajax.googleapis.com!)
 function httpcompression() {
-        encoding="$(curl -LIs -H 'User-Agent: Mozilla/5 Gecko' -H 'Accept-Encoding: gzip,deflate,compress,sdch' "$1" | grep '^Content-Encoding:')" && echo "$1 is encoded using ${encoding#* }" || echo "$1 is not using any encoding"
+    encoding="$(curl -LIs -H 'User-Agent: Mozilla/5 Gecko' -H 'Accept-Encoding: gzip,deflate,compress,sdch' "$1" | grep '^Content-Encoding:')" && echo "$1 is encoded using ${encoding#* }" || echo "$1 is not using any encoding"
 }
 
 # Syntax-highlight JSON strings or files
 function json() {
-        if [ -p /dev/stdin ]; then
-                # piping, e.g. `echo '{"foo":42}' | json`
-                python -mjson.tool | pygmentize -l javascript
-        else
-                # e.g. `json '{"foo":42}'`
-                python -mjson.tool <<< "$*" | pygmentize -l javascript
-        fi
+    if [ -p /dev/stdin ]; then
+        # piping, e.g. `echo '{"foo":42}' | json`
+        python -mjson.tool | pygmentize -l javascript
+    else
+        # e.g. `json '{"foo":42}'`
+        python -mjson.tool <<< "$*" | pygmentize -l javascript
+    fi
 }
 
 
@@ -151,21 +153,21 @@ function gitexport() {
 # Use Git’s colored diff when available
 hash git &>/dev/null
 if [ $? -eq 0 ]; then
-        function diff() {
-                git diff --no-index --color-words "$@"
-        }
+    function diff() {
+        git diff --no-index --color-words "$@"
+    }
 fi
 
 
 # All the dig info
 function digga() {
-        dig +nocmd "$1" any +multiline +noall +answer
+    dig +nocmd "$1" any +multiline +noall +answer
 }
 
 # Escape UTF-8 characters into their 3-byte format
 function escape() {
-        printf "\\\x%s" $(printf "$@" | xxd -p -c1 -u)
-        echo # newline
+    printf "\\\x%s" $(printf "$@" | xxd -p -c1 -u)
+    echo # newline
 }
 
 # Decode \x{ABCD}-style Unicode escape sequences
@@ -374,4 +376,17 @@ function clone {
   fi
 
   git clone $url $repo && cd $repo && sub .;
+}
+
+
+# Switch between different JDK versions
+# https://github.com/AdoptOpenJDK/homebrew-openjdk
+# USAGE:
+#   jdk 1.8
+#   jdk 9
+#   jdk 11
+jdk() {
+    version=$1
+    export JAVA_HOME=$(/usr/libexec/java_home -v"$version");
+    java -version
 }

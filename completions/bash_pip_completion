@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 # PIP COMPLETION
 # ===========================
 _pip_completion() {
