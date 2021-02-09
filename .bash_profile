@@ -192,6 +192,20 @@ elif [[ -d /usr/local/mysql/bin && $mac ]]; then
 fi
 
 
+# ANDROID_HOME
+# =================
+export ANDROID_HOME=$HOME/Library/Android/sdk
+if [ -d $ANDROID_HOME ]; then
+    pathappend $ANDROID_HOME/emulator $ANDROID_HOME/tools $ANDROID_HOME/tools/bin $ANDROID_HOME/platform-tools
+fi
+
+# JAVA_HOME
+# =================
+version=1.8
+export JAVA_HOME=$(/usr/libexec/java_home -v"$version");
+pathappend $JAVA_HOME $JAVA_HOME/bin
+
+
 # ANACONDA PATH
 # =============================
 # for anaconda py distribution (installed via homebrew)
@@ -199,14 +213,15 @@ fi
 export CONDA_AUTO_ACTIVATE_BASE=false
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/usr/local/anaconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+CONDA_ROOT=/usr/local/anaconda3
+__conda_setup="$('$CONDA_ROOT/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
 if [ $? -eq 0 ]; then
     eval "$__conda_setup"
 else
-    if [ -f "/usr/local/anaconda3/etc/profile.d/conda.sh" ]; then
-        . "/usr/local/anaconda3/etc/profile.d/conda.sh"
+    if [ -f "$CONDA_ROOT/etc/profile.d/conda.sh" ]; then
+        . "$CONDA_ROOT/etc/profile.d/conda.sh"
     else
-        export PATH="/usr/local/anaconda3/bin:$PATH"
+        export PATH="$CONDA_ROOT/bin:$PATH"
     fi
 fi
 unset __conda_setup
@@ -404,8 +419,19 @@ export PYTHONSTARTUP=~/.dotfiles/.pystartup.py
 if [ -f /etc/bash_completion ]; then
     source /etc/bash_completion
 # Or if Installed with Brew
-elif [ -f $brew_dir/etc/bash_completion ]; then
-    source $brew_dir/etc/bash_completion
+# WARNING: bash-completion@2 only works with bash>4!
+elif type brew &>/dev/null; then
+  # SLOW: https://discourse.brew.sh/t/bash-completion-is-slow-for-brew-commands/4761
+  HOMEBREW_PREFIX="$(brew --prefix)"
+#   BASH_COMPLETION_USER_DIR=/Users/sam/.dotfiles/completions
+  if [[ -r "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ]]; then
+    source "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
+  else
+    for COMPLETION in "${HOMEBREW_PREFIX}/etc/bash_completion.d/"*; do
+      echo ${COMPLETION}
+      [[ -r "$COMPLETION" ]] && source "$COMPLETION"
+    done
+  fi
 fi
 
 # RBENV COMPLETION
