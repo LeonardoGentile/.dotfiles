@@ -10,17 +10,23 @@
 
 import atexit
 import os
-import gnureadline
 import rlcompleter
 
 historyPath = os.path.expanduser("~/.dotfiles/data/pyhistory")
 
 def save_history(historyPath=historyPath):
-    import gnureadline
-    gnureadline.write_history_file(historyPath)
+    try:
+        import readline as rd
+    except:
+        import gnureadline as rd
+    rd.write_history_file(historyPath)
 
 if os.path.exists(historyPath):
-    gnureadline.read_history_file(historyPath)
+    try:
+        import readline as rd
+    except:
+        import gnureadline as rd
+    rd.read_history_file(historyPath)
 
 atexit.register(save_history)
 
@@ -28,3 +34,5 @@ atexit.register(save_history)
 # gnureadline.parse_and_bind('tab:complete')
 
 # del os, atexit, gnureadline, rlcompleter, save_history, historyPath
+
+
