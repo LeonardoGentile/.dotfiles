@@ -205,7 +205,6 @@ alias piano='pianobar'
 # brew cask
 
 alias cask='brew cask'
-alias casksearch='brew cask search'
 alias caskinstall='brew cask install'
 
 
@@ -234,6 +233,6 @@ else
 fi
 
 
-# Kill the damn GlobalProtect
-# http://richddean.com/post/147155656349/stopautostartglobalprotectvpn
-alias nogp="sudo killall GlobalProtect && sudo killall PanGPS"
+# Print the pwd (escaped) while also copying it to the clipboard
+# https://apple.stackexchange.com/a/52485/76578
+alias cwd='printf "%q\n" "$(pwd)" | tee >(pbcopy)'
