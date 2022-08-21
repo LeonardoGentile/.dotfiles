@@ -16,7 +16,7 @@ fi
 # SETTINGS
 # =====================
 ACTIVATE_RBENV=false
-ACTIVATE_COREUTILS=true
+ACTIVATE_COREUTILS=false
 ACTIVATE_PYENV=true
 ACTIVATE_NVM=true
 ACTIVATE_VIRTUALENVWRAPPER=true
@@ -93,11 +93,11 @@ pathprepend /usr/local/bin /usr/local/sbin
 # Flags for brew and coreutils
 brew=false
 coreutils=false
-if [[ $mac && $(hash brew 2>/dev/null) ]]; then
+if [[ $mac && -f "`which brew`" ]]; then
     # Cached vars
     brew=true
     brew_dir=$(brew --prefix)
-    coreutils=$(brew_dir --prefix coreutils)
+    coreutils=$(brew --prefix coreutils)
 fi
 
 
@@ -109,7 +109,7 @@ fi
 #   http://www.conrad.id.au/2013/07/making-mac-os-x-usable-part-1-terminal.html
 #   https://github.com/seebi/dircolors-solarized
 GNU_BIN=$coreutils/libexec/gnubin
-if [[ $ACTIVATE_COREUTILS && $coreutils && -d $GNU_BIN ]]; then
+if [[ $ACTIVATE_COREUTILS == "true" && $coreutils && -d $GNU_BIN ]]; then
     pathprepend $GNU_BIN
     # Flag to check if we are using coreutils GNU ls or Apple ls
     coreutils_installed=true
@@ -119,7 +119,7 @@ fi
 # ====================================================
 # some man entries are different, for example osx vs gnu 'ls'.
 # I still use osx 'ls' so I need the osx man pages.
-if [[ $ACTIVATE_COREUTILS && $coreutils && -d $coreutils/libexec/gnuman ]]; then
+if [[ $ACTIVATE_COREUTILS == "true" && -d $coreutils && -d $coreutils/libexec/gnuman ]]; then
     MANPATH="$coreutils/libexec/gnuman:$MANPATH"
     # If I uncomment this export then the manpages comes from gnu coreutils instead of mac man
     # export MANPATH
@@ -130,7 +130,7 @@ fi
 # ===========================
 # for switching ruby versions
 export RBENV_ROOT="$HOME/.rbenv"
-if [[ $ACTIVATE_RBENV && -d $RBENV_ROOT/shims ]]; then
+if [[ $ACTIVATE_RBENV == "true" && -d $RBENV_ROOT/shims ]]; then
     eval "$(rbenv init --no-rehash -)"      # PATH prepend
 fi
 
@@ -139,7 +139,7 @@ fi
 # =============================
 # for switching python versions
 export PYENV_ROOT="$HOME/.pyenv"
-if [[ $ACTIVATE_PYENV && -d $PYENV_ROOT/shims ]]; then
+if [[ $ACTIVATE_PYENV == "true" && -d $PYENV_ROOT/shims ]]; then
     eval "$(pyenv init --no-rehash -)"              # manipulates PATH, enable shims and autocompletion
     PYENV_DEFAULT_BIN="$(pyenv prefix)/bin"         # my custom var: the executable path for my default global py version
 fi
@@ -148,7 +148,7 @@ fi
 # Poetry PATH
 # ==============================
 export POETRY_ROOT="$HOME/.local/bin"
-if [[ $POETRY_ROOT ]]; then
+if [[ -d $POETRY_ROOT ]]; then
     pathappend $POETRY_ROOT
 fi
 # Completion
@@ -163,7 +163,7 @@ fi
 # For switching node versions
 # NVM is very slow to load so I had to use a trick to lazy load it: https://gist.github.com/gfguthrie/9f9e3908745694c81330c01111a9d642
 export NVM_DIR="$HOME/.nvm"
-if [[ $ACTIVATE_NVM && -f $NVM_DIR/nvm.sh ]]; then
+if [[ $ACTIVATE_NVM == "true" && -f $NVM_DIR/nvm.sh ]]; then
     # Lazy loading bash completions does not save meaningful shell startup time, so I won't do it
     [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 
@@ -311,13 +311,13 @@ fi
 # ======================
 # this needs to come before bash_functions
 export WORKON_HOME="$HOME/.virtualenvs"
-if [[ $ACTIVATE_VIRTUALENVWRAPPER ]]; then
+if [[ $ACTIVATE_VIRTUALENVWRAPPER == "true" ]]; then
     # pyenv version
     if [[ -f $PYENV_DEFAULT_BIN/virtualenvwrapper_lazy.sh ]]; then
         export VIRTUALENVWRAPPER_SCRIPT=$PYENV_DEFAULT_BIN/virtualenvwrapper.sh
         source $PYENV_DEFAULT_BIN/virtualenvwrapper_lazy.sh
     # brew version
-    elif [[ $brew && -f $brew_dir/bin/virtualenvwrapper_lazy.sh ]]; then
+    elif [[ $brew == "true" && -f $brew_dir/bin/virtualenvwrapper_lazy.sh ]]; then
         source $brew_dir/bin/virtualenvwrapper_lazy.sh
     # linux version (installed globally with pip)
     elif [[ -f /usr/local/bin/virtualenvwrapper.sh ]]; then
@@ -338,7 +338,7 @@ source ~/.dotfiles/.bash_aliases
 
 # BASH FUNCTIONS
 # ==============
-if [[ $ACTIVATE_BASH_FNS ]]; then
+if [[ $ACTIVATE_BASH_FNS == "true" ]]; then
     source ~/.dotfiles/.bash_functions
 fi
 
@@ -386,7 +386,7 @@ source ~/.dotfiles/bashmarks/bashmarks.sh
 # Load rupa's z if installed
 if [[ -f ~/.dotfiles/z/z.sh ]]; then
     source ~/.dotfiles/z/z.sh
-elif  [[ $brew && -f $brew_dir/etc/profile.d/z.sh ]]; then
+elif  [[ $brew == "true" && -f $brew_dir/etc/profile.d/z.sh ]]; then
     source $brew_dir/etc/profile.d/z.sh
 else
     echo "z is not available!"
@@ -437,7 +437,7 @@ fi
 #  ===================================
 #  = ********* COMPLETIONS ********* =
 #  ===================================
-# Autocompletion for SUDO (most probably NOT neeeded)
+# Autocompletion for SUDO (most probably NOT needed)
 # if [ "$PS1" ]; then
 #     complete -cf sudo
 # fi
@@ -644,7 +644,7 @@ export HISTIGNORE="ls:cd:cd -:pwd:exit:date:* --help"
 
 # HOMEBREW CASK
 # ===========================
-if [[ $brew ]]; then
+if [[ $brew == "true" ]]; then
     # Link Homebrew casks in `/Applications` rather than `~/Applications`
     export HOMEBREW_CASK_OPTS="--appdir=/Applications"
 fi
@@ -699,7 +699,7 @@ export LC_ALL="en_US.UTF-8"
 #  ============================
 #  = ********* iTERM2 ******* =
 #  ============================
-if $ACTIVATE_ITERM_INTEGRATION; then
+if [[ $ACTIVATE_ITERM_INTEGRATION == "true" ]]; then
     test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
 fi
 
