@@ -181,6 +181,28 @@ if [[ $ACTIVATE_NVM && -f $NVM_DIR/nvm.sh ]]; then
 fi
 
 
+
+# OpenSSL PATH
+# =============
+# By default brew openssl is not linked
+pathprepend "/usr/local/opt/openssl@1.1/bin"
+# FLAGS for mysql and other packages to be properly installed
+export LDFLAGS="-L/usr/local/opt/openssl/lib"
+export CPPFLAGS="-I/usr/local/opt/openssl/include"
+
+
+# cURL PATH
+# =============
+# (from brew). By default is not linked
+pathprepend "/usr/local/opt/curl/bin"
+# For compilers to find curl you may need to set:
+export LDFLAGS="-L/usr/local/opt/curl/lib"
+export CPPFLAGS="-I/usr/local/opt/curl/include"
+
+# For pkg-config to find curl you may need to set:
+export PKG_CONFIG_PATH="/usr/local/opt/curl/lib/pkgconfig"
+
+
 # ~/bin PATH
 # =============================
 # Local bin in my home (scripts various stuff)
