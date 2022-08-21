@@ -1,6 +1,6 @@
 [submodule "powerline-shell"]
 	path = powerline-shell
-	url = https://github.com/LeonardoGentile/powerline-shell.git
+	url = git@github.com:LeonardoGentile/powerline-shell.git
 	branch = master
 [submodule "z"]
 	path = z
