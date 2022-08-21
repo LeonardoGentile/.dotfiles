@@ -145,6 +145,19 @@ if [[ $ACTIVATE_PYENV && -d $PYENV_ROOT/shims ]]; then
 fi
 
 
+# Poetry PATH
+# ==============================
+export POETRY_ROOT="$HOME/.local/bin"
+if [[ $POETRY_ROOT ]]; then
+    pathappend $POETRY_ROOT
+fi
+# Completion
+# -----------
+# I've manually installed them into brew dir:
+# poetry completions bash > /usr/local/etc/bash_completion.d/poetry
+
+
+
 # NVM PATH
 # ===========================
 # For switching node versions
@@ -310,7 +323,7 @@ fi
 
 # BASH LOCAL
 # =========================
-# ~/.bash_extra used for settings I don't want to commit.
+# ~/.bash_local used for settings I don't want to commit.
 # It will be copied in home and the modifications there won't be committed
 bash_local=~/.bash_local
 [ -r "$bash_local" ] && [ -f "$bash_local" ] && source "$bash_local"
@@ -349,13 +362,13 @@ source ~/.dotfiles/bashmarks/bashmarks.sh
 # ==============
 # if command -v brew >/dev/null 2>&1; then
 # Load rupa's z if installed
-# if [[ -f ~/.dotfiles/z/z.sh ]]; then
-#     source ~/.dotfiles/z/z.sh
-# elif  [[ $brew && -f $brew_dir/etc/profile.d/z.sh ]]; then
-#     source $brew_dir/etc/profile.d/z.sh
-# else
-#     echo "z is not available!"
-# fi
+if [[ -f ~/.dotfiles/z/z.sh ]]; then
+    source ~/.dotfiles/z/z.sh
+elif  [[ $brew && -f $brew_dir/etc/profile.d/z.sh ]]; then
+    source $brew_dir/etc/profile.d/z.sh
+else
+    echo "z is not available!"
+fi
 
 # POWERLINE SHELL (FANCY PROMPT)
 # ===============================
