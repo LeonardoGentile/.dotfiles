@@ -1,6 +1,6 @@
 [core]
     quotepath = false
-    excludesfile = ~/.gitignore_global
+	excludesfile = ~/.gitignore_global
     # attributesfile = ~/.gitattributes
     editor = sub -n -w
     # this will avoid git to think a file has changed when we change the chmod

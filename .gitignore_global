@@ -118,3 +118,9 @@ node_modules
 # bower stuff
 .bower-cache
 .bower-tmp
+
+
+#  ==============
+#  = My Stuff   =
+#  ==============
+README.local.*
