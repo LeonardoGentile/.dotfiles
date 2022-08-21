@@ -116,7 +116,7 @@ alias gp='git push'
 alias gr='git rebase'
 alias grc='git rebase --continue'
 alias guci='git reset --soft HEAD^' # undo last commit
-# alias gs='git status'
+alias ggs='git status'
 alias gd='git diff'
 alias ga='git add'
 alias gl="git log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --"
