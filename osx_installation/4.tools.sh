@@ -149,3 +149,8 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/guarinogabriel/mac-cli/mas
 # ===========================
 # After Alcatraz look for eero
 #
+
+
+# APK TOOL
+# Reverse Engineering of Android APK
+brew install apktool

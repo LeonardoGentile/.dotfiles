@@ -37,6 +37,8 @@ function caskInstall() {
     brew cask install "${@}" 2> /dev/null
 }
 
+# Gui for services
+brew cask install brewservicesmenubar
 
 # This will install alfred 3. I only have the license for alfred 2. Install it manually.
 # caskInstall --appdir="/Applications/Tools" alfred

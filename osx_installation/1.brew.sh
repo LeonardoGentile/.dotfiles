@@ -13,11 +13,10 @@ brew upgrade
 #  ===========
 #  = TAP TAP =
 #  ===========
-# Install more recent versions of some OS X tools
-# These formulae duplicate software provided by OS X, though may provide more recent or bugfix versions.
-# DEPRECATED
-# brew tap homebrew/dupes
 
+# DOC: https://docs.brew.sh/Taps
+
+# DEPRECATED: https://docs.brew.sh/Versions
 # brew tap homebrew/versions
 
 # This allows me to: "brew services start/stop/restart mysql" and many other services
@@ -144,6 +143,18 @@ brew install bash-completion            # source it from .bash_profile
 # Example: pv sqlfile.sql | mysql -uxxx -pxxxx dbname
 brew install pv
 
+# fzf: a general-purpose command-line fuzzy finder.
+# https://github.com/junegunn/fzf
+brew install fzf
+# To install useful key bindings and fuzzy completion:
+$(brew --prefix)/opt/fzf/install
+
+# bat: A cat(1) clone with wings.
+# supports syntax highlighting for a large number of programming and markup languages
+# https://github.com/sharkdp/bat
+brew install bat
+
+
 #  ==========
 #  = ffmpeg =
 #  ==========
@@ -154,7 +165,10 @@ brew install ffmpeg --with-fdk-aac --with-tools --with-freetype --with-libass --
 #  = JAVA =
 #  ========
 # To solve version mismatch, for example for installing protractor (for this issue: https://github.com/angular/protractor/issues/2638)
-brew cask install java
+# brew cask install java  # As I remeber java is not a cask anymore! ==> "java has been moved to Homebrew."
+# Follow this:
+# https://dev.to/gabethere/installing-java-on-a-mac-using-homebrew-and-jevn-12m8
+# https://elisabethirgens.github.io/notes/2019/07/java-versions/
 
 
 
@@ -200,6 +214,27 @@ mysqld --initialize-insecure --log-error-verbosity --user=`whoami` --basedir="$(
 # START/STOP (or launchroket):
 #   launchctl load -w ~/Library/LaunchAgents/homebrew.mxcl.mysql.plist
 #   launchctl unload -w ~/Library/LaunchAgents/homebrew.mxcl.mysql.plist
+
+
+#  ===================
+#  = MYSQL ON MOJAVE =
+#  ===================
+# WARNING: In Mojave MySql 8 doesn't work properly
+# https://medium.com/@at0dd/install-mysql-5-7-on-mac-os-mojave-cd07ec936034
+#
+# Remove any previous version
+#
+# brew uninstall mysql
+# brew uninstall mysql@5.7
+# Optional. WARNING!! It will remove all your db
+# rm -rf /usr/local/var/mysql #
+# rm /usr/local/etc/my.cnf
+#
+# Install MySQL 5.7
+# brew install mysql@5.7
+# brew link --force mysql@5.7
+# brew services start mysql@5.7
+
 
 
 
