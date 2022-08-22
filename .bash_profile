@@ -15,6 +15,7 @@ fi
 
 # SETTINGS
 # =====================
+ACTIVATE_BREW=true
 ACTIVATE_RBENV=false
 ACTIVATE_COREUTILS=false
 ACTIVATE_PYENV=true
@@ -30,10 +31,19 @@ ACTIVATE_ITERM_INTEGRATION=false
 OS="$(echo $(uname -s) | tr '[:upper:]' '[:lower:]')"  # or OS=$OSTYPE
 case $OS in
     Darwin*|darwin)
-        # Compilation stuff (Set architecture flags)
-        export ARCHFLAGS="-arch x86_64"
         mac=true
         linux=false
+        export BASH_SILENCE_DEPRECATION_WARNING=1
+        
+        # COMPILATION STUFF (Set architecture flags)
+        
+        # Intel MACS
+        # ---------
+        # export ARCHFLAGS="-arch x86_64"
+        
+        # For M1
+        # ------
+        export ARCHFLAGS="-arch arm64" 
     ;;
     linux*)
         mac=false
@@ -87,18 +97,19 @@ pathappend() {
 
 # BREW PATH
 # ============
-# brew bins should have priority
-pathprepend /usr/local/bin /usr/local/sbin
 
 # Flags for brew and coreutils
 brew=false
 coreutils=false
-if [[ $mac && -f "`which brew`" ]]; then
+if [[ $mac == "true" && $ACTIVATE_BREW == "true" ]]; then
     # Cached vars
-    brew=true
-    brew_dir=$(brew --prefix)
+    brew=true 
+    # brew bins should have priority
+    brew_dir="/opt/homebrew"
+    pathprepend $brew_dir/bin $brew_dir/sbin
     coreutils=$(brew --prefix coreutils)
 fi
+
 
 
 # (GNU) COREUTILS PATH
@@ -185,10 +196,15 @@ fi
 # OpenSSL PATH
 # =============
 # By default brew openssl is not linked
-pathprepend "/usr/local/opt/openssl@1.1/bin"
+
 # FLAGS for mysql and other packages to be properly installed
-export LDFLAGS="-L/usr/local/opt/openssl/lib"
-export CPPFLAGS="-I/usr/local/opt/openssl/include"
+pathprepend "$brew_dir/opt/openssl@1.1/bin"
+export LDFLAGS="-L/$brew_dir/opt/openssl/lib"
+export CPPFLAGS="-I/$brew_dir/opt/openssl/include"
+
+# pathprepend "$brew_dir/opt/openssl@3/bin"
+# export LDFLAGS="-L$brew_dir/opt/openssl@3/lib"
+# export CPPFLAGS="-I$brew_dir/opt/openssl@3/include"
 
 
 # cURL PATH
@@ -196,8 +212,8 @@ export CPPFLAGS="-I/usr/local/opt/openssl/include"
 # (from brew). By default is not linked
 pathprepend "/usr/local/opt/curl/bin"
 # For compilers to find curl you may need to set:
-export LDFLAGS="-L/usr/local/opt/curl/lib"
-export CPPFLAGS="-I/usr/local/opt/curl/include"
+# export LDFLAGS="-L/usr/local/opt/curl/lib"
+# export CPPFLAGS="-I/usr/local/opt/curl/include"
 
 # For pkg-config to find curl you may need to set:
 export PKG_CONFIG_PATH="/usr/local/opt/curl/lib/pkgconfig"
@@ -236,9 +252,9 @@ fi
 
 # JAVA_HOME
 # =================
-version=1.8
-export JAVA_HOME=$(/usr/libexec/java_home -v"$version");
-pathappend $JAVA_HOME $JAVA_HOME/bin
+# version=1.8
+# export JAVA_HOME=$(/usr/libexec/java_home -v"$version");
+# pathappend $JAVA_HOME $JAVA_HOME/bin
 
 
 # ANACONDA PATH
@@ -276,7 +292,7 @@ export PATH
 
 # use the standard APPLE ls and chmod
 # because coreutils version can't handle attributes and ACL
-if $coreutils_installed; then
+if [[ $coreutils_installed == "true" ]]; then
    alias ls=/bin/ls
    alias chmod=/bin/chmod
 fi
@@ -284,15 +300,15 @@ fi
 
 # Detect which `ls` flavor is in use
 if ls --color > /dev/null 2>&1; then
-    if $coreutils_installed; then
+    if [[ $coreutils_installed == "true" ]]; then
         # GNU `ls`
         alias ls='$coreutils/libexec/gnubin/ls --color=always'
+        # load my color scheme, 'dircolors' only works with gnu 'ls'
+        eval `dircolors  ~/.dotfiles/data/dircolors`
     else
         # for linux installation
         alias ls='ls --color=always'
     fi
-    # load my color scheme, 'dircolors' only works with gnu 'ls'
-    eval `dircolors  ~/.dotfiles/data/dircolors`
 else
     # OS X `ls`
     alias ls='/bin/ls -G'
@@ -327,7 +343,8 @@ if [[ $ACTIVATE_VIRTUALENVWRAPPER == "true" ]]; then
         source /usr/share/virtualenvwrapper/virtualenvwrapper.sh
     # no available
     else
-        echo "Virtualenvwrapper is not available!"
+        # echo "Virtualenvwrapper is not available!"
+        ACTIVATE_VIRTUALENVWRAPPER=false
     fi
 fi
 
@@ -394,9 +411,9 @@ fi
 
 # POWERLINE SHELL (FANCY PROMPT)
 # ===============================
-if $linux ; then
+if [[ $linux == "true" ]]; then
     pw_options="--cwd-mode fancy --cwd-max-depth 3 --cwd-max-dir-size 25 --mode patched"
-elif $mac ; then
+elif [[ $mac == "true" ]]; then
     pw_options="--cwd-mode fancy --cwd-max-depth 3 --cwd-max-dir-size 25 --mode patched --colorize-hostname"
 fi
 
@@ -404,7 +421,8 @@ function _update_ps1() {
    export PS1="$(~/.dotfiles/powerline-shell/powerline-shell.py $? $pw_options  2> /dev/null)"
 }
 
-if [ "$TERM" != "linux" ]; then
+
+if [[ $TERM != linux && ! $PROMPT_COMMAND =~ _update_ps1 ]]; then
     PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
 fi
 
@@ -463,7 +481,7 @@ elif type brew &>/dev/null; then
     source "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
   else
     for COMPLETION in "${HOMEBREW_PREFIX}/etc/bash_completion.d/"*; do
-      echo ${COMPLETION}
+        # echo ${COMPLETION}
       [[ -r "$COMPLETION" ]] && source "$COMPLETION"
     done
   fi
@@ -721,6 +739,4 @@ if $DEBUG; then
     set +x # The dash is used to activate a shell option and a plus to deactivate it.
     exec 2>&3 3>&-
 fi
-
-
 
