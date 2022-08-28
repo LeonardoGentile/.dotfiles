@@ -11,6 +11,16 @@ brew update
 # Upgrade any already-installed formulae
 brew upgrade
 
+
+# BREW BUNDLE
+# =====================
+# RESTORE BREW PACKAGES
+# https://gist.github.com/ChristopherA/a579274536aab36ea9966f301ff14f3f
+# https://github.com/MikeMcQuaid/strap
+
+# brew bundle dump --file=~/.dotfiles/Brewfile    # -> Creates Brewfile
+brew bundle install --file=~/.dotfiles/Brewfile   # -> Restore from a Brewfile
+
 # SERVICES
 # ========
 # brew services is automatically installed when first run
