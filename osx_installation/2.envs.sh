@@ -114,6 +114,6 @@ nvm alias default node      # set as default (to be used in any new shell)
 BASHRELOAD
 
 # TODO: double check npm completions (it worked with brew)
-npm completion > /usr/local/etc/bash_completion.d/npm
+# npm completion > $brew_dir/etc/bash_completion.d/npm
 
 

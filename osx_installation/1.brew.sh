@@ -3,33 +3,31 @@
 # See also: https://gist.github.com/xuhdev/8b1b16fb802f6870729038ce3789568f
 
 # Install Brew
-ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+# =============
+# https://docs.brew.sh/Installation
 
 # Make sure we’re using the latest Homebrew
 brew update
 # Upgrade any already-installed formulae
 brew upgrade
 
-#  ===========
-#  = TAP TAP =
-#  ===========
-
-# DOC: https://docs.brew.sh/Taps
-
-# DEPRECATED: https://docs.brew.sh/Versions
-# brew tap homebrew/versions
-
+# SERVICES
+# ========
+# brew services is automatically installed when first run
+# https://docs.brew.sh/Manpage#services-subcommand
 # This allows me to: "brew services start/stop/restart mysql" and many other services
-brew tap homebrew/services
 
-brew tap caskroom/cask
+
+#  TAPS
+#  ====
+# https://docs.brew.sh/Taps
+# The brew tap command adds more repositories to the list of formulae
+
 
 # PHP
 # ==========
-# https://github.com/Homebrew/homebrew-php
-brew tap homebrew/homebrew-php
 # To install major version of php
-
+brew install php
 # Switch versions of php
 brew install brew-php-switcher
 # USAGE:
@@ -41,36 +39,34 @@ brew install brew-php-switcher
 brew install git
 # If bash completions don't work then try with
 # brew install git --without-completions
-brew install mercurial
+# brew install mercurial
 
 #  ========================
 #  = COREUTILS + GNU BINS =
 #  ========================
-# Install GNU core utilities (those that come with OS X are outdated), g-prefixed
-# use --default-names option to prevent Homebrew from prepending a 'g' to each of the newly installed commands
-# thus we could use these commands as default commands over the ones shipped by OS X.
+# Commands also provided by macOS and the commands dir, dircolors, vdir have been installed with the prefix "g".
+# If you need to use these commands with their normal names, you can add a "gnubin" directory to your PATH with:
+# `PATH="$(brew --prefix)/opt/coreutils/libexec/gnubin:$PATH"`
 brew install coreutils  # g-prefixed
-echo "Don’t forget to add $(brew --prefix coreutils)/libexec/gnubin to \$PATH."
+echo "Don't forget to add $(brew --prefix coreutils)/libexec/gnubin to \$PATH."
 
-# All prefixes don't exist anymore in brew > 2.0
-# this will be installed with 'g' prefix
-
-brew install binutils
-brew install diffutils
-brew install ed # --with-default-names
-brew install findutils                          # GNU `find`, `locate`, `updatedb`, and `xargs` (g-prefixed)
+# ALL 'g' prefixed
+brew install binutils     # https://en.wikipedia.org/wiki/GNU_Binutils
+brew install diffutils    # https://www.gnu.org/software/diffutils/
+brew install ed
+brew install findutils    # https://www.gnu.org/software/findutils/ (`find`, `locate`, `updatedb`, and `xargs`)
 brew install gawk
-brew install gnu-indent # --with-default-names
-brew install gnu-sed # --with-default-names       # Gnu sed, used for pretty git diff (call it with `gsed` or install with --with-default-names -> replace sed)
-brew install gnu-tar # --with-default-names
-brew install gnu-which # --with-default-names
+brew install gnu-indent
+brew install gnu-sed      # Gnu sed, used for pretty git diff (call it with `gsed`)
+brew install gnu-tar
+brew install gnu-which
 brew install gnutls
-brew install grep # --with-default-names
+brew install grep
 brew install gzip
 brew install screen
 brew install watch
-brew install wdiff # --with-gettext
-brew install wget # --with-iri                    # Install wget with IRI support
+brew install wdiff        # --with-gettext
+brew install wget
 
 # Install Bash 4
 brew install bash
@@ -93,8 +89,8 @@ brew install rsync
 brew install unzip
 brew install p7zip
 brew install lzip                       # for lz compressed files, es: lzip -d compressedFile.tar.lz
-brew install vim --override-system-vi
-brew install macvim --override-system-vim --custom-system-icons
+brew install vim
+# brew install macvim
 
 brew install ack
 brew install nmap
@@ -105,12 +101,13 @@ brew install lynx
 brew install pstree
 
 # LUA
-brew install lua                    # will also install luarocks (package manager for lua)
+# brew install lua                    # will also install luarocks (package manager for lua)
 
 # Others
-brew install imagemagick --with-webp
+# brew install imagemagick --with-webp
 brew install testdisk
-brew install archey                 # info for mac
+brew install archey4                 # info for mac
+# ALL OF THESE VIA DOCKER
 brew install redis                  # Start it with launchrocket
 brew install mongodb                # edit /usr/local/etc/mongod.conf for settings. Start it with launchrocket
 brew install heroku-toolbelt
@@ -135,19 +132,26 @@ brew install optipng
 # Bash Completions (sometimes doesn't work so it needs to be reinstalled)
 brew install bash-completion            # source it from .bash_profile
 
-# Others (TODO)
-# =============
-# brew install pigz pv foremost rhino sqlmap webkit2png zopfli
+# Other Apps
+# =================
+# brew install pigz foremost rhino sqlmap webkit2png zopfli nnn
 
-# pipeviewer (useful to check sql import progress)
-# Example: pv sqlfile.sql | mysql -uxxx -pxxxx dbname
+# n³ The unorthodox terminal file manager
+# ---------------------------------------
+# https://github.com/jarun/nnn
+brew install nnn
+
+# pipeviewer
+# ----------
+# Useful to check long processes (i.e. sql import progress)
+# Example `pv sqlfile.sql | mysql -uxxx -pxxxx dbname`
 brew install pv
 
 # fzf: a general-purpose command-line fuzzy finder.
 # https://github.com/junegunn/fzf
-brew install fzf
+# brew install fzf
 # To install useful key bindings and fuzzy completion:
-$(brew --prefix)/opt/fzf/install
+# $(brew --prefix)/opt/fzf/install
 
 # bat: A cat(1) clone with wings.
 # supports syntax highlighting for a large number of programming and markup languages

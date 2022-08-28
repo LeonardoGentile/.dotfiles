@@ -34,16 +34,15 @@ case $OS in
         mac=true
         linux=false
         export BASH_SILENCE_DEPRECATION_WARNING=1
-        
+        case "$(uname -m)" in
+            x86_64) brew_default_dir=/usr/local;; # Intel binaries
+            arm64) brew_default_dir=/opt/homebrew;;  # ARM
+        esac
+
         # COMPILATION STUFF (Set architecture flags)
-        
-        # Intel MACS
-        # ---------
-        # export ARCHFLAGS="-arch x86_64"
-        
-        # For M1
-        # ------
-        export ARCHFLAGS="-arch arm64" 
+        # Intel -> x86_64
+        # For M1 -> arm64"
+        export ARCHFLAGS="-arch $(uname -m)"
     ;;
     linux*)
         mac=false
@@ -100,27 +99,30 @@ pathappend() {
 
 # Flags for brew and coreutils
 brew=false
-coreutils=false
+coreutils_dir=""
+
 if [[ $mac == "true" && $ACTIVATE_BREW == "true" ]]; then
     # Cached vars
-    brew=true 
+    brew=true
+    pathprepend $brew_default_dir/bin $brew_default_dir/sbin
+    coreutils_dir=$(brew --prefix coreutils)
     # brew bins should have priority
-    brew_dir="/opt/homebrew"
-    pathprepend $brew_dir/bin $brew_dir/sbin
-    coreutils=$(brew --prefix coreutils)
+    brew_dir=$(brew --prefix)
 fi
-
 
 
 # (GNU) COREUTILS PATH
 # ===========================
-# I use the GNU ls (gls) included in COREUTILS (downloaded with BREW)
-# This let me use dircolors command, that will use .dircolors file to colorize gls:
+# Commands also provided by macOS and the commands dir, dircolors, vdir have been installed with the prefix "g".
+# If you need to use these commands with their normal names, you can add a "gnubin" directory to your PATH with.
+#
+# NOTE: I use the GNU ls (gls) included in COREUTILS because it lets me use dircolors command, that will use
+# .dircolors file to colorize gls:
 #   http://lostincode.net/posts/homebrew
 #   http://www.conrad.id.au/2013/07/making-mac-os-x-usable-part-1-terminal.html
 #   https://github.com/seebi/dircolors-solarized
 GNU_BIN=$coreutils/libexec/gnubin
-if [[ $ACTIVATE_COREUTILS == "true" && $coreutils && -d $GNU_BIN ]]; then
+if [[ $ACTIVATE_COREUTILS == "true" && -d $coreutils_dir && -d $GNU_BIN ]]; then
     pathprepend $GNU_BIN
     # Flag to check if we are using coreutils GNU ls or Apple ls
     coreutils_installed=true
@@ -130,8 +132,9 @@ fi
 # ====================================================
 # some man entries are different, for example osx vs gnu 'ls'.
 # I still use osx 'ls' so I need the osx man pages.
-if [[ $ACTIVATE_COREUTILS == "true" && -d $coreutils && -d $coreutils/libexec/gnuman ]]; then
-    MANPATH="$coreutils/libexec/gnuman:$MANPATH"
+GNU_MANPATH=$coreutils_dir/libexec/gnuman
+if [[ $coreutils_installed == "true" && -d $GNU_MANPATH ]]; then
+    MANPATH="$GNU_MANPATH:$MANPATH"
     # If I uncomment this export then the manpages comes from gnu coreutils instead of mac man
     # export MANPATH
 fi
@@ -172,7 +175,6 @@ fi
 # NVM PATH
 # ===========================
 # For switching node versions
-# NVM is very slow to load so I had to use a trick to lazy load it: https://gist.github.com/gfguthrie/9f9e3908745694c81330c01111a9d642
 export NVM_DIR="$HOME/.nvm"
 if [[ $ACTIVATE_NVM == "true" && -f $NVM_DIR/nvm.sh ]]; then
     # Lazy loading bash completions does not save meaningful shell startup time, so I won't do it
@@ -188,6 +190,8 @@ if [[ $ACTIVATE_NVM == "true" && -f $NVM_DIR/nvm.sh ]]; then
     pathprepend "$NVM_DIR/versions/node/v${DEFAULT_NODE_VER#v}/bin"
 
     # Lazy-loads nvm the first time we call it
+    # NVM is very slow to load so I had to use a trick to lazy load it:
+    # https://gist.github.com/gfguthrie/9f9e3908745694c81330c01111a9d642
     alias nvm='unalias nvm; [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" --no-use; nvm'
 fi
 
@@ -197,26 +201,32 @@ fi
 # =============
 # By default brew openssl is not linked
 
-# FLAGS for mysql and other packages to be properly installed
+# Openssl@1.1
 pathprepend "$brew_dir/opt/openssl@1.1/bin"
-export LDFLAGS="-L/$brew_dir/opt/openssl/lib"
-export CPPFLAGS="-I/$brew_dir/opt/openssl/include"
+# FLAGS: for mysql and other packages to be properly installed
+export LDFLAGS="-L$brew_dir/opt/openssl@1.1/lib"
+export CPPFLAGS="-I$brew_dir/opt/openssl@1.1/include"
 
+# Openssl@3
 # pathprepend "$brew_dir/opt/openssl@3/bin"
+# FLAGS: for mysql and other packages to be properly installed
 # export LDFLAGS="-L$brew_dir/opt/openssl@3/lib"
 # export CPPFLAGS="-I$brew_dir/opt/openssl@3/include"
 
 
 # cURL PATH
 # =============
-# (from brew). By default is not linked
-pathprepend "/usr/local/opt/curl/bin"
-# For compilers to find curl you may need to set:
-# export LDFLAGS="-L/usr/local/opt/curl/lib"
-# export CPPFLAGS="-I/usr/local/opt/curl/include"
+# By default brew cUrl is not linked:
+pathprepend "$brew_dir/opt/curl/bin"
+
+# FLAGS: For compilers to find curl you may need to set:
+LDFLAGS="$LDFLAGS -L$brew_dir/opt/curl/lib"
+CPPFLAGS="$CPPFLAGS -I$brew_dir/opt/curl/include"
 
 # For pkg-config to find curl you may need to set:
-export PKG_CONFIG_PATH="/usr/local/opt/curl/lib/pkgconfig"
+export PKG_CONFIG_PATH="$brew_dir/opt/curl/lib/pkgconfig"
+# https://unix.stackexchange.com/a/682930/89430
+# PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/other/directory
 
 
 # ~/bin PATH
@@ -238,7 +248,7 @@ fi
 if [ -d /usr/local/opt/mysql/lib ]; then
     pathappend /usr/local/opt/mysql/bin
 # if installed with brew
-elif [[ -d /usr/local/mysql/bin && $mac ]]; then
+elif [[ -d $brew_dir/mysql/bin && $mac == "true" ]]; then
     pathappend $brew_dir/mysql/bin
 fi
 
@@ -260,23 +270,26 @@ fi
 # ANACONDA PATH
 # =============================
 # for anaconda py distribution (installed via homebrew)
-# Disable conda to replace my other python versions
-export CONDA_AUTO_ACTIVATE_BASE=false
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
 CONDA_ROOT=/usr/local/anaconda3
-__conda_setup="$('$CONDA_ROOT/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "$CONDA_ROOT/etc/profile.d/conda.sh" ]; then
-        . "$CONDA_ROOT/etc/profile.d/conda.sh"
+if [[ -d $CONDA_ROOT ]]; then
+    # Disable conda to auto-replace my other python versions
+    export CONDA_AUTO_ACTIVATE_BASE=false
+
+    # >>> conda initialize >>>
+    # !! Contents within this block are managed by 'conda init' !!
+    __conda_setup="$('$CONDA_ROOT/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+    if [ $? -eq 0 ]; then
+        eval "$__conda_setup"
     else
-        export PATH="$CONDA_ROOT/bin:$PATH"
+        if [ -f "$CONDA_ROOT/etc/profile.d/conda.sh" ]; then
+            . "$CONDA_ROOT/etc/profile.d/conda.sh"
+        else
+            export PATH="$CONDA_ROOT/bin:$PATH"
+        fi
     fi
+    unset __conda_setup
+    # <<< conda initialize <<<
 fi
-unset __conda_setup
-# <<< conda initialize <<<
 
 export PATH
 
@@ -476,7 +489,7 @@ if [ -f /etc/bash_completion ]; then
 elif type brew &>/dev/null; then
   # SLOW: https://discourse.brew.sh/t/bash-completion-is-slow-for-brew-commands/4761
   HOMEBREW_PREFIX="$(brew --prefix)"
-#   BASH_COMPLETION_USER_DIR=/Users/sam/.dotfiles/completions
+  # BASH_COMPLETION_USER_DIR=~/.dotfiles/completions
   if [[ -r "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ]]; then
     source "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
   else
@@ -486,6 +499,12 @@ elif type brew &>/dev/null; then
     done
   fi
 fi
+
+# Installed by BREW
+# if [ -f $(brew --prefix)/etc/bash_completion ]; then
+#   source $(brew --prefix)/etc/bash_completion;
+# fi
+
 
 # RBENV COMPLETION
 # ================

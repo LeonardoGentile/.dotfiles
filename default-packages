@@ -1,11 +1,13 @@
-bower
-commitizen
+#commitizen
+#semantic-release-cli
+
+# because cra install an old version of this
+tar
+
 create-react-app
-forever
-grunt-cli
-gulp
 import-js
 mert
 nodemon
+# For production use: supervisor
 npm-check-updates
-semantic-release-cli
+

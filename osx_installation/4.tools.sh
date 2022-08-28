@@ -80,16 +80,6 @@ brew install tidy-html5             # html5 version
 brew install mackup
 
 
-
-#  ==========
-#  = Termrc =
-#  ==========
-# https://github.com/briangonzalez/termrc
-# For starting up iterm panes and envs from shell (AMAZING)
-gem install termrc
-
-
-
 #  ========
 #  = Mert =
 #  ========

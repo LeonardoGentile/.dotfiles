@@ -237,14 +237,44 @@ Then don't forget to source: `$(brew --prefix)/bin/virtualenvwrapper.sh`.
 
 ### nvm
 
-#### Installation:
-I manage to manually install this, because the installation script write in my `.bashrc` (no, thanks).
+#### Installation
 
-    git clone https://github.com/creationix/nvm.git ~/.nvm && cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`
-    # Then source this from you .bash_profile
-    source ~/.nvm/nvm.sh
+I manage to manually install this, because the installation script write in my `.bashrc` (no, thanks).  
+See: https://github.com/nvm-sh/nvm#git-install
 
-#### [Usage](https://github.com/creationix/nvm#usage)
+Then source this from you `.bash_profile` (see the configuration into this file).
+
+
+#### Usage
+
+https://github.com/creationix/nvm#usage
+
+To install the latest node version
+
+```bash
+nvm install node
+```
+
+This also installs all the global packages (for this version of node listed in [`~/.nvm/default-packages`](https://github.com/nvm-sh/nvm#default-global-packages-from-file-while-installing)
+
+#### Default Node version 
+
+Set your default node version with:
+
+```
+nvm alias default node vx.y.z
+```
+
+### Automatically switch node version
+Follow the instructions at: https://github.com/nvm-sh/nvm#automatically-call-nvm-use
+
+
+#### Clean NPM cache
+
+```bash
+npm cache clean –force
+nvm cache clear
+```
 
 ## Step 3: Install gloabl npm packages
 Run step by step or `sh 3.npm.sh`
