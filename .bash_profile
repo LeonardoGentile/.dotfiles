@@ -163,14 +163,19 @@ fi
 
 # Poetry PATH
 # ==============================
-export POETRY_ROOT="$HOME/.local/bin"
+# For Completion see below
+POETRY_ROOT=""
+POETRY_ROOT_OLD="$HOME/.local/bin"
+POETRY_ROOT_NEW="$HOME/.poetry/bin"
+if [[ -d $POETRY_ROOT_OLD ]]; then
+    POETRY_ROOT=$POETRY_ROOT_OLD
+elif [[ -d $POETRY_ROOT_NEW ]]; then
+    POETRY_ROOT=$POETRY_ROOT_NEW
+fi
+
 if [[ -d $POETRY_ROOT ]]; then
     pathappend $POETRY_ROOT
 fi
-# Completion
-# -----------
-# I've manually installed them into brew dir:
-# poetry completions bash > /usr/local/etc/bash_completion.d/poetry
 
 
 
@@ -518,6 +523,11 @@ fi
 
 # POETRY COMPLETION
 # =================
+# Or manually install them into brew dir:
+# `poetry completions bash > $HOMEBREW_PREFIX/etc/bash_completion.d/poetry`
+# https://python-poetry.org/docs/#enable-tab-completion-for-bash-fish-or-zsh
+# https://github.com/python-poetry/poetry/issues/2295
+# Automatic solution:
 if command -v poetry &> /dev/null
 then
     source <(poetry completions bash)
@@ -716,6 +726,16 @@ fi
 # https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man3/setlocale.3.html
 export LANG="en_US.UTF-8"
 export LC_ALL="en_US.UTF-8"
+
+# EXAMPLES:
+# LANG="fr_FR.UTF-8"
+# LC_COLLATE="fr_FR.UTF-8"
+# LC_CTYPE="fr_FR.UTF-8"
+# LC_MESSAGES="fr_FR.UTF-8"
+# LC_MONETARY="fr_FR.UTF-8"
+# LC_NUMERIC="fr_FR.UTF-8"
+# LC_TIME="fr_FR.UTF-8"
+# LC_ALL=
 
 #  =======================================
 #  = ********* /MISC & EXPORTS ********* =
