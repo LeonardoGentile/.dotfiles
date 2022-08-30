@@ -18,6 +18,7 @@ fi
 ACTIVATE_BREW=true
 ACTIVATE_RBENV=false
 ACTIVATE_COREUTILS=false
+ACTIVATE_BINUTILS=true
 ACTIVATE_PYENV=true
 ACTIVATE_NVM=true
 ACTIVATE_VIRTUALENVWRAPPER=true
@@ -202,24 +203,15 @@ if [[ $ACTIVATE_NVM == "true" && -f $NVM_DIR/nvm.sh ]]; then
     alias nvm='unalias nvm; [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" --no-use; nvm'
 fi
 
-
-
-# OpenSSL PATH
-# =============
-# By default brew openssl is not linked
-
-# Openssl@1.1
-pathprepend "$HOMEBREW_PREFIX/opt/openssl@1.1/bin"
-# FLAGS: for mysql and other packages to be properly installed
-export LDFLAGS="-L$HOMEBREW_PREFIX/opt/openssl@1.1/lib"
-export CPPFLAGS="-I$HOMEBREW_PREFIX/opt/openssl@1.1/include"
-
-# Openssl@3
-# pathprepend "$HOMEBREW_PREFIX/opt/openssl@3/bin"
-# FLAGS: for mysql and other packages to be properly installed
-# export LDFLAGS="-L$HOMEBREW_PREFIX/opt/openssl@3/lib"
-# export CPPFLAGS="-I$HOMEBREW_PREFIX/opt/openssl@3/include"
-
+# =======
+# FLAGS
+# =======
+# Overloaded below
+# https://unix.stackexchange.com/a/682930/89430
+export LDFLAGS=""
+export CPPFLAGS=""
+# PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/other/directory
+export PKG_CONFIG_PATH=""
 
 # cURL PATH
 # =============
@@ -231,9 +223,38 @@ LDFLAGS="$LDFLAGS -L$HOMEBREW_PREFIX/opt/curl/lib"
 CPPFLAGS="$CPPFLAGS -I$HOMEBREW_PREFIX/opt/curl/include"
 
 # For pkg-config to find curl you may need to set:
-export PKG_CONFIG_PATH="$HOMEBREW_PREFIX/opt/curl/lib/pkgconfig"
-# https://unix.stackexchange.com/a/682930/89430
-# PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/other/directory
+PKG_CONFIG_PATH="$HOMEBREW_PREFIX/opt/curl/lib/pkgconfig"
+
+
+# OpenSSL PATH
+# =============
+# By default brew openssl is not linked
+
+# Openssl@1.1
+# ------------
+pathprepend "$HOMEBREW_PREFIX/opt/openssl@1.1/bin"
+# FLAGS: for mysql and other packages to be properly installed
+LDFLAGS="$LDFLAGS -L$HOMEBREW_PREFIX/opt/openssl@1.1/lib"
+CPPFLAGS="$CPPFLAGS -I$HOMEBREW_PREFIX/opt/openssl@1.1/include"
+
+# Openssl@3
+# ----------
+# pathprepend "$HOMEBREW_PREFIX/opt/openssl@3/bin"
+# FLAGS: for mysql and other packages to be properly installed
+# export LDFLAGS="-L$HOMEBREW_PREFIX/opt/openssl@3/lib"
+# export CPPFLAGS="-I$HOMEBREW_PREFIX/opt/openssl@3/include"
+
+
+# BINUTILS PATH
+# ==============
+# binutils is keg-only, which means it was not symlinked into /opt/homebrew,
+# because Apple's CLT provides the same tools.
+BINUTILS=$HOMEBREW_PREFIX/opt/binutils/bin
+if [[ $ACTIVATE_BINUTILS == "true" && -d $BINUTILS ]]; then
+    pathprepend $BINUTILS
+    LDFLAGS="$LDFLAGS -L$HOMEBREW_PREFIX/opt/binutils/lib"
+    CPPFLAGS="$CPPFLAGS -I$HOMEBREW_PREFIX/opt/binutils/include"
+fi
 
 
 # ~/bin PATH
