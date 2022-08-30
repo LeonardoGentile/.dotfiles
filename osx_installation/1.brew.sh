@@ -140,7 +140,12 @@ brew install jpeg-turbo
 brew install optipng
 
 # Bash Completions (sometimes doesn't work so it needs to be reinstalled)
-brew install bash-completion            # source it from .bash_profile
+brew install bash-completion@2            # source it from .bash_profile
+# Search more completion with:
+#   brew search completion
+# then install them with:
+#   brew install docker-completion
+#   brew install docker-compose-completion
 
 # Other Apps
 # =================

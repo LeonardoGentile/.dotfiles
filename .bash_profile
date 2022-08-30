@@ -96,18 +96,20 @@ pathappend() {
 
 # BREW PATH
 # ============
-
 # Flags for brew and coreutils
-brew=false
-coreutils_dir=""
 
-if [[ $mac == "true" && $ACTIVATE_BREW == "true" ]]; then
+# UNREALIABLE, not yet sourced!
+# brew_installed=$(command -v brew &> /dev/null && echo "true" || echo "false")
+
+brew_installed="false"
+coreutils_dir=""
+if [[ $brew_installed && $mac == "true" && $ACTIVATE_BREW == "true" ]]; then
     # Cached vars
-    brew=true
+    brew_installed="true"
     pathprepend $brew_default_dir/bin $brew_default_dir/sbin
     coreutils_dir=$(brew --prefix coreutils)
     # brew bins should have priority
-    brew_dir=$(brew --prefix)
+    HOMEBREW_PREFIX=$(brew --prefix)
 fi
 
 
@@ -202,29 +204,29 @@ fi
 # By default brew openssl is not linked
 
 # Openssl@1.1
-pathprepend "$brew_dir/opt/openssl@1.1/bin"
+pathprepend "$HOMEBREW_PREFIX/opt/openssl@1.1/bin"
 # FLAGS: for mysql and other packages to be properly installed
-export LDFLAGS="-L$brew_dir/opt/openssl@1.1/lib"
-export CPPFLAGS="-I$brew_dir/opt/openssl@1.1/include"
+export LDFLAGS="-L$HOMEBREW_PREFIX/opt/openssl@1.1/lib"
+export CPPFLAGS="-I$HOMEBREW_PREFIX/opt/openssl@1.1/include"
 
 # Openssl@3
-# pathprepend "$brew_dir/opt/openssl@3/bin"
+# pathprepend "$HOMEBREW_PREFIX/opt/openssl@3/bin"
 # FLAGS: for mysql and other packages to be properly installed
-# export LDFLAGS="-L$brew_dir/opt/openssl@3/lib"
-# export CPPFLAGS="-I$brew_dir/opt/openssl@3/include"
+# export LDFLAGS="-L$HOMEBREW_PREFIX/opt/openssl@3/lib"
+# export CPPFLAGS="-I$HOMEBREW_PREFIX/opt/openssl@3/include"
 
 
 # cURL PATH
 # =============
 # By default brew cUrl is not linked:
-pathprepend "$brew_dir/opt/curl/bin"
+pathprepend "$HOMEBREW_PREFIX/opt/curl/bin"
 
 # FLAGS: For compilers to find curl you may need to set:
-LDFLAGS="$LDFLAGS -L$brew_dir/opt/curl/lib"
-CPPFLAGS="$CPPFLAGS -I$brew_dir/opt/curl/include"
+LDFLAGS="$LDFLAGS -L$HOMEBREW_PREFIX/opt/curl/lib"
+CPPFLAGS="$CPPFLAGS -I$HOMEBREW_PREFIX/opt/curl/include"
 
 # For pkg-config to find curl you may need to set:
-export PKG_CONFIG_PATH="$brew_dir/opt/curl/lib/pkgconfig"
+export PKG_CONFIG_PATH="$HOMEBREW_PREFIX/opt/curl/lib/pkgconfig"
 # https://unix.stackexchange.com/a/682930/89430
 # PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/other/directory
 
@@ -248,8 +250,8 @@ fi
 if [ -d /usr/local/opt/mysql/lib ]; then
     pathappend /usr/local/opt/mysql/bin
 # if installed with brew
-elif [[ -d $brew_dir/mysql/bin && $mac == "true" ]]; then
-    pathappend $brew_dir/mysql/bin
+elif [[ -d $HOMEBREW_PREFIX/mysql/bin && $mac == "true" ]]; then
+    pathappend $HOMEBREW_PREFIX/mysql/bin
 fi
 
 
@@ -346,8 +348,8 @@ if [[ $ACTIVATE_VIRTUALENVWRAPPER == "true" ]]; then
         export VIRTUALENVWRAPPER_SCRIPT=$PYENV_DEFAULT_BIN/virtualenvwrapper.sh
         source $PYENV_DEFAULT_BIN/virtualenvwrapper_lazy.sh
     # brew version
-    elif [[ $brew == "true" && -f $brew_dir/bin/virtualenvwrapper_lazy.sh ]]; then
-        source $brew_dir/bin/virtualenvwrapper_lazy.sh
+    elif [[ $brew_installed == "true" && -f $HOMEBREW_PREFIX/bin/virtualenvwrapper_lazy.sh ]]; then
+        source $HOMEBREW_PREFIX/bin/virtualenvwrapper_lazy.sh
     # linux version (installed globally with pip)
     elif [[ -f /usr/local/bin/virtualenvwrapper.sh ]]; then
         source /usr/local/bin/virtualenvwrapper.sh
@@ -416,8 +418,8 @@ source ~/.dotfiles/bashmarks/bashmarks.sh
 # Load rupa's z if installed
 if [[ -f ~/.dotfiles/z/z.sh ]]; then
     source ~/.dotfiles/z/z.sh
-elif  [[ $brew == "true" && -f $brew_dir/etc/profile.d/z.sh ]]; then
-    source $brew_dir/etc/profile.d/z.sh
+elif  [[ $brew_installed == "true" && -f $HOMEBREW_PREFIX/etc/profile.d/z.sh ]]; then
+    source $HOMEBREW_PREFIX/etc/profile.d/z.sh
 else
     echo "z is not available!"
 fi
@@ -474,48 +476,61 @@ fi
 # fi
 
 
-# # PYTHON STARTUP
-# # ================
-# # Completion for python command line and Custom hystory file
+# PYTHON STARTUP
+# ================
+# Completion for python command line and Custom hystory file
 export PYTHONSTARTUP=~/.dotfiles/.pystartup.py
 
-# BASH COMPLETION
-# ================
+
+# DOCKER COMPLETION (Not working)
+# =================
+# Completion for Docker
+# etc_docker=/Applications/Docker.app/Contents/Resources/etc
+# if [[ $brew_installed == "true" && -d $etc_docker ]]; then
+#     ln -sfn $etc_docker/docker $HOMEBREW_PREFIX/etc/bash_completion.d/docker
+#     ln -sfn $etc_docker/docker-compose.bash-completion $HOMEBREW_PREFIX/etc/bash_completion.d/docker-compose
+#     # source $etc_docker/docker.bash-completion
+#     # source $etc_docker/docker-machine.bash-completion
+#     # source $etc_docker/docker-compose.bash-completion
+# fi
+
+
+# SOURCE BASH COMPLETION
+# ======================
 # If possible add tab completion for many more commands
+# export BASH_COMPLETION_USER_DIR=~/.dotfiles/bash-completion
 if [ -f /etc/bash_completion ]; then
     source /etc/bash_completion
-# Or if Installed with Brew
-# WARNING: bash-completion@2 only works with bash>4!
-elif type brew &>/dev/null; then
-  # SLOW: https://discourse.brew.sh/t/bash-completion-is-slow-for-brew-commands/4761
-  HOMEBREW_PREFIX="$(brew --prefix)"
-  # BASH_COMPLETION_USER_DIR=~/.dotfiles/completions
-  if [[ -r "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ]]; then
-    source "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
-  else
-    for COMPLETION in "${HOMEBREW_PREFIX}/etc/bash_completion.d/"*; do
-        # echo ${COMPLETION}
-      [[ -r "$COMPLETION" ]] && source "$COMPLETION"
-    done
-  fi
+elif [[ $brew_installed == "true" ]]; then
+    # BREW bash-completion@2 (WARNING: it only works with bash>4!)
+    if [[ -r "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ]]; then
+        source "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
+    # BREW bash-completion (old)
+    elif  [[ -r "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ]]; then
+        # SLOW: https://discourse.brew.sh/t/bash-completion-is-slow-for-brew-commands/4761
+        source "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
+    else
+        for COMPLETION in "${HOMEBREW_PREFIX}/etc/bash_completion.d/"*; do
+            [[ -r "$COMPLETION" ]] && source "$COMPLETION"
+        done
+    fi
 fi
 
-# Installed by BREW
-# if [ -f $(brew --prefix)/etc/bash_completion ]; then
-#   source $(brew --prefix)/etc/bash_completion;
-# fi
+# POETRY COMPLETION
+# =================
+if [ poetry >/dev/null 2>&1 ]; then
+    . <(poetry completions bash)
+fi
 
 
 # RBENV COMPLETION
 # ================
-# If possible add tab completion for many more commands
 if [ -f $RBENV_ROOT/completions/rbenv.bash ]; then
     source $RBENV_ROOT/completions/rbenv.bash
 fi
 
 # NVM COMPLETION
 # ================
-# If possible add tab completion for many more commands
 if [ -f $NVM_DIR/bash_completion ]; then
     source $NVM_DIR/bash_completion
 fi
@@ -681,7 +696,7 @@ export HISTIGNORE="ls:cd:cd -:pwd:exit:date:* --help"
 
 # HOMEBREW CASK
 # ===========================
-if [[ $brew == "true" ]]; then
+if [[ $brew_installed == "true" ]]; then
     # Link Homebrew casks in `/Applications` rather than `~/Applications`
     export HOMEBREW_CASK_OPTS="--appdir=/Applications"
 fi
