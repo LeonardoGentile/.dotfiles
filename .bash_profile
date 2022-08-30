@@ -518,8 +518,9 @@ fi
 
 # POETRY COMPLETION
 # =================
-if poetry >/dev/null 2>&1;  then
-    . <(poetry completions bash)
+if command -v poetry &> /dev/null
+then
+    source <(poetry completions bash)
 fi
 
 
