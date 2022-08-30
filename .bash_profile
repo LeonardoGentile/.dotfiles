@@ -518,7 +518,7 @@ fi
 
 # POETRY COMPLETION
 # =================
-if [ poetry >/dev/null 2>&1 ]; then
+if poetry >/dev/null 2>&1;  then
     . <(poetry completions bash)
 fi
 
