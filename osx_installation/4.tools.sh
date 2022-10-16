@@ -144,3 +144,7 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/guarinogabriel/mac-cli/mas
 # APK TOOL
 # Reverse Engineering of Android APK
 brew install apktool
+
+# EXIFTOOL
+# Perl lib for reading and writing EXIF metadata
+brew install exiftool

@@ -236,13 +236,15 @@ pathprepend "$HOMEBREW_PREFIX/opt/openssl@1.1/bin"
 # FLAGS: for mysql and other packages to be properly installed
 LDFLAGS="$LDFLAGS -L$HOMEBREW_PREFIX/opt/openssl@1.1/lib"
 CPPFLAGS="$CPPFLAGS -I$HOMEBREW_PREFIX/opt/openssl@1.1/include"
+PKG_CONFIG_PATH="$PKG_CONFIG_PATH:$HOMEBREW_PREFIX/opt/openssl@1.1/lib/pkgconfig"
 
 # Openssl@3
 # ----------
 # pathprepend "$HOMEBREW_PREFIX/opt/openssl@3/bin"
 # FLAGS: for mysql and other packages to be properly installed
-# export LDFLAGS="-L$HOMEBREW_PREFIX/opt/openssl@3/lib"
-# export CPPFLAGS="-I$HOMEBREW_PREFIX/opt/openssl@3/include"
+# LDFLAGS="-L$HOMEBREW_PREFIX/opt/openssl@3/lib"
+# CPPFLAGS="-I$HOMEBREW_PREFIX/opt/openssl@3/include"
+# PKG_CONFIG_PATH="$PKG_CONFIG_PATH:$HOMEBREW_PREFIX/opt/openssl@3/lib/pkgconfig"
 
 
 # BINUTILS PATH
@@ -549,10 +551,13 @@ fi
 # https://python-poetry.org/docs/#enable-tab-completion-for-bash-fish-or-zsh
 # https://github.com/python-poetry/poetry/issues/2295
 # Automatic solution:
-if command -v poetry &> /dev/null
-then
-    source <(poetry completions bash)
-fi
+# TODO: broken, wait for fix:
+# https://github.com/python-poetry/poetry/issues/6384
+# https://github.com/python-poetry/cleo/pull/247
+# if command -v poetry &> /dev/null
+# then
+#     source <(poetry completions bash)
+# fi
 
 
 # RBENV COMPLETION

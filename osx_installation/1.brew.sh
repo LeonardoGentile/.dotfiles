@@ -46,7 +46,8 @@ brew install brew-php-switcher
 
 
 # Git
-brew install git
+brew install git git-flow
+
 # If bash completions don't work then try with
 # brew install git --without-completions
 # brew install mercurial

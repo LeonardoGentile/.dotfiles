@@ -124,3 +124,7 @@ node_modules
 #  = My Stuff   =
 #  ==============
 README.local.*
+
+
+# VSCODE
+**/**/.vscode/settings.json
