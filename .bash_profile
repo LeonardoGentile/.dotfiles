@@ -751,6 +751,7 @@ fi
 # ===========================
 # https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man3/setlocale.3.html
 export LANG="en_US.UTF-8"
+export LC_MESSAGES="en_US.UTF-8"
 export LC_ALL="en_US.UTF-8"
 
 # EXAMPLES:
