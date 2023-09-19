@@ -5,3 +5,7 @@
 #    email = Your email
 #[core]
 #     editor = vim
+
+
+# [includeIf "gitdir:WordDir/"]
+#     path = .gitconfig_local_work

@@ -1,0 +1,4 @@
+[user]
+    email = "my_name@work-email.com"
+[core]
+    sshCommand = "ssh -i ~/.ssh/id_ed25519_work_key"
