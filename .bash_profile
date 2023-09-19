@@ -17,7 +17,7 @@ fi
 # =====================
 ACTIVATE_BREW=true
 ACTIVATE_RBENV=false
-ACTIVATE_COREUTILS=false
+ACTIVATE_COREUTILS=true
 ACTIVATE_BINUTILS=true
 ACTIVATE_PYENV=true
 ACTIVATE_NVM=true
@@ -300,10 +300,13 @@ fi
 # ANACONDA PATH
 # =============================
 # for anaconda py distribution (installed via homebrew)
-CONDA_ROOT=/usr/local/anaconda3
+CONDA_ROOT=$HOMEBREW_PREFIX/anaconda3
 if [[ -d $CONDA_ROOT ]]; then
     # Disable conda to auto-replace my other python versions
     export CONDA_AUTO_ACTIVATE_BASE=false
+
+    # Alternative to bash_completion (see below)
+    # eval "$(register-python-argcomplete conda)"
 
     # >>> conda initialize >>>
     # !! Contents within this block are managed by 'conda init' !!
@@ -531,11 +534,8 @@ if [ -f /etc/bash_completion ]; then
     source /etc/bash_completion
 elif [[ $brew_installed == "true" ]]; then
     # BREW bash-completion@2 (WARNING: it only works with bash>4!)
+    # SLOW: https://discourse.brew.sh/t/bash-completion-is-slow-for-brew-commands/4761
     if [[ -r "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ]]; then
-        source "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
-    # BREW bash-completion (old)
-    elif  [[ -r "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ]]; then
-        # SLOW: https://discourse.brew.sh/t/bash-completion-is-slow-for-brew-commands/4761
         source "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
     else
         for COMPLETION in "${HOMEBREW_PREFIX}/etc/bash_completion.d/"*; do
@@ -750,9 +750,10 @@ fi
 # LOCALE
 # ===========================
 # https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man3/setlocale.3.html
+export LC_ALL="C"
 export LANG="en_US.UTF-8"
+export LANGUAGE="en"
 export LC_MESSAGES="en_US.UTF-8"
-export LC_ALL="en_US.UTF-8"
 
 # EXAMPLES:
 # LANG="fr_FR.UTF-8"
