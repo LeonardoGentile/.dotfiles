@@ -86,6 +86,36 @@ brew install pyenv-virtualenvwrapper        # probably not needed
 #   mkvirtualenv -p /usr/local/bin/python3.2 my_env
 
 
+# PYENV-VIRTUALENV
+# ===========================
+# A limitation of virtualenvwrapper is that it install its envs in ~/.virtualenvs
+# Within each env the python bin is a link to the real python version isntalled with pyenv
+# If you change your machine and leave behind all ypur pyenvs then your virtualenvs will be orphaned
+#
+# Using pyenv-virtualenv each venv is installed in its proper pyenv dir
+# This is not a solution for the problem mentioned above but at least your virtualenvs are co-located with your
+# pyenv which makes more sense to me.
+
+brew install pyenv-virtualenv
+# Then add this to your .bash_profile
+# if [[ $ACTIVATE_PYENV == "true" && -n "$(which pyenv-virtualenv-init > /dev/null)" ]]; then
+#     eval "$(pyenv virtualenv-init -)";
+# fi
+# USAGE:
+# pyenv install 3.10.2
+# pyenv virtualenv 3.10.2 my-venv
+#
+# pyenv virtualenvs
+# pyenv activate my-venv
+#
+# .python-version file
+# `pyenv local my-venv` or tab -> generates a `.python-version` file with `my-venv``
+# Whenever I cd into a dir with this file my-venv is activated automatically
+#
+# pyenv deactivate
+
+
+
 
 #  =======
 #  = NVM =

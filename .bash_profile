@@ -162,6 +162,13 @@ if [[ $ACTIVATE_PYENV == "true" && -d $PYENV_ROOT/shims ]]; then
 fi
 
 
+# pyenv-virtualenv
+# =============================
+if which pyenv-virtualenv-init > /dev/null; then
+    eval "$(pyenv virtualenv-init -)";
+fi
+
+
 # Poetry PATH
 # ==============================
 # For Completion see below
